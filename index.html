@@ -1150,121 +1150,147 @@
             </div>
         </section>
 
-        <!-- ANTI-CHEAT TAB -->
-        <section class="tab-view" data-tab-view="anticheat">
-            <div class="tab-inner">
-                <div class="panel-body">
-                    <div class="panel-label">Project</div>
-                    <div class="panel-title">RedFox Anti-Cheat</div>
-                    <p class="panel-text">
-                        <strong>RedFox Anti-Cheat</strong> is your custom anti-cheat framework
-                        built for Roblox experiences. It’s designed to be
-                        <strong>aggressive against exploiters</strong> while staying
-                        <strong>playable for legit users</strong>.
-                    </p>
-                    <p class="panel-text">
-                        The goal is simple: <strong>make cheating not worth the effort</strong>.
-                        That means detection, logging, and response logic that evolves as
-                        exploit methods change.
-                    </p>
+<section class="tab-view" data-tab-view="anticheat">
+    <div class="tab-inner">
 
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Core Role</div>
-                            <div class="stat-value">Security Layer</div>
-                            <div class="stat-sub">Hooks into gameplay & events</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Target</div>
-                            <div class="stat-value">Exploiters</div>
-                            <div class="stat-sub">Speed, fly, injection & more</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Philosophy</div>
-                            <div class="stat-value">Detect • Log • Act</div>
-                            <div class="stat-sub">No free passes</div>
-                        </div>
-                    </div>
+        <!-- LEFT SIDE: Anti-Cheat Explanation -->
+        <div class="panel-body">
+            <div class="panel-label">Security System</div>
+            <div class="panel-title">RedFox Anti‑Cheat Engine</div>
 
-                    <div class="link-row">
-                        <a class="link-chip" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" rel="noopener noreferrer">
-                            <span>🔗</span>
-                            <span>RedFox Anti-Cheat on Roblox</span>
-                        </a>
-                        <div class="link-chip">
-                            <span>⚙️</span>
-                            <span>Live testing & iteration</span>
-                        </div>
-                        <div class="link-chip">
-                            <span>🛡️</span>
-                            <span>Security-focused design</span>
-                        </div>
-                    </div>
+            <p class="panel-text">
+                The <strong>RedFox Anti‑Cheat Engine</strong> is a full movement‑analysis and 
+                environment‑integrity system designed to detect <strong>spoofing, noclip, 
+                teleporting, fling exploits, fly hacks, air jumps,</strong> and <strong>workspace tampering</strong>.
+            </p>
+
+            <p class="panel-text">
+                Every player is tracked with a dedicated <strong>PlayerState</strong> object, storing 
+                velocity history, fall data, teleport samples, noclip samples, safe positions, 
+                and strike counts. The system reacts dynamically based on real physics, 
+                not guesswork.
+            </p>
+
+            <div class="stat-grid">
+
+                <div class="stat-card">
+                    <div class="stat-label">Movement Engine</div>
+                    <div class="stat-value">Physics‑Based</div>
+                    <div class="stat-sub">Velocity, CFrame, fall tracking</div>
                 </div>
 
-                <div class="card-shell">
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-header">
-                                <div class="profile">
-                                    <div class="avatar">
-                                        <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false" alt="Roblox Avatar">
-                                        <div class="avatar-ring"></div>
-                                    </div>
-                                    <div class="profile-text">
-                                        <div class="profile-name">
-                                            RedFox Anti-Cheat
-                                            <span class="profile-badge">Security Layer</span>
-                                        </div>
-                                        <div class="profile-handle">Owner: @TheRealSyrOnix</div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="stat-card">
+                    <div class="stat-label">Exploit Coverage</div>
+                    <div class="stat-value">12+ Systems</div>
+                    <div class="stat-sub">Fling, noclip, fly, TP, spoofing</div>
+                </div>
 
-                            <div class="card-body">
-                                <div class="card-section">
-                                    <div class="card-section-title">Detection</div>
-                                    <p>
-                                        Focused on <strong>movement exploits</strong>, <strong>injection patterns</strong>,
-                                        and <strong>abnormal behavior</strong> that stands out from legit play.
-                                    </p>
-                                    <div class="tag-row">
-                                        <div class="tag hot">Exploit Detection</div>
-                                        <div class="tag">Speed checks</div>
-                                        <div class="tag">Teleport flags</div>
-                                    </div>
-                                </div>
-                                <div class="card-section">
-                                    <div class="card-section-title">Response</div>
-                                    <p>
-                                        From silent logging to hard kicks—response is tuned to
-                                        <strong>match the threat</strong> without nuking legit players.
-                                    </p>
-                                    <div class="tag-row">
-                                        <div class="tag">Soft flags</div>
-                                        <div class="tag">Kick logic</div>
-                                        <div class="tag">Session tracking</div>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="stat-card">
+                    <div class="stat-label">Punishment</div>
+                    <div class="stat-value">Temp + Perm Bans</div>
+                    <div class="stat-sub">Strike‑based escalation</div>
+                </div>
 
-                            <div class="card-footer">
-                                <div class="card-footer-left">
-                                    <div class="pill-soft">
-                                        <span>Status:</span>
-                                        <strong> In active development</strong>
-                                    </div>
-                                </div>
-                                <div class="card-footer-right">
-                                    <div class="dot-pulse"></div>
-                                    <span>Security layer online</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+            </div>
+
+            <h3 class="panel-title" style="margin-top:14px;">Core Detection Systems</h3>
+
+            <ul class="panel-text" style="line-height:1.55;">
+                <li><strong>Fling Detection:</strong> Detects abnormal Y‑velocity spikes, angular velocity abuse, and walk‑fling patterns.</li>
+                <li><strong>Teleport Detection:</strong> Step‑TP thresholds scale with ping and delta‑time to avoid false positives.</li>
+                <li><strong>Noclip Detection:</strong> Multi‑raycast + blockcast + OBB inside‑wall detection.</li>
+                <li><strong>Fly Detection:</strong> Tracks planar velocity, downward velocity, and physics state over time.</li>
+                <li><strong>Air Jump Detection:</strong> Prevents mid‑air jump spoofing using vertical velocity and timing.</li>
+                <li><strong>Void / Fall Recovery:</strong> Auto‑teleports players back to last safe CFrame if they fall below Y = -60.</li>
+                <li><strong>Workspace Integrity:</strong> Detects tampering with protected instances, size changes, transparency edits, and movement.</li>
+            </ul>
+
+            <div class="link-row" style="margin-top:12px;">
+                <a class="link-chip" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank">
+                    <span>🛡️</span>
+                    <span>View Anti‑Cheat Demo</span>
+                </a>
+                <div class="link-chip">
+                    <span>⚙️</span>
+                    <span>Live Physics Monitoring</span>
+                </div>
+                <div class="link-chip">
+                    <span>📡</span>
+                    <span>Strike‑Based Enforcement</span>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <!-- RIGHT SIDE: Anti-Cheat Card -->
+        <div class="card-shell">
+            <div class="card">
+                <div class="card-main">
+
+                    <div class="card-header">
+                        <div class="profile">
+                            <div class="avatar">
+                                <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false">
+                                <div class="avatar-ring"></div>
+                            </div>
+                            <div class="profile-text">
+                                <div class="profile-name">
+                                    RedFox AC Engine
+                                    <span class="profile-badge">Security Core</span>
+                                </div>
+                                <div class="profile-handle">Owner: @TheRealSyrOnix</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="card-body">
+
+                        <div class="card-section">
+                            <div class="card-section-title">Live Checks</div>
+                            <p>
+                                Runs <strong>movement sampling</strong> every 0.20s, with additional 
+                                checks for noclip, fly, and teleport events.
+                            </p>
+                            <div class="tag-row">
+                                <div class="tag hot">Movement</div>
+                                <div class="tag">Physics</div>
+                                <div class="tag">CFrame</div>
+                            </div>
+                        </div>
+
+                        <div class="card-section">
+                            <div class="card-section-title">Workspace Integrity</div>
+                            <p>
+                                Monitors protected paths like <strong>Workspace</strong> for 
+                                unauthorized edits, deletions, or property changes.
+                            </p>
+                            <div class="tag-row">
+                                <div class="tag">Tamper Logs</div>
+                                <div class="tag">Auto‑Restore</div>
+                                <div class="tag">Deep Scan</div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                    <div class="card-footer">
+                        <div class="card-footer-left">
+                            <div class="pill-soft">
+                                <span>Status:</span>
+                                <strong> Active & Evolving</strong>
+                            </div>
+                        </div>
+                        <div class="card-footer-right">
+                            <div class="dot-pulse"></div>
+                            <span>Security Layer Online</span>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</section>
 
         <!-- LINKS TAB -->
         <section class="tab-view" data-tab-view="links">
