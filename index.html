@@ -1205,6 +1205,7 @@
                 <li><strong>Workspace Integrity:</strong> Detects tampering with protected instances, size changes, transparency edits, and movement.</li>
                 <li><strong>Dev Console Detection:</strong> Monitors the client’s Developer Console for non‑whitelisted output such as injected print streams, unauthorized warnings, executor stack traces, and anomalous runtime errors.</li>
                 <li><strong>Chat Command Detection:</strong> Monitors chat messages for non‑whitelisted command patterns and executor‑style prefixes, blocking unauthorized users from invoking admin‑level actions without valid group role authentication.</li>
+                <li><strong>Masked Remote Detection:</strong> Enforces randomized remote identifiers, rejecting all calls made to human‑readable remote names and flagging any client attempting to invoke non‑masked RemoteEvents/RemoteFunctions.</li>
             </ul>
 
             <div class="link-row" style="margin-top:12px;">
