@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>RedFox | Anti-Cheat Dev</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        :root {
+            --bg: #050509;
+            --bg-alt: #090914;
+            --accent: #ff2b4f;
+            --accent-soft: rgba(255, 43, 79, 0.35);
+            --accent-2: #9b5cff;
+            --text: #f5f5f7;
+            --muted: #8b8b99;
+            --card: rgba(15, 15, 30, 0.9);
+            --border: rgba(255, 255, 255, 0.06);
+            --radius-lg: 22px;
+            --radius-md: 16px;
+            --radius-pill: 999px;
+            --shadow-strong: 0 0 40px rgba(0, 0, 0, 0.9);
+            --shadow-accent: 0 0 40px rgba(255, 43, 79, 0.35);
+            --blur: 18px;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            height: 100%;
+            background: radial-gradient(circle at top, #15152a 0, #050509 45%, #000 100%);
+            color: var(--text);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+            overflow-x: hidden;
+        }
+
+        body {
+            position: relative;
+        }
+
+        /* Background particles canvas */
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: -2;
+        }
+
+        /* Subtle gradient overlay */
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(circle at 10% 0%, rgba(255, 43, 79, 0.18), transparent 55%),
+                radial-gradient(circle at 90% 100%, rgba(155, 92, 255, 0.2), transparent 55%);
+            mix-blend-mode: screen;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        /* Glitch text base */
+        .glitch {
+            position: relative;
+            display: inline-block;
+            color: var(--text);
+        }
+
+        .glitch::before,
+        .glitch::after {
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .glitch::before {
+            left: 1px;
+            text-shadow: -2px 0 var(--accent);
+            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 55%);
+            animation: glitchTop 2.2s infinite linear alternate-reverse;
+        }
+
+        .glitch::after {
+            left: -1px;
+            text-shadow: 2px 0 var(--accent-2);
+            clip-path: polygon(0 45%, 100% 35%, 100% 100%, 0 100%);
+            animation: glitchBottom 2.4s infinite linear alternate-reverse;
+        }
+
+        @keyframes glitchTop {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(-1px, -1px); }
+            40% { transform: translate(1px, 1px); }
+            60% { transform: translate(-2px, 0); }
+            80% { transform: translate(2px, -1px); }
+            100% { transform: translate(0, 1px); }
+        }
+
+        @keyframes glitchBottom {
+            0% { transform: translate(0, 0); }
+            20% { transform: translate(1px, 1px); }
+            40% { transform: translate(-1px, -1px); }
+            60% { transform: translate(2px, 0); }
+            80% { transform: translate(-2px, 1px); }
+            100% { transform: translate(0, -1px); }
+        }
+
+        /* Layout */
+        .page {
+            min-height: 100vh;
+            padding: 32px clamp(18px, 4vw, 40px);
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .brand-logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 14px;
+            background: radial-gradient(circle at 30% 0%, #ff5b7f, #ff2b4f 40%, #3b0010 100%);
+            box-shadow: var(--shadow-accent);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .brand-logo::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 55%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.7), transparent 60%);
+            mix-blend-mode: screen;
+        }
+
+        .brand-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .brand-name {
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            color: var(--muted);
+        }
+
+        .brand-tagline {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 4px;
+            border-radius: var(--radius-pill);
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            backdrop-filter: blur(18px);
+        }
+
+        .nav-pill {
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--muted);
+            border: 1px solid transparent;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+        }
+
+        .nav-pill::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 55%);
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .nav-pill.active,
+        .nav-pill:hover {
+            color: var(--text);
+            border-color: rgba(255, 255, 255, 0.18);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .nav-pill:hover::before {
+            opacity: 1;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto 40px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            gap: 32px;
+        }
+
+        @media (max-width: 900px) {
+            main {
+                grid-template-columns: minmax(0, 1fr);
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            nav {
+                align-self: stretch;
+                justify-content: space-between;
+            }
+        }
+
+        /* Hero / left column */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            gap: 22px;
+        }
+
+        .hero-pill-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .status-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: radial-gradient(circle at 0 0, rgba(255, 43, 79, 0.18), transparent 60%);
+            font-size: 0.78rem;
+            color: var(--muted);
+            backdrop-filter: blur(16px);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: #2bff88;
+            box-shadow: 0 0 12px rgba(43, 255, 136, 0.9);
+        }
+
+        .vip-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 215, 0, 0.4);
+            background: radial-gradient(circle at 0 0, rgba(255, 215, 0, 0.18), transparent 60%);
+            font-size: 0.78rem;
+            color: #ffd700;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+        }
+
+        .vip-icon {
+            width: 14px;
+            height: 14px;
+            border-radius: 999px;
+            background: radial-gradient(circle at 30% 0, #fff, #ffd700 40%, #7a5a00 100%);
+            box-shadow: 0 0 16px rgba(255, 215, 0, 0.8);
+        }
+
+        .hero-title {
+            font-size: clamp(2.4rem, 4vw, 3.2rem);
+            line-height: 1.1;
+            font-weight: 800;
+        }
+
+        .hero-title span {
+            display: block;
+        }
+
+        .hero-subtitle {
+            font-size: 0.98rem;
+            color: var(--muted);
+            max-width: 540px;
+        }
+
+        .hero-subtitle strong {
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+            margin-top: 6px;
+        }
+
+        .btn {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 10px 18px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 60%);
+            color: var(--text);
+            font-size: 0.86rem;
+            text-decoration: none;
+            cursor: pointer;
+            overflow: hidden;
+            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+        }
+
+        .btn-primary {
+            background:
+                linear-gradient(120deg, #ff2b4f, #ff5b7f 40%, #9b5cff 100%);
+            box-shadow: var(--shadow-accent);
+            border-color: rgba(255, 255, 255, 0.18);
+        }
+
+        .btn-primary::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 40%, transparent 60%, rgba(255, 255, 255, 0.35));
+            mix-blend-mode: screen;
+            opacity: 0;
+            transform: translateX(-40%);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+        }
+
+        .btn-primary:hover::before {
+            opacity: 1;
+            transform: translateX(40%);
+        }
+
+        .btn:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 0 24px rgba(0, 0, 0, 0.8);
+        }
+
+        .btn-secondary {
+            background: rgba(10, 10, 25, 0.9);
+        }
+
+        .btn-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+        }
+
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 18px;
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .meta-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .meta-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.4);
+        }
+
+        /* Right column: avatar / card stack */
+        .right-column {
+            position: relative;
+            min-height: 260px;
+        }
+
+        .card-stack {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .card {
+            position: absolute;
+            inset: 0;
+            border-radius: var(--radius-lg);
+            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.08), transparent 55%),
+                        linear-gradient(145deg, rgba(10, 10, 25, 0.96), rgba(5, 5, 15, 0.98));
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-strong);
+            backdrop-filter: blur(var(--blur));
+            overflow: hidden;
+        }
+
+        .card-layer {
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .card-layer.layer-1 {
+            transform: translate(-12px, -10px) rotate(-3deg);
+            opacity: 0.5;
+            border-color: rgba(255, 43, 79, 0.4);
+        }
+
+        .card-layer.layer-2 {
+            transform: translate(10px, 12px) rotate(4deg);
+            opacity: 0.4;
+            border-color: rgba(155, 92, 255, 0.4);
+        }
+
+        .card-main {
+            position: relative;
+            z-index: 2;
+            padding: 18px 18px 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+        }
+
+        .profile {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 18px;
+            background: radial-gradient(circle at 30% 0, #ffffff, #ff2b4f 40%, #3b0010 100%);
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow-accent);
+        }
+
+        .avatar::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.4), transparent 55%),
+                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.8), transparent 60%);
+            mix-blend-mode: screen;
+        }
+
+        .avatar-ring {
+            position: absolute;
+            inset: -3px;
+            border-radius: inherit;
+            border: 2px solid rgba(255, 255, 255, 0.4);
+            mix-blend-mode: screen;
+            opacity: 0.7;
+        }
+
+        .profile-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .profile-name {
+            font-weight: 700;
+            font-size: 0.98rem;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .profile-badge {
+            font-size: 0.7rem;
+            padding: 2px 8px;
+            border-radius: 999px;
+            background: rgba(255, 43, 79, 0.18);
+            border: 1px solid rgba(255, 43, 79, 0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--accent);
+        }
+
+        .profile-handle {
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .card-status {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .card-status-pill {
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        .card-status-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .card-status-value {
+            font-size: 0.8rem;
+            color: var(--text);
+        }
+
+        .card-body {
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+            gap: 14px;
+        }
+
+        @media (max-width: 600px) {
+            .card-body {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .card-section {
+            padding: 10px 12px;
+            border-radius: var(--radius-md);
+            background: rgba(0, 0, 0, 0.35);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .card-section-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 6px;
+        }
+
+        .tag-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+
+        .tag {
+            padding: 3px 8px;
+            border-radius: 999px;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            font-size: 0.72rem;
+            color: var(--muted);
+        }
+
+        .tag.hot {
+            border-color: rgba(255, 43, 79, 0.7);
+            color: var(--accent);
+            background: rgba(255, 43, 79, 0.12);
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 10px;
+            margin-top: 4px;
+            font-size: 0.78rem;
+            color: var(--muted);
+        }
+
+        .card-footer-left {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .pill-soft {
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .pill-soft strong {
+            color: var(--text);
+        }
+
+        .card-footer-right {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .dot-pulse {
+            width: 8px;
+            height: 8px;
+            border-radius: 999px;
+            background: var(--accent);
+            box-shadow: 0 0 12px rgba(255, 43, 79, 0.9);
+            animation: pulse 1.4s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.4); opacity: 0.4; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Sections below hero */
+        .sections {
+            max-width: 1200px;
+            margin: 0 auto 80px;
+            display: grid;
+            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .sections {
+                grid-template-columns: minmax(0, 1fr);
+            }
+        }
+
+        .section-card {
+            border-radius: var(--radius-lg);
+            background: linear-gradient(145deg, rgba(10, 10, 25, 0.96), rgba(5, 5, 15, 0.98));
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow-strong);
+            padding: 18px 18px 16px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .section-card::before {
+            content: "";
+            position: absolute;
+            inset: -40%;
+            background:
+                radial-gradient(circle at 0 0, rgba(255, 43, 79, 0.16), transparent 55%),
+                radial-gradient(circle at 100% 100%, rgba(155, 92, 255, 0.16), transparent 55%);
+            opacity: 0.7;
+            mix-blend-mode: screen;
+            pointer-events: none;
+        }
+
+        .section-inner {
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.16em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 6px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .section-text {
+            font-size: 0.9rem;
+            color: var(--muted);
+        }
+
+        .section-text strong {
+            color: var(--text);
+        }
+
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 12px;
+        }
+
+        .link-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 12px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            background: rgba(0, 0, 0, 0.4);
+            font-size: 0.8rem;
+            color: var(--muted);
+            text-decoration: none;
+        }
+
+        .link-chip span {
+            color: var(--text);
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            .stat-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        .stat-card {
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
+            padding: 8px 10px;
+            font-size: 0.8rem;
+            color: var(--muted);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.14em;
+            color: rgba(255, 255, 255, 0.6);
+            margin-bottom: 2px;
+        }
+
+        .stat-value {
+            font-size: 0.95rem;
+            color: var(--text);
+            font-weight: 600;
+        }
+
+        .stat-sub {
+            font-size: 0.7rem;
+            color: var(--muted);
+        }
+
+        footer {
+            max-width: 1200px;
+            margin: 0 auto 32px;
+            font-size: 0.78rem;
+            color: var(--muted);
+            display: flex;
+            justify-content: space-between;
+            gap: 10px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 12px;
+        }
+
+        @media (max-width: 700px) {
+            footer {
+                flex-direction: column;
+            }
+        }
+
+        .footer-right {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .footer-pill {
+            padding: 4px 10px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        /* Typewriter */
+        .typewriter {
+            display: inline-block;
+            border-right: 2px solid rgba(255, 255, 255, 0.7);
+            white-space: nowrap;
+            overflow: hidden;
+            animation: caret 0.8s infinite;
+        }
+
+        @keyframes caret {
+            0%, 50% { border-color: rgba(255, 255, 255, 0.7); }
+            51%, 100% { border-color: transparent; }
+        }
+
+        /* Scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(18px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+<canvas id="particles"></canvas>
+<div class="bg-overlay"></div>
+
+<div class="page">
+    <header>
+        <div class="brand">
+            <div class="brand-logo"></div>
+            <div class="brand-text">
+                <div class="brand-name">RedFox</div>
+                <div class="brand-tagline">Anti-Cheat Developer • Roblox</div>
+            </div>
+        </div>
+        <nav>
+            <button class="nav-pill active" data-scroll="#top">Overview</button>
+            <button class="nav-pill" data-scroll="#about">About</button>
+            <button class="nav-pill" data-scroll="#project">Anti-Cheat</button>
+            <button class="nav-pill" data-scroll="#links">Links</button>
+        </nav>
+    </header>
+
+    <main id="top">
+        <section class="hero">
+            <div class="hero-pill-row">
+                <div class="status-pill">
+                    <div class="status-dot"></div>
+                    <span id="typewriter" class="typewriter"></span>
+                </div>
+                <div class="vip-pill">
+                    <div class="vip-icon"></div>
+                    <span>VIP • Dev Access</span>
+                </div>
+            </div>
+
+            <h1 class="hero-title">
+                <span class="glitch" data-text="RedFox">RedFox</span>
+                <span>Anti-Cheat Architect</span>
+            </h1>
+
+            <p class="hero-subtitle">
+                Known as <strong>RedFox</strong>, the dev behind the
+                <strong>RedFox Anti-Cheat</strong> system on Roblox—focused on
+                <strong>catching exploiters</strong> before they even know what hit them.
+            </p>
+
+            <div class="hero-actions">
+                <a class="btn btn-primary" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" rel="noopener noreferrer">
+                    <span class="btn-icon">⚡</span>
+                    <span>View RedFox Anti-Cheat</span>
+                </a>
+                <button class="btn btn-secondary" data-scroll="#about">
+                    <span class="btn-icon">👁</span>
+                    <span>Read the bio</span>
+                </button>
+            </div>
+
+            <div class="hero-meta">
+                <div class="meta-item">
+                    <div class="meta-dot"></div>
+                    <span>Alias: <strong>RedFoxACDev</strong></span>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-dot"></div>
+                    <span>Handle: <strong>@TheRealSyrOnix</strong></span>
+                </div>
+                <div class="meta-item">
+                    <div class="meta-dot"></div>
+                    <span>Focus: <strong>Anti-cheat, security, detection logic</strong></span>
+                </div>
+            </div>
+        </section>
+
+        <aside class="right-column">
+            <div class="card-stack reveal">
+                <div class="card-layer layer-1"></div>
+                <div class="card-layer layer-2"></div>
+                <div class="card">
+                    <div class="card-main">
+                        <div class="card-header">
+                            <div class="profile">
+                                <div class="avatar">
+                                    <div class="avatar-ring"></div>
+                                </div>
+                                <div class="profile-text">
+                                    <div class="profile-name">
+                                        RedFoxACDev
+                                        <span class="profile-badge">Anti-Cheat Dev</span>
+                                    </div>
+                                    <div class="profile-handle">@TheRealSyrOnix</div>
+                                </div>
+                            </div>
+                            <div class="card-status">
+                                <div class="card-status-pill">
+                                    <div class="card-status-label">System</div>
+                                    <div class="card-status-value">Online • Monitoring</div>
+                                </div>
+                                <div class="card-status-label">Environment: Roblox</div>
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="card-section">
+                                <div class="card-section-title">Profile Snapshot</div>
+                                <p>
+                                    Developer known for building and iterating on
+                                    <strong>RedFox Anti-Cheat</strong>, a custom security layer
+                                    designed to detect and disrupt exploiters in live Roblox
+                                    experiences.
+                                </p>
+                                <div class="tag-row">
+                                    <div class="tag hot">Anti-Cheat</div>
+                                    <div class="tag">Exploit Detection</div>
+                                    <div class="tag">Security Logic</div>
+                                    <div class="tag">Live Monitoring</div>
+                                </div>
+                            </div>
+                            <div class="card-section">
+                                <div class="card-section-title">Current Focus</div>
+                                <p>
+                                    Tuning detection thresholds, logging patterns, and
+                                    <strong>making it painful to cheat</strong> without
+                                    breaking legit gameplay.
+                                </p>
+                                <div class="tag-row">
+                                    <div class="tag">Heuristics</div>
+                                    <div class="tag">Server-side checks</div>
+                                    <div class="tag">Exploit resistance</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-footer">
+                            <div class="card-footer-left">
+                                <div class="pill-soft">
+                                    <span>Primary project:</span>
+                                    <strong> RedFox Anti-Cheat</strong>
+                                </div>
+                                <div class="pill-soft">
+                                    <span>Platform:</span>
+                                    <strong> Roblox</strong>
+                                </div>
+                            </div>
+                            <div class="card-footer-right">
+                                <div class="dot-pulse"></div>
+                                <span>Live telemetry enabled</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </main>
+
+    <section class="sections">
+        <div class="section-card reveal" id="about">
+            <div class="section-inner">
+                <div class="section-label">About</div>
+                <div class="section-title">Who is RedFox?</div>
+                <p class="section-text">
+                    <strong>RedFox</strong> is the nickname and dev persona people know you by—
+                    the one tied directly to <strong>anti-cheat work</strong> on Roblox.
+                    Under the handle <strong>@TheRealSyrOnix</strong>, you operate as
+                    <strong>RedFoxACDev</strong>, focused on building systems that
+                    <strong>detect, flag, and shut down exploiters</strong>.
+                </p>
+                <p class="section-text" style="margin-top:8px;">
+                    You’re not just dropping a script and calling it a day—you’re iterating,
+                    watching how people try to break things, and then <strong>closing the
+                    gaps</strong> with smarter logic and better checks.
+                </p>
+                <div class="link-row" id="links">
+                    <a class="link-chip" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" rel="noopener noreferrer">
+                        <span>🔗</span>
+                        <span>RedFox Anti-Cheat on Roblox</span>
+                    </a>
+                    <div class="link-chip">
+                        <span>🦊</span>
+                        <span>Alias: RedFox / RedFoxACDev</span>
+                    </div>
+                    <div class="link-chip">
+                        <span>🔥</span>
+                        <span>@TheRealSyrOnix</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-card reveal" id="project">
+            <div class="section-inner">
+                <div class="section-label">Project</div>
+                <div class="section-title">RedFox Anti-Cheat</div>
+                <p class="section-text">
+                    <strong>RedFox Anti-Cheat</strong> is your custom anti-cheat framework
+                    built for Roblox experiences. It’s designed to be
+                    <strong>aggressive against exploiters</strong> while staying
+                    <strong>playable for legit users</strong>.
+                </p>
+                <p class="section-text" style="margin-top:8px;">
+                    The goal is simple: <strong>make cheating not worth the effort</strong>.
+                    That means detection, logging, and response logic that evolves as
+                    exploit methods change.
+                </p>
+
+                <div class="stat-grid" style="margin-top:12px;">
+                    <div class="stat-card">
+                        <div class="stat-label">Core Role</div>
+                        <div class="stat-value">Security Layer</div>
+                        <div class="stat-sub">Hooks into gameplay & events</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Target</div>
+                        <div class="stat-value">Exploiters</div>
+                        <div class="stat-sub">Speed, fly, injection & more</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Philosophy</div>
+                        <div class="stat-value">Detect • Log • Act</div>
+                        <div class="stat-sub">No free passes</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div>© <span id="year"></span> RedFox • Anti-Cheat Dev Persona</div>
+        <div class="footer-right">
+            <div class="footer-pill">Identity: <strong>RedFox / RedFoxACDev</strong></div>
+            <div class="footer-pill">Handle: <strong>@TheRealSyrOnix</strong></div>
+            <div class="footer-pill">Primary: <strong>RedFox Anti-Cheat</strong></div>
+        </div>
+    </footer>
+</div>
+
+<script>
+    // Typewriter text
+    const typewriterEl = document.getElementById("typewriter");
+    const typewriterPhrases = [
+        "Monitoring exploit attempts in real-time...",
+        "RedFox Anti-Cheat: system online.",
+        "Flagging suspicious behavior across sessions...",
+        "Making it painful to cheat."
+    ];
+    let twIndex = 0;
+    let twChar = 0;
+    let twDeleting = false;
+
+    function typewriterTick() {
+        const phrase = typewriterPhrases[twIndex];
+        if (!twDeleting) {
+            twChar++;
+            if (twChar > phrase.length) {
+                twDeleting = true;
+                setTimeout(typewriterTick, 1200);
+                typewriterEl.textContent = phrase;
+                return;
+            }
+        } else {
+            twChar--;
+            if (twChar <= 0) {
+                twDeleting = false;
+                twIndex = (twIndex + 1) % typewriterPhrases.length;
+            }
+        }
+        typewriterEl.textContent = phrase.substring(0, twChar);
+        const delay = twDeleting ? 35 : 55;
+        setTimeout(typewriterTick, delay);
+    }
+    typewriterTick();
+
+    // Smooth scroll
+    document.querySelectorAll("[data-scroll]").forEach(btn => {
+        btn.addEventListener("click", () => {
+            const target = document.querySelector(btn.getAttribute("data-scroll"));
+            if (!target) return;
+            window.scrollTo({
+                top: target.getBoundingClientRect().top + window.scrollY - 80,
+                behavior: "smooth"
+            });
+            document.querySelectorAll(".nav-pill").forEach(p => p.classList.remove("active"));
+            if (btn.classList.contains("nav-pill")) btn.classList.add("active");
+        });
+    });
+
+    // Scroll reveal
+    const revealEls = document.querySelectorAll(".reveal");
+    function handleReveal() {
+        const trigger = window.innerHeight * 0.85;
+        revealEls.forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < trigger) {
+                el.classList.add("visible");
+            }
+        });
+    }
+    window.addEventListener("scroll", handleReveal);
+    window.addEventListener("load", handleReveal);
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Particles
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let particles = [];
+    const particleCount = 80;
+
+    function resizeCanvas() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resizeCanvas);
+    resizeCanvas();
+
+    function createParticles() {
+        particles = [];
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.25,
+                vy: (Math.random() - 0.5) * 0.25,
+                r: Math.random() * 1.6 + 0.4,
+                alpha: Math.random() * 0.6 + 0.2
+            });
+        }
+    }
+    createParticles();
+
+    function drawParticles() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.fillStyle = "#ffffff";
+        particles.forEach(p => {
+            ctx.globalAlpha = p.alpha;
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+            ctx.fill();
+        });
+
+        // Lines
+        ctx.globalAlpha = 0.12;
+        ctx.strokeStyle = "#ff2b4f";
+        for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < 120) {
+                    ctx.lineWidth = 0.4;
+                    ctx.beginPath();
+                    ctx.moveTo(particles[i].x, particles[i].y);
+                    ctx.lineTo(particles[j].x, particles[j].y);
+                    ctx.stroke();
+                }
+            }
+        }
+        ctx.globalAlpha = 1;
+    }
+
+    function updateParticles() {
+        particles.forEach(p => {
+            p.x += p.vx;
+            p.y += p.vy;
+            if (p.x < 0) p.x = canvas.width;
+            if (p.x > canvas.width) p.x = 0;
+            if (p.y < 0) p.y = canvas.height;
+            if (p.y > canvas.height) p.y = 0;
+        });
+    }
+
+    function loop() {
+        updateParticles();
+        drawParticles();
+        requestAnimationFrame(loop);
+    }
+    loop();
+</script>
+</body>
+</html>
