@@ -4,10 +4,10 @@
     <meta charset="UTF-8" />
     <title>RedFox | Anti-Cheat Dev</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
         :root {
             --bg: #050509;
-            --bg-alt: #090914;
             --accent: #ff2b4f;
             --accent2: #ff5b7f;
             --accent3: #9b5cff;
@@ -18,1484 +18,697 @@
             --radius-lg: 22px;
             --radius-md: 16px;
             --radius-pill: 999px;
-            --shadow-strong: 0 0 40px rgba(0, 0, 0, 0.9);
-            --shadow-accent: 0 0 40px rgba(255, 43, 79, 0.35);
             --blur: 18px;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
+        * { margin:0; padding:0; box-sizing:border-box; }
         html, body {
-            height: 100%;
+            height:100%;
             background: radial-gradient(circle at top, #15152a 0, #050509 45%, #000 100%);
-            color: var(--text);
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-            overflow: hidden;
-        }
-
-        body {
-            position: relative;
+            color:var(--text);
+            font-family: "Segoe UI", system-ui, sans-serif;
+            overflow:hidden;
         }
 
         #particles {
-            position: fixed;
-            inset: 0;
-            z-index: -2;
+            position:fixed;
+            inset:0;
+            z-index:-2;
         }
 
         .bg-overlay {
-            position: fixed;
-            inset: 0;
+            position:fixed;
+            inset:0;
             background:
                 radial-gradient(circle at 10% 0%, rgba(255, 43, 79, 0.18), transparent 55%),
                 radial-gradient(circle at 90% 100%, rgba(155, 92, 255, 0.2), transparent 55%);
-            mix-blend-mode: screen;
-            pointer-events: none;
-            z-index: -1;
+            mix-blend-mode:screen;
+            pointer-events:none;
+            z-index:-1;
         }
 
         .app-shell {
-            position: relative;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            padding: 18px clamp(16px, 4vw, 40px);
-            gap: 14px;
+            height:100vh;
+            display:flex;
+            flex-direction:column;
+            padding:18px clamp(16px, 4vw, 40px);
+            gap:14px;
         }
 
         header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 18px;
-            z-index: 2;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            gap:18px;
         }
 
         .brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            display:flex;
+            align-items:center;
+            gap:12px;
         }
 
         .brand-logo {
-            width: 38px;
-            height: 38px;
-            border-radius: 14px;
-            background: radial-gradient(circle at 30% 0%, #ff5b7f, #ff2b4f 40%, #3b0010 100%);
-            box-shadow: var(--shadow-accent);
-            position: relative;
-            overflow: hidden;
+            width:42px;
+            height:42px;
+            border-radius:14px;
+            overflow:hidden;
+            box-shadow:0 0 18px rgba(255,43,79,0.45);
         }
 
-        .brand-logo::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.35), transparent 55%),
-                radial-gradient(circle at 80% 80%, rgba(0, 0, 0, 0.7), transparent 60%);
-            mix-blend-mode: screen;
+        .brand-logo img {
+            width:100%;
+            height:100%;
+            object-fit:cover;
         }
 
         .brand-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
+            display:flex;
+            flex-direction:column;
+            gap:2px;
         }
 
         .brand-name {
-            font-weight: 700;
-            letter-spacing: 0.08em;
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            color: var(--muted);
-        }
-
-        .brand-tagline {
-            font-size: 0.78rem;
-            color: var(--muted);
+            font-weight:700;
+            letter-spacing:0.08em;
+            font-size:0.9rem;
+            text-transform:uppercase;
+            color:var(--muted);
         }
 
         nav {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            padding: 4px;
-            border-radius: var(--radius-pill);
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            backdrop-filter: blur(18px);
+            display:flex;
+            gap:8px;
+            padding:4px;
+            border-radius:var(--radius-pill);
+            background:rgba(255,255,255,0.04);
+            border:1px solid rgba(255,255,255,0.06);
+            backdrop-filter:blur(18px);
         }
 
         .nav-pill {
-            padding: 6px 14px;
-            border-radius: var(--radius-pill);
-            font-size: 0.78rem;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--muted);
-            border: 1px solid transparent;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            background: transparent;
-            transition: color 0.2s ease, border-color 0.2s ease, background 0.2s ease;
-        }
-
-        .nav-pill::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 55%);
-            opacity: 0;
-            transition: opacity 0.2s ease;
+            padding:6px 14px;
+            border-radius:var(--radius-pill);
+            font-size:0.78rem;
+            text-transform:uppercase;
+            letter-spacing:0.12em;
+            color:var(--muted);
+            border:1px solid transparent;
+            background:transparent;
+            cursor:pointer;
+            transition:0.2s;
         }
 
         .nav-pill.active,
         .nav-pill:hover {
-            color: var(--text);
-            border-color: rgba(255, 255, 255, 0.18);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .nav-pill:hover::before {
-            opacity: 1;
-        }
-
-        @media (max-width: 780px) {
-            header {
-                flex-direction: column;
-                align-items: flex-start;
-            }
-            nav {
-                align-self: stretch;
-                justify-content: space-between;
-            }
+            color:var(--text);
+            border-color:rgba(255,255,255,0.18);
+            background:rgba(255,255,255,0.02);
         }
 
         .main-shell {
-            position: relative;
-            flex: 1;
-            min-height: 0;
-            margin-top: 4px;
+            position:relative;
+            flex:1;
+            min-height:0;
         }
 
         .tab-view {
-            position: absolute;
-            inset: 0;
-            display: flex;
-            flex-direction: column;
-            gap: 16px;
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.9);
-            filter: blur(4px);
-            transition:
-                opacity 0.35s ease,
-                transform 0.35s ease,
-                filter 0.35s ease;
+            position:absolute;
+            inset:0;
+            opacity:0;
+            pointer-events:none;
+            transform:scale(0.9);
+            filter:blur(4px);
+            transition:0.35s ease;
+            display:flex;
+            flex-direction:column;
+            gap:16px;
         }
 
         .tab-view.active {
-            opacity: 1;
-            pointer-events: auto;
-            transform: scale(1);
-            filter: blur(0);
+            opacity:1;
+            pointer-events:auto;
+            transform:scale(1);
+            filter:blur(0);
         }
 
         .tab-view.exiting {
-            opacity: 0;
-            transform: scale(0.85);
-            filter: blur(6px);
+            opacity:0;
+            transform:scale(0.85);
+            filter:blur(6px);
+        }
+
+        .glitch-overlay {
+            pointer-events:none;
+            position:absolute;
+            inset:0;
+            background:repeating-linear-gradient(
+                to bottom,
+                rgba(255,255,255,0.08),
+                rgba(255,255,255,0.08) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            mix-blend-mode:screen;
+            opacity:0;
+        }
+
+        @keyframes glitchFlash {
+            0% { opacity:0; transform:translateY(0); }
+            20% { opacity:0.7; transform:translateY(-4px); }
+            40% { opacity:0.4; transform:translateY(3px); }
+            60% { opacity:0.6; transform:translateY(-2px); }
+            100% { opacity:0; transform:translateY(0); }
+        }
+
+        .glitch-overlay.active {
+            animation:glitchFlash 0.35s ease-out;
         }
 
         .tab-inner {
-            display: grid;
-            grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-            gap: 24px;
-            height: 100%;
+            display:grid;
+            grid-template-columns:1.4fr 1fr;
+            gap:24px;
+            height:100%;
         }
 
-        @media (max-width: 900px) {
+        @media(max-width:900px) {
             .tab-inner {
-                grid-template-columns: minmax(0, 1fr);
-                grid-auto-rows: minmax(0, auto);
-                overflow-y: auto;
+                grid-template-columns:1fr;
+                overflow-y:auto;
             }
         }
 
         .hero {
-            display: flex;
-            flex-direction: column;
-            gap: 14px;
-            justify-content: center;
-        }
-
-        .hero-pill-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .status-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: radial-gradient(circle at 0 0, rgba(255, 43, 79, 0.18), transparent 60%);
-            font-size: 0.78rem;
-            color: var(--muted);
-            backdrop-filter: blur(16px);
-        }
-
-        .status-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: #2bff88;
-            box-shadow: 0 0 12px rgba(43, 255, 136, 0.9);
-        }
-
-        .vip-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 6px 12px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 215, 0, 0.4);
-            background: radial-gradient(circle at 0 0, rgba(255, 215, 0, 0.18), transparent 60%);
-            font-size: 0.78rem;
-            color: #ffd700;
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-        }
-
-        .vip-icon {
-            width: 14px;
-            height: 14px;
-            border-radius: 999px;
-            background: radial-gradient(circle at 30% 0, #fff, #ffd700 40%, #7a5a00 100%);
-            box-shadow: 0 0 16px rgba(255, 215, 0, 0.8);
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            gap:14px;
         }
 
         .hero-title {
-            font-size: clamp(2.4rem, 4vw, 3.2rem);
-            line-height: 1.1;
-            font-weight: 800;
-        }
-
-        .hero-title span {
-            display: block;
+            font-size:clamp(2.4rem, 4vw, 3.2rem);
+            font-weight:800;
+            line-height:1.1;
         }
 
         .glitch {
-            position: relative;
-            display: inline-block;
-            color: var(--text);
+            position:relative;
+            display:inline-block;
         }
 
         .glitch::before,
         .glitch::after {
-            content: attr(data-text);
-            position: absolute;
-            inset: 0;
-            mix-blend-mode: screen;
-            pointer-events: none;
+            content:attr(data-text);
+            position:absolute;
+            inset:0;
+            pointer-events:none;
         }
 
         .glitch::before {
-            left: 1px;
-            text-shadow: -2px 0 var(--accent);
-            clip-path: polygon(0 0, 100% 0, 100% 45%, 0 55%);
-            animation: glitchTop 2.2s infinite linear alternate-reverse;
+            left:1px;
+            text-shadow:-2px 0 var(--accent);
+            clip-path:polygon(0 0,100% 0,100% 45%,0 55%);
+            animation:glitchTop 2.2s infinite linear alternate-reverse;
         }
 
         .glitch::after {
-            left: -1px;
-            text-shadow: 2px 0 var(--accent3);
-            clip-path: polygon(0 45%, 100% 35%, 100% 100%, 0 100%);
-            animation: glitchBottom 2.4s infinite linear alternate-reverse;
+            left:-1px;
+            text-shadow:2px 0 var(--accent3);
+            clip-path:polygon(0 45%,100% 35%,100% 100%,0 100%);
+            animation:glitchBottom 2.4s infinite linear alternate-reverse;
         }
 
         @keyframes glitchTop {
-            0% { transform: translate(0, 0); }
-            20% { transform: translate(-1px, -1px); }
-            40% { transform: translate(1px, 1px); }
-            60% { transform: translate(-2px, 0); }
-            80% { transform: translate(2px, -1px); }
-            100% { transform: translate(0, 1px); }
+            0% { transform:translate(0,0); }
+            20% { transform:translate(-1px,-1px); }
+            40% { transform:translate(1px,1px); }
+            60% { transform:translate(-2px,0); }
+            80% { transform:translate(2px,-1px); }
+            100% { transform:translate(0,1px); }
         }
 
         @keyframes glitchBottom {
-            0% { transform: translate(0, 0); }
-            20% { transform: translate(1px, 1px); }
-            40% { transform: translate(-1px, -1px); }
-            60% { transform: translate(2px, 0); }
-            80% { transform: translate(-2px, 1px); }
-            100% { transform: translate(0, -1px); }
+            0% { transform:translate(0,0); }
+            20% { transform:translate(1px,1px); }
+            40% { transform:translate(-1px,-1px); }
+            60% { transform:translate(2px,0); }
+            80% { transform:translate(-2px,1px); }
+            100% { transform:translate(0,-1px); }
         }
 
         .hero-subtitle {
-            font-size: 0.98rem;
-            color: var(--muted);
-            max-width: 540px;
-        }
-
-        .hero-subtitle strong {
-            color: var(--text);
-            font-weight: 600;
-        }
-
-        .hero-actions {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 12px;
-            margin-top: 6px;
+            font-size:0.98rem;
+            color:var(--muted);
+            max-width:540px;
         }
 
         .btn {
-            position: relative;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 8px;
-            padding: 10px 18px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.18), transparent 60%);
-            color: var(--text);
-            font-size: 0.86rem;
-            text-decoration: none;
-            cursor: pointer;
-            overflow: hidden;
-            transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease, background 0.15s ease;
+            display:inline-flex;
+            align-items:center;
+            gap:8px;
+            padding:10px 18px;
+            border-radius:var(--radius-pill);
+            border:1px solid rgba(255,255,255,0.12);
+            background:rgba(255,255,255,0.04);
+            color:var(--text);
+            font-size:0.86rem;
+            cursor:pointer;
+            text-decoration:none;
+            transition:0.2s;
         }
 
         .btn-primary {
-            background:
-                linear-gradient(120deg, #ff2b4f, #ff5b7f 40%, #9b5cff 100%);
-            box-shadow: var(--shadow-accent);
-            border-color: rgba(255, 255, 255, 0.18);
-        }
-
-        .btn-primary::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(120deg, rgba(255, 255, 255, 0.35), transparent 40%, transparent 60%, rgba(255, 255, 255, 0.35));
-            mix-blend-mode: screen;
-            opacity: 0;
-            transform: translateX(-40%);
-            transition: opacity 0.25s ease, transform 0.25s ease;
-        }
-
-        .btn-primary:hover::before {
-            opacity: 1;
-            transform: translateX(40%);
+            background:linear-gradient(120deg, #ff2b4f, #ff5b7f 40%, #9b5cff 100%);
+            box-shadow:0 0 20px rgba(255,43,79,0.4);
         }
 
         .btn:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 0 24px rgba(0, 0, 0, 0.8);
-        }
-
-        .btn-secondary {
-            background: rgba(10, 10, 25, 0.9);
-        }
-
-        .btn-icon {
-            width: 16px;
-            height: 16px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.4);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.7rem;
-        }
-
-        .hero-meta {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 18px;
-            margin-top: 10px;
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .meta-item {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .meta-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.4);
+            transform:translateY(-1px);
+            box-shadow:0 0 24px rgba(0,0,0,0.8);
         }
 
         .card-shell {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display:flex;
+            align-items:center;
+            justify-content:center;
         }
 
         .card {
-            position: relative;
-            width: 100%;
-            max-width: 380px;
-            border-radius: var(--radius-lg);
-            background: radial-gradient(circle at 0 0, rgba(255, 255, 255, 0.08), transparent 55%),
-                        linear-gradient(145deg, rgba(10, 10, 25, 0.96), rgba(5, 5, 15, 0.98));
-            border: 1px solid var(--border);
-            box-shadow: var(--shadow-strong);
-            backdrop-filter: blur(var(--blur));
-            overflow: hidden;
-            padding: 16px 16px 14px;
-        }
-
-        .card-layer {
-            position: absolute;
-            inset: 0;
-            border-radius: inherit;
-            border: 1px solid rgba(255, 255, 255, 0.04);
-            mix-blend-mode: screen;
-            pointer-events: none;
-        }
-
-        .card-layer.layer-1 {
-            transform: translate(-10px, -8px) rotate(-3deg);
-            opacity: 0.5;
-            border-color: rgba(255, 43, 79, 0.4);
-        }
-
-        .card-layer.layer-2 {
-            transform: translate(8px, 10px) rotate(4deg);
-            opacity: 0.4;
-            border-color: rgba(155, 92, 255, 0.4);
-        }
-
-        .card-main {
-            position: relative;
-            z-index: 1;
-        }
-
-        .card-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 12px;
-        }
-
-        .profile {
-            display: flex;
-            align-items: center;
-            gap: 12px;
+            width:100%;
+            max-width:380px;
+            border-radius:var(--radius-lg);
+            background:linear-gradient(145deg, rgba(10,10,25,0.96), rgba(5,5,15,0.98));
+            border:1px solid var(--border);
+            box-shadow:0 0 40px rgba(0,0,0,0.9);
+            backdrop-filter:blur(var(--blur));
+            padding:16px;
+            position:relative;
         }
 
         .avatar {
-            width: 64px;
-            height: 64px;
-            border-radius: 18px;
-            background: #000;
-            position: relative;
-            overflow: hidden;
-            box-shadow: var(--shadow-accent);
+            width:64px;
+            height:64px;
+            border-radius:18px;
+            overflow:hidden;
+            box-shadow:0 0 20px rgba(255,43,79,0.4);
         }
 
         .avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .avatar-ring {
-            position: absolute;
-            inset: -3px;
-            border-radius: inherit;
-            border: 2px solid rgba(255, 255, 255, 0.4);
-            mix-blend-mode: screen;
-            opacity: 0.7;
-            pointer-events: none;
-        }
-
-        .profile-text {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .profile-name {
-            font-weight: 700;
-            font-size: 0.98rem;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .profile-badge {
-            font-size: 0.7rem;
-            padding: 2px 8px;
-            border-radius: 999px;
-            background: rgba(255, 43, 79, 0.18);
-            border: 1px solid rgba(255, 43, 79, 0.5);
-            text-transform: uppercase;
-            letter-spacing: 0.12em;
-            color: var(--accent);
-        }
-
-        .profile-handle {
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .card-status {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        .card-status-pill {
-            padding: 4px 10px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .card-status-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: rgba(255, 255, 255, 0.5);
-        }
-
-        .card-status-value {
-            font-size: 0.8rem;
-            color: var(--text);
-        }
-
-        .card-body {
-            margin-top: 10px;
-            display: grid;
-            grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
-            gap: 10px;
-        }
-
-        @media (max-width: 420px) {
-            .card-body {
-                grid-template-columns: minmax(0, 1fr);
-            }
-        }
-
-        .card-section {
-            padding: 8px 10px;
-            border-radius: var(--radius-md);
-            background: rgba(0, 0, 0, 0.35);
-            border: 1px solid rgba(255, 255, 255, 0.06);
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .card-section-title {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 4px;
-        }
-
-        .tag-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            margin-top: 4px;
-        }
-
-        .tag {
-            padding: 3px 8px;
-            border-radius: 999px;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            font-size: 0.72rem;
-            color: var(--muted);
-        }
-
-        .tag.hot {
-            border-color: rgba(255, 43, 79, 0.7);
-            color: var(--accent);
-            background: rgba(255, 43, 79, 0.12);
-        }
-
-        .card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 10px;
-            margin-top: 6px;
-            font-size: 0.78rem;
-            color: var(--muted);
-        }
-
-        .card-footer-left {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .pill-soft {
-            padding: 4px 10px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(255, 255, 255, 0.02);
-        }
-
-        .pill-soft strong {
-            color: var(--text);
-        }
-
-        .card-footer-right {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dot-pulse {
-            width: 8px;
-            height: 8px;
-            border-radius: 999px;
-            background: var(--accent);
-            box-shadow: 0 0 12px rgba(255, 43, 79, 0.9);
-            animation: pulse 1.4s infinite ease-in-out;
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 1; }
-            50% { transform: scale(1.4); opacity: 0.4; }
-            100% { transform: scale(1); opacity: 1; }
+            width:100%;
+            height:100%;
+            object-fit:cover;
         }
 
         .panel-body {
-            display: flex;
-            flex-direction: column;
-            gap: 12px;
-            justify-content: center;
+            display:flex;
+            flex-direction:column;
+            gap:12px;
+            justify-content:center;
         }
 
         .panel-label {
-            font-size: 0.75rem;
-            text-transform: uppercase;
-            letter-spacing: 0.16em;
-            color: rgba(255, 255, 255, 0.6);
+            font-size:0.75rem;
+            text-transform:uppercase;
+            letter-spacing:0.16em;
+            color:rgba(255,255,255,0.6);
         }
 
         .panel-title {
-            font-size: 1.2rem;
-            font-weight: 700;
+            font-size:1.3rem;
+            font-weight:700;
         }
 
         .panel-text {
-            font-size: 0.9rem;
-            color: var(--muted);
-        }
-
-        .panel-text strong {
-            color: var(--text);
+            font-size:0.9rem;
+            color:var(--muted);
         }
 
         .stat-grid {
-            display: grid;
-            grid-template-columns: repeat(3, minmax(0, 1fr));
-            gap: 10px;
-        }
-
-        @media (max-width: 600px) {
-            .stat-grid {
-                grid-template-columns: repeat(2, minmax(0, 1fr));
-            }
+            display:grid;
+            grid-template-columns:repeat(3, 1fr);
+            gap:10px;
         }
 
         .stat-card {
-            border-radius: var(--radius-md);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.4);
-            padding: 8px 10px;
-            font-size: 0.8rem;
-            color: var(--muted);
+            border-radius:var(--radius-md);
+            border:1px solid rgba(255,255,255,0.08);
+            background:rgba(0,0,0,0.4);
+            padding:8px 10px;
+            font-size:0.8rem;
+            color:var(--muted);
         }
 
         .stat-label {
-            font-size: 0.7rem;
-            text-transform: uppercase;
-            letter-spacing: 0.14em;
-            color: rgba(255, 255, 255, 0.6);
-            margin-bottom: 2px;
+            font-size:0.7rem;
+            text-transform:uppercase;
+            letter-spacing:0.14em;
+            color:rgba(255,255,255,0.6);
+            margin-bottom:2px;
         }
 
         .stat-value {
-            font-size: 0.95rem;
-            color: var(--text);
-            font-weight: 600;
+            font-size:0.95rem;
+            color:var(--text);
+            font-weight:600;
         }
 
-        .stat-sub {
-            font-size: 0.7rem;
-            color: var(--muted);
-        }
-
-        .link-row {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .link-chip {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 6px 12px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            background: rgba(0, 0, 0, 0.4);
-            font-size: 0.8rem;
-            color: var(--muted);
-            text-decoration: none;
-        }
-
-        .link-chip span {
-            color: var(--text);
-        }
-
-        .mini-avatar-card {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .mini-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            overflow: hidden;
-            background: #000;
-        }
-
-        .mini-avatar img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .mini-avatar-text {
-            font-size: 0.8rem;
-            color: var(--muted);
-        }
-
-        .mini-avatar-text strong {
-            color: var(--text);
-        }
-
-        footer {
-            z-index: 2;
-            font-size: 0.78rem;
-            color: var(--muted);
-            display: flex;
-            justify-content: space-between;
-            gap: 10px;
-            border-top: 1px solid rgba(255, 255, 255, 0.06);
-            padding-top: 8px;
-        }
-
-        @media (max-width: 700px) {
-            footer {
-                flex-direction: column;
-            }
-        }
-
-        .footer-right {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-        }
-
-        .footer-pill {
-            padding: 4px 10px;
-            border-radius: var(--radius-pill);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: rgba(0, 0, 0, 0.4);
-        }
-
-        .typewriter {
-            display: inline-block;
-            border-right: 2px solid rgba(255, 255, 255, 0.7);
-            white-space: nowrap;
-            overflow: hidden;
-            animation: caret 0.8s infinite;
-        }
-
-        @keyframes caret {
-            0%, 50% { border-color: rgba(255, 255, 255, 0.7); }
-            51%, 100% { border-color: transparent; }
-        }
-
-        /* Extreme glitch overlay for tab switch */
-        .glitch-overlay {
-            pointer-events: none;
-            position: absolute;
-            inset: 0;
-            background: repeating-linear-gradient(
-                to bottom,
-                rgba(255, 255, 255, 0.08),
-                rgba(255, 255, 255, 0.08) 1px,
-                transparent 1px,
-                transparent 3px
-            );
-            mix-blend-mode: screen;
-            opacity: 0;
-            transform: translateY(0);
-        }
-
-        .glitch-overlay.active {
-            animation: glitchFlash 0.35s ease-out;
-        }
-
-        @keyframes glitchFlash {
-            0% { opacity: 0; transform: translateY(0); }
-            20% { opacity: 0.7; transform: translateY(-4px); }
-            40% { opacity: 0.4; transform: translateY(3px); }
-            60% { opacity: 0.6; transform: translateY(-2px); }
-            100% { opacity: 0; transform: translateY(0); }
+        /* BCO badge animation */
+        @keyframes bcoFloat {
+            0% { opacity:0; transform:translateY(10px) scale(0.95); }
+            100% { opacity:1; transform:translateY(0) scale(1); }
         }
     </style>
 </head>
+
 <body>
 <canvas id="particles"></canvas>
 <div class="bg-overlay"></div>
 
 <div class="app-shell">
-    <header>
-        <div class="brand">
-            <div class="brand-logo"></div>
-            <div class="brand-text">
-                <div class="brand-name">RedFox</div>
-                <div class="brand-tagline">Anti-Cheat Developer • Roblox</div>
-            </div>
+
+<header>
+    <div class="brand">
+        <div class="brand-logo">
+            <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png">
         </div>
-        <nav>
-            <button class="nav-pill active" data-tab="home">Home</button>
-            <button class="nav-pill" data-tab="about">About</button>
-            <button class="nav-pill" data-tab="anticheat">Anti-Cheat</button>
-            <button class="nav-pill" data-tab="links">Links</button>
-        </nav>
-    </header>
-
-    <div class="main-shell">
-        <div class="glitch-overlay" id="glitchOverlay"></div>
-
-        <!-- HOME TAB -->
-        <section class="tab-view active" data-tab-view="home">
-            <div class="tab-inner">
-                <div class="hero">
-                    <div class="hero-pill-row">
-                        <div class="status-pill">
-                            <div class="status-dot"></div>
-                            <span id="typewriter" class="typewriter"></span>
-                        </div>
-                        <div class="vip-pill">
-                            <div class="vip-icon"></div>
-                            <span>VIP • Dev Access</span>
-                        </div>
-                    </div>
-
-                    <h1 class="hero-title">
-                        <span class="glitch" data-text="RedFox">RedFox</span>
-                        <span>Anti-Cheat Architect</span>
-                    </h1>
-
-                    <p class="hero-subtitle">
-                        Known as <strong>RedFox</strong>, the dev behind the
-                        <strong>RedFox Anti-Cheat</strong> system on Roblox—focused on
-                        <strong>catching exploiters</strong> before they even know what hit them.
-                    </p>
-
-                    <div class="hero-actions">
-                        <a class="btn btn-primary" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" rel="noopener noreferrer">
-                            <span class="btn-icon">⚡</span>
-                            <span>View RedFox Anti-Cheat</span>
-                        </a>
-                        <button class="btn btn-secondary" data-tab-trigger="about">
-                            <span class="btn-icon">👁</span>
-                            <span>Read the bio</span>
-                        </button>
-                    </div>
-
-                    <div class="hero-meta">
-                        <div class="meta-item">
-                            <div class="meta-dot"></div>
-                            <span>Alias: <strong>RedFoxACDev</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-dot"></div>
-                            <span>Handle: <strong>@TheRealSyrOnix</strong></span>
-                        </div>
-                        <div class="meta-item">
-                            <div class="meta-dot"></div>
-                            <span>Focus: <strong>Anti-cheat, security, detection logic</strong></span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-shell">
-                    <div class="card">
-                        <div class="card-layer layer-1"></div>
-                        <div class="card-layer layer-2"></div>
-                        <div class="card-main">
-                            <div class="card-header">
-                                <div class="profile">
-                                    <div class="avatar">
-                                        <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false" alt="Roblox Avatar">
-                                        <div class="avatar-ring"></div>
-                                    </div>
-                                    <div class="profile-text">
-                                        <div class="profile-name">
-                                            RedFoxACDev
-                                            <span class="profile-badge">Anti-Cheat Dev</span>
-                                        </div>
-                                        <div class="profile-handle">@TheRealSyrOnix</div>
-                                    </div>
-                                </div>
-                                <div class="card-status">
-                                    <div class="card-status-pill">
-                                        <div class="card-status-label">System</div>
-                                        <div class="card-status-value">Online • Monitoring</div>
-                                    </div>
-                                    <div class="card-status-label">Environment: Roblox</div>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="card-section">
-                                    <div class="card-section-title">Profile Snapshot</div>
-                                    <p>
-                                        Developer known for building and iterating on
-                                        <strong>RedFox Anti-Cheat</strong>, a custom security layer
-                                        designed to detect and disrupt exploiters in live Roblox
-                                        experiences.
-                                    </p>
-                                    <div class="tag-row">
-                                        <div class="tag hot">Anti-Cheat</div>
-                                        <div class="tag">Exploit Detection</div>
-                                        <div class="tag">Security Logic</div>
-                                        <div class="tag">Live Monitoring</div>
-                                    </div>
-                                </div>
-                                <div class="card-section">
-                                    <div class="card-section-title">Current Focus</div>
-                                    <p>
-                                        Tuning detection thresholds, logging patterns, and
-                                        <strong>making it painful to cheat</strong> without
-                                        breaking legit gameplay.
-                                    </p>
-                                    <div class="tag-row">
-                                        <div class="tag">Heuristics</div>
-                                        <div class="tag">Server-side checks</div>
-                                        <div class="tag">Exploit resistance</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="card-footer-left">
-                                    <div class="pill-soft">
-                                        <span>Primary project:</span>
-                                        <strong> RedFox Anti-Cheat</strong>
-                                    </div>
-                                    <div class="pill-soft">
-                                        <span>Platform:</span>
-                                        <strong> Roblox</strong>
-                                    </div>
-                                </div>
-                                <div class="card-footer-right">
-                                    <div class="dot-pulse"></div>
-                                    <span>Live telemetry enabled</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- ABOUT TAB -->
-        <section class="tab-view" data-tab-view="about">
-            <div class="tab-inner">
-                <div class="panel-body">
-                    <div class="panel-label">About</div>
-                    <div class="panel-title">Who is RedFox?</div>
-                    <p class="panel-text">
-                        <strong>RedFox</strong> is the nickname and dev persona people know you by—
-                        the one tied directly to <strong>anti-cheat work</strong> on Roblox.
-                        Under the handle <strong>@TheRealSyrOnix</strong>, you operate as
-                        <strong>RedFoxACDev</strong>, focused on building systems that
-                        <strong>detect, flag, and shut down exploiters</strong>.
-                    </p>
-                    <p class="panel-text">
-                        You’re not just dropping a script and calling it a day—you’re iterating,
-                        watching how people try to break things, and then
-                        <strong>closing the gaps</strong> with smarter logic and better checks.
-                    </p>
-
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Role</div>
-                            <div class="stat-value">Anti-Cheat Dev</div>
-                            <div class="stat-sub">Security & detection logic</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Platform</div>
-                            <div class="stat-value">Roblox</div>
-                            <div class="stat-sub">Live experiences</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Identity</div>
-                            <div class="stat-value">RedFox / RedFoxACDev</div>
-                            <div class="stat-sub">Anti-cheat persona</div>
-                        </div>
-                    </div>
-
-                    <div class="link-row">
-                        <a class="link-chip" href="https://www.roblox.com/users/8461455057/profile" target="_blank" rel="noopener noreferrer">
-                            <span>🧑‍💻</span>
-                            <span>Roblox Profile: TheRealSyrOnix</span>
-                        </a>
-                        <div class="link-chip">
-                            <span>🦊</span>
-                            <span>Alias: RedFox / RedFoxACDev</span>
-                        </div>
-                        <div class="link-chip">
-                            <span>🔥</span>
-                            <span>Identity: Anti-Cheat Dev</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-shell">
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-header">
-                                <div class="profile">
-                                    <div class="avatar">
-                                        <img src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=8461455057&size=150x150&format=Png&isCircular=false" alt="Avatar Headshot">
-                                        <div class="avatar-ring"></div>
-                                    </div>
-                                    <div class="profile-text">
-                                        <div class="profile-name">
-                                            TheRealSyrOnix
-                                            <span class="profile-badge">Roblox User</span>
-                                        </div>
-                                        <div class="profile-handle">User ID: 8461455057</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="card-section">
-                                    <div class="card-section-title">Bio</div>
-                                    <p>
-                                        Dev focused on <strong>security</strong>, <strong>stability</strong>,
-                                        and <strong>anti-cheat logic</strong>—not just visuals. The goal:
-                                        keep the experience clean for legit players while making exploiters
-                                        regret loading their tools.
-                                    </p>
-                                </div>
-                                <div class="card-section">
-                                    <div class="card-section-title">What People Ask</div>
-                                    <p>
-                                        “Who’s behind RedFox Anti-Cheat?” — this site is the answer.
-                                        When people ask, you send them here.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="card-footer-left">
-                                    <div class="pill-soft">
-                                        <span>Persona:</span>
-                                        <strong> RedFox</strong>
-                                    </div>
-                                    <div class="pill-soft">
-                                        <span>Handle:</span>
-                                        <strong> @TheRealSyrOnix</strong>
-                                    </div>
-                                </div>
-                                <div class="card-footer-right">
-                                    <div class="dot-pulse"></div>
-                                    <span>Identity locked in</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-<section class="tab-view" data-tab-view="anticheat">
-    <div class="tab-inner">
-
-        <!-- LEFT SIDE: Anti-Cheat Explanation -->
-        <div class="panel-body">
-            <div class="panel-label">Security System</div>
-            <div class="panel-title">RedFox Anti‑Cheat Engine</div>
-
-            <p class="panel-text">
-                The <strong>RedFox Anti‑Cheat Engine</strong> is a full movement‑analysis and 
-                environment‑integrity system designed to detect <strong>spoofing, noclip, 
-                teleporting, fling exploits, fly hacks, air jumps,</strong> and <strong>workspace tampering</strong>.
-            </p>
-
-            <p class="panel-text">
-                Every player is tracked with a dedicated <strong>PlayerState</strong> object, storing 
-                velocity history, fall data, teleport samples, noclip samples, safe positions, 
-                and strike counts. The system reacts dynamically based on real physics, 
-                not guesswork.
-            </p>
-
-            <div class="stat-grid">
-
-                <div class="stat-card">
-                    <div class="stat-label">Movement Engine</div>
-                    <div class="stat-value">Physics‑Based</div>
-                    <div class="stat-sub">Velocity, CFrame, fall tracking</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-label">Exploit Coverage</div>
-                    <div class="stat-value">12+ Systems</div>
-                    <div class="stat-sub">Fling, noclip, fly, TP, spoofing</div>
-                </div>
-
-                <div class="stat-card">
-                    <div class="stat-label">Punishment</div>
-                    <div class="stat-value">Temp + Perm Bans</div>
-                    <div class="stat-sub">Strike‑based escalation</div>
-                </div>
-
-            </div>
-
-            <h3 class="panel-title" style="margin-top:14px;">Core Detection Systems</h3>
-
-            <ul class="panel-text" style="line-height:1.55;">
-                <li><strong>Fling Detection:</strong> Detects abnormal Y‑velocity spikes, angular velocity abuse, and walk‑fling patterns.</li>
-                <li><strong>Teleport Detection:</strong> Step‑TP thresholds scale with ping and delta‑time to avoid false positives.</li>
-                <li><strong>Noclip Detection:</strong> Multi‑raycast + blockcast + OBB inside‑wall detection.</li>
-                <li><strong>Fly Detection:</strong> Tracks planar velocity, downward velocity, and physics state over time.</li>
-                <li><strong>Air Jump Detection:</strong> Prevents mid‑air jump spoofing using vertical velocity and timing.</li>
-                <li><strong>Void / Fall Recovery:</strong> Auto‑teleports players back to last safe CFrame if they fall below Y = -60.</li>
-                <li><strong>Workspace Integrity:</strong> Detects tampering with protected instances, size changes, transparency edits, and movement.</li>
-                <li><strong>Dev Console Detection:</strong> Monitors the client’s Developer Console for non‑whitelisted output such as injected print streams, unauthorized warnings, executor stack traces, and anomalous runtime errors.</li>
-                <li><strong>Chat Command Detection:</strong> Monitors chat messages for non‑whitelisted command patterns and executor‑style prefixes, blocking unauthorized users from invoking admin‑level actions without valid group role authentication.</li>
-                <li><strong>Masked Remote Detection:</strong> Enforces randomized remote identifiers, rejecting all calls made to human‑readable remote names and flagging any client attempting to invoke non‑masked RemoteEvents/RemoteFunctions.</li>
-            </ul>
-
-            <div class="link-row" style="margin-top:12px;">
-                <a class="link-chip" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank">
-                    <span>🛡️</span>
-                    <span>View Anti‑Cheat Demo</span>
-                </a>
-                <div class="link-chip">
-                    <span>⚙️</span>
-                    <span>Live Physics Monitoring</span>
-                </div>
-                <div class="link-chip">
-                    <span>📡</span>
-                    <span>Strike‑Based Enforcement</span>
-                </div>
-            </div>
+        <div class="brand-text">
+            <div class="brand-name">RedFox</div>
+            <div class="brand-tagline">Anti‑Cheat Developer</div>
         </div>
-
-        <!-- RIGHT SIDE: Anti-Cheat Card -->
-        <div class="card-shell">
-            <div class="card">
-                <div class="card-main">
-
-                    <div class="card-header">
-                        <div class="profile">
-                            <div class="avatar">
-                                <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false">
-                                <div class="avatar-ring"></div>
-                            </div>
-                            <div class="profile-text">
-                                <div class="profile-name">
-                                    RedFox AC Engine
-                                    <span class="profile-badge">Security Core</span>
-                                </div>
-                                <div class="profile-handle">Owner: @TheRealSyrOnix</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="card-body">
-
-                        <div class="card-section">
-                            <div class="card-section-title">Live Checks</div>
-                            <p>
-                                Runs <strong>movement sampling</strong> every 0.20s, with additional 
-                                checks for noclip, fly, and teleport events.
-                            </p>
-                            <div class="tag-row">
-                                <div class="tag hot">Movement</div>
-                                <div class="tag">Physics</div>
-                                <div class="tag">CFrame</div>
-                            </div>
-                        </div>
-
-                        <div class="card-section">
-                            <div class="card-section-title">Workspace Integrity</div>
-                            <p>
-                                Monitors protected paths like <strong>Workspace</strong> for 
-                                unauthorized edits, deletions, or property changes.
-                            </p>
-                            <div class="tag-row">
-                                <div class="tag">Tamper Logs</div>
-                                <div class="tag">Auto‑Restore</div>
-                                <div class="tag">Deep Scan</div>
-                            </div>
-                        </div>
-
-                    </div>
-
-                    <div class="card-footer">
-                        <div class="card-footer-left">
-                            <div class="pill-soft">
-                                <span>Status:</span>
-                                <strong> Active & Evolving</strong>
-                            </div>
-                        </div>
-                        <div class="card-footer-right">
-                            <div class="dot-pulse"></div>
-                            <span>Security Layer Online</span>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-
-    </div>
-</section>
-
-        <!-- LINKS TAB -->
-        <section class="tab-view" data-tab-view="links">
-            <div class="tab-inner">
-                <div class="panel-body">
-                    <div class="panel-label">Links</div>
-                    <div class="panel-title">Network & Contact</div>
-                    <p class="panel-text">
-                        This is the quick jump panel for everything tied to the
-                        <strong>RedFox</strong> identity—anti-cheat, profile, and presence.
-                    </p>
-
-                    <div class="link-row">
-                        <a class="link-chip" href="https://www.roblox.com/users/8461455057/profile" target="_blank" rel="noopener noreferrer">
-                            <span>🧑‍💻</span>
-                            <span>Roblox Profile: TheRealSyrOnix</span>
-                        </a>
-                        <a class="link-chip" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" rel="noopener noreferrer">
-                            <span>🛡️</span>
-                            <span>RedFox Anti-Cheat Game</span>
-                        </a>
-                        <div class="link-chip">
-                            <span>🦊</span>
-                            <span>Alias: RedFox / RedFoxACDev</span>
-                        </div>
-                    </div>
-
-                    <div class="stat-grid">
-                        <div class="stat-card">
-                            <div class="stat-label">Identity</div>
-                            <div class="stat-value">RedFox</div>
-                            <div class="stat-sub">Anti-Cheat Dev Persona</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Handle</div>
-                            <div class="stat-value">@TheRealSyrOnix</div>
-                            <div class="stat-sub">Core branding</div>
-                        </div>
-                        <div class="stat-card">
-                            <div class="stat-label">Primary Project</div>
-                            <div class="stat-value">RedFox Anti-Cheat</div>
-                            <div class="stat-sub">Roblox security layer</div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="card-shell">
-                    <div class="card">
-                        <div class="card-main">
-                            <div class="card-header">
-                                <div class="profile">
-                                    <div class="avatar">
-                                        <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false" alt="Roblox Avatar">
-                                        <div class="avatar-ring"></div>
-                                    </div>
-                                    <div class="profile-text">
-                                        <div class="profile-name">
-                                            RedFox Link Hub
-                                            <span class="profile-badge">Network</span>
-                                        </div>
-                                        <div class="profile-handle">@TheRealSyrOnix</div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="card-body">
-                                <div class="card-section">
-                                    <div class="card-section-title">Where to Send People</div>
-                                    <p>
-                                        When someone asks about <strong>RedFox</strong>, your anti-cheat,
-                                        or who’s behind it—this site and these links are the answer.
-                                    </p>
-                                </div>
-                                <div class="card-section">
-                                    <div class="card-section-title">Future Slots</div>
-                                    <p>
-                                        Extra links can be added here later—Discord, GitHub, docs,
-                                        or anything else you want tied to the RedFox identity.
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="card-footer">
-                                <div class="card-footer-left">
-                                    <div class="pill-soft">
-                                        <span>Hub:</span>
-                                        <strong> RedFox Identity</strong>
-                                    </div>
-                                </div>
-                                <div class="card-footer-right">
-                                    <div class="dot-pulse"></div>
-                                    <span>Routing traffic cleanly</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
     </div>
 
-    <footer>
-        <div>© <span id="year"></span> RedFox • Anti-Cheat Dev Persona</div>
-        <div class="footer-right">
-            <div class="footer-pill">Identity: <strong>RedFox / RedFoxACDev</strong></div>
-            <div class="footer-pill">Handle: <strong>@TheRealSyrOnix</strong></div>
-            <div class="footer-pill">Primary: <strong>RedFox Anti-Cheat</strong></div>
+    <nav>
+        <button class="nav-pill active" data-tab="home">Home</button>
+        <button class="nav-pill" data-tab="about">About</button>
+        <button class="nav-pill" data-tab="anticheat">Anti‑Cheat</button>
+        <button class="nav-pill" data-tab="links">Links</button>
+    </nav>
+</header>
+
+<div class="main-shell">
+    <div class="glitch-overlay" id="glitchOverlay"></div>
+
+    <!-- HOME TAB -->
+    <section class="tab-view active" data-tab-view="home">
+        <div class="tab-inner">
+
+            <div class="hero">
+                <h1 class="hero-title">
+                    <span class="glitch" data-text="RedFox">RedFox</span>
+                    <span>Anti‑Cheat Architect</span>
+                </h1>
+
+                <p class="hero-subtitle">
+                    Developer of the <strong>RedFox Anti‑Cheat</strong> system — built to detect,
+                    disrupt, and eliminate exploiters before they even know what hit them.
+                </p>
+
+                <div class="hero-actions">
+                    <a class="btn btn-primary"
+                       href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat"
+                       target="_blank">
+                        ⚡ View Anti‑Cheat
+                    </a>
+                    <button class="btn" data-tab-trigger="about">👁 Read Bio</button>
+                </div>
+            </div>
+
+            <div class="card-shell">
+                <div class="card">
+                    <div class="profile">
+                        <div class="avatar">
+                            <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false">
+                        </div>
+                        <div style="margin-left:10px;">
+                            <div style="font-weight:700;">RedFoxACDev</div>
+                            <div style="font-size:0.8rem;color:var(--muted);">@TheRealSyrOnix</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:14px;font-size:0.85rem;color:var(--muted);">
+                        Developer of the RedFox Anti‑Cheat security layer for Roblox.
+                    </div>
+
+                    <!-- BCO BADGE ON HOME CARD -->
+                    <div style="margin-top:16px;text-align:center;">
+                        <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/BCO.ec97eea1-c620-4d7e-8740-596cffce8ca2.png"
+                             style="width:120px;filter:drop-shadow(0 0 12px rgba(255,43,79,0.6));border-radius:10px;">
+                        <div style="font-size:0.75rem;color:var(--muted);margin-top:4px;">
+                            BCO Security Seal
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
-    </footer>
+    </section>
+
+    <!-- ABOUT TAB -->
+    <section class="tab-view" data-tab-view="about">
+        <div class="tab-inner">
+
+            <div class="panel-body">
+                <div class="panel-label">About</div>
+                <div class="panel-title">Who is RedFox?</div>
+
+                <p class="panel-text">
+                    Known as <strong>RedFoxACDev</strong>, you specialize in building aggressive,
+                    physics‑based anti‑cheat systems for Roblox. Your work focuses on
+                    <strong>exploit detection, movement analysis, remote security, and
+                    environment integrity.</strong>
+                </p>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">Role</div>
+                        <div class="stat-value">Anti‑Cheat Dev</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Platform</div>
+                        <div class="stat-value">Roblox</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Identity</div>
+                        <div class="stat-value">RedFox</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-shell">
+                <div class="card">
+                    <div class="profile">
+                        <div class="avatar">
+                            <img src="https://thumbnails.roblox.com/v1/users/avatar-headshot?userIds=8461455057&size=150x150&format=Png&isCircular=false">
+                        </div>
+                        <div style="margin-left:10px;">
+                            <div style="font-weight:700;">TheRealSyrOnix</div>
+                            <div style="font-size:0.8rem;color:var(--muted);">User ID: 8461455057</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:14px;font-size:0.85rem;color:var(--muted);">
+                        Focused on security, stability, and exploit‑resistant gameplay.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <!-- ANTI‑CHEAT TAB -->
+    <section class="tab-view" data-tab-view="anticheat">
+        <div class="tab-inner">
+
+            <div class="panel-body">
+                <div class="panel-label">Security System</div>
+                <div class="panel-title">RedFox Anti‑Cheat Engine</div>
+
+                <!-- BCO BADGE FLOATING -->
+                <div style="
+                    margin-top:10px;
+                    display:flex;
+                    align-items:center;
+                    gap:12px;
+                    animation:bcoFloat 1.4s ease-out;
+                ">
+                    <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/BCO.ec97eea1-c620-4d7e-8740-596cffce8ca2.png"
+                         style="width:110px;filter:drop-shadow(0 0 14px rgba(255,43,79,0.6));border-radius:10px;">
+                    <div style="font-size:0.85rem;color:#ff2b4f;letter-spacing:0.08em;">
+                        <strong>BCO Security Seal</strong><br>
+                        Verified Anti‑Cheat Module
+                    </div>
+                </div>
+
+                <p class="panel-text" style="margin-top:12px;">
+                    The <strong>RedFox Anti‑Cheat Engine</strong> is a physics‑driven detection system
+                    designed to identify <strong>movement spoofing, noclip, teleport abuse, fly hacks,
+                    walk‑fling, air jumps,</strong> and <strong>workspace tampering</strong>.
+                </p>
+
+                <p class="panel-text">
+                    Every player is tracked with a dedicated <strong>PlayerState</strong> object,
+                    storing velocity history, fall data, teleport samples, noclip samples, safe
+                    positions, and strike counts.
+                </p>
+
+                <h3 class="panel-title" style="margin-top:14px;">Core Detection Systems</h3>
+
+                <ul class="panel-text" style="line-height:1.55;">
+                    <li><strong>Fling Detection:</strong> Detects abnormal Y‑velocity spikes, angular velocity abuse, and walk‑fling patterns.</li>
+
+                    <li><strong>Teleport Detection:</strong> Step‑TP thresholds scale with ping and delta‑time to avoid false positives.</li>
+
+                    <li><strong>Noclip Detection:</strong> Multi‑raycast + blockcast + OBB inside‑wall detection.</li>
+
+                    <li><strong>Fly Detection:</strong> Tracks planar velocity, downward velocity, and physics state over time.</li>
+
+                    <li><strong>Air Jump Detection:</strong> Prevents mid‑air jump spoofing using vertical velocity and timing.</li>
+
+                    <li><strong>Dev Console Detection:</strong> Identifies executor‑generated console noise, including unauthorized errors, injected prints, malformed stack traces, and non‑game debug output.</li>
+
+                    <li><strong>Chat Command Detection:</strong> Monitors chat for non‑whitelisted command patterns (e.g., : ; ! fly, noclip, speed) and flags users without the required group rank.</li>
+
+                    <li><strong>Masked Remote Detection:</strong> Enforces randomized remote identifiers, rejecting all calls made to human‑readable remote names and flagging spoofed remote invocations.</li>
+
+                    <li><strong>Workspace Integrity:</strong> Detects tampering with protected instances, size changes, transparency edits, and movement.</li>
+                </ul>
+
+                <div class="link-row" style="margin-top:12px;">
+                    <a class="link-chip"
+                       href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat"
+                       target="_blank">
+                        <span>🛡️</span>
+                        <span>RedFox Anti‑Cheat Demo</span>
+                    </a>
+                    <div class="link-chip">
+                        <span>⚙️</span>
+                        <span>Live Physics Monitoring</span>
+                    </div>
+                    <div class="link-chip">
+                        <span>📡</span>
+                        <span>Strike‑Based Enforcement</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-shell">
+                <div class="card">
+                    <div class="profile">
+                        <div class="avatar">
+                            <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false">
+                        </div>
+                        <div style="margin-left:10px;">
+                            <div style="font-weight:700;">RedFox AC Engine</div>
+                            <div style="font-size:0.8rem;color:var(--muted);">Security Core</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:14px;font-size:0.85rem;color:var(--muted);">
+                        Monitoring movement, physics, remotes, console output, and environment integrity.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- LINKS TAB -->
+    <section class="tab-view" data-tab-view="links">
+        <div class="tab-inner">
+
+            <div class="panel-body">
+                <div class="panel-label">Links</div>
+                <div class="panel-title">Network & Contact</div>
+
+                <p class="panel-text">
+                    Quick access to everything tied to the <strong>RedFox</strong> identity.
+                </p>
+
+                <div class="link-row">
+                    <a class="link-chip"
+                       href="https://www.roblox.com/users/8461455057/profile"
+                       target="_blank">
+                        🧑‍💻 Roblox Profile
+                    </a>
+
+                    <a class="link-chip"
+                       href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat"
+                       target="_blank">
+                        🛡️ Anti‑Cheat Game
+                    </a>
+
+                    <div class="link-chip">
+                        🦊 Alias: RedFox / RedFoxACDev
+                    </div>
+                </div>
+            </div>
+
+            <div class="card-shell">
+                <div class="card">
+                    <div class="profile">
+                        <div class="avatar">
+                            <img src="https://thumbnails.roblox.com/v1/users/avatar?userIds=8461455057&size=420x420&format=Png&isCircular=false">
+                        </div>
+                        <div style="margin-left:10px;">
+                            <div style="font-weight:700;">RedFox Link Hub</div>
+                            <div style="font-size:0.8rem;color:var(--muted);">@TheRealSyrOnix</div>
+                        </div>
+                    </div>
+
+                    <div style="margin-top:14px;font-size:0.85rem;color:var(--muted);">
+                        Centralized identity hub for all RedFox‑related projects.
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
 </div>
 
+<footer style="margin-top:10px;font-size:0.8rem;color:var(--muted);text-align:center;">
+    © <span id="year"></span> RedFox • Anti‑Cheat Developer
+</footer>
+
+</div>
+
+<!-- JAVASCRIPT -->
 <script>
-    // Typewriter
-    const typewriterEl = document.getElementById("typewriter");
-    const typewriterPhrases = [
-        "Monitoring exploit attempts in real-time...",
-        "RedFox Anti-Cheat: system online.",
-        "Flagging suspicious behavior across sessions...",
-        "Making it painful to cheat."
-    ];
-    let twIndex = 0;
-    let twChar = 0;
-    let twDeleting = false;
-
-    function typewriterTick() {
-        if (!typewriterEl) return;
-        const phrase = typewriterPhrases[twIndex];
-        if (!twDeleting) {
-            twChar++;
-            if (twChar > phrase.length) {
-                twDeleting = true;
-                setTimeout(typewriterTick, 1200);
-                typewriterEl.textContent = phrase;
-                return;
-            }
-        } else {
-            twChar--;
-            if (twChar <= 0) {
-                twDeleting = false;
-                twIndex = (twIndex + 1) % typewriterPhrases.length;
-            }
-        }
-        typewriterEl.textContent = phrase.substring(0, twChar);
-        const delay = twDeleting ? 35 : 55;
-        setTimeout(typewriterTick, delay);
-    }
-    typewriterTick();
-
-    // Tab switching with extreme zoom + glitch
+    // Tab switching
     const navPills = document.querySelectorAll(".nav-pill");
     const tabViews = document.querySelectorAll(".tab-view");
     const glitchOverlay = document.getElementById("glitchOverlay");
     let currentTab = "home";
-    let isSwitching = false;
+    let switching = false;
 
-    function setActiveTab(tabName) {
-        if (isSwitching || tabName === currentTab) return;
-        isSwitching = true;
+    function setActiveTab(tab) {
+        if (switching || tab === currentTab) return;
+        switching = true;
 
         const oldView = document.querySelector(`[data-tab-view="${currentTab}"]`);
-        const newView = document.querySelector(`[data-tab-view="${tabName}"]`);
+        const newView = document.querySelector(`[data-tab-view="${tab}"]`);
 
-        navPills.forEach(p => {
-            p.classList.toggle("active", p.getAttribute("data-tab") === tabName);
-        });
+        navPills.forEach(p => p.classList.toggle("active", p.dataset.tab === tab));
 
-        if (oldView) {
-            oldView.classList.remove("active");
-            oldView.classList.add("exiting");
-        }
+        oldView.classList.remove("active");
+        oldView.classList.add("exiting");
 
-        if (glitchOverlay) {
-            glitchOverlay.classList.remove("active");
-            void glitchOverlay.offsetWidth;
-            glitchOverlay.classList.add("active");
-        }
+        glitchOverlay.classList.remove("active");
+        void glitchOverlay.offsetWidth;
+        glitchOverlay.classList.add("active");
 
         setTimeout(() => {
-            if (oldView) {
-                oldView.classList.remove("exiting");
-            }
-            if (newView) {
-                newView.classList.add("active");
-            }
-            currentTab = tabName;
-            isSwitching = false;
+            oldView.classList.remove("exiting");
+            newView.classList.add("active");
+            currentTab = tab;
+            switching = false;
         }, 260);
     }
 
-    navPills.forEach(pill => {
-        pill.addEventListener("click", () => {
-            const tab = pill.getAttribute("data-tab");
-            setActiveTab(tab);
-        });
-    });
-
-    document.querySelectorAll("[data-tab-trigger]").forEach(btn => {
-        btn.addEventListener("click", () => {
-            const tab = btn.getAttribute("data-tab-trigger");
-            setActiveTab(tab);
-        });
-    });
+    navPills.forEach(p => p.addEventListener("click", () => setActiveTab(p.dataset.tab)));
+    document.querySelectorAll("[data-tab-trigger]").forEach(btn =>
+        btn.addEventListener("click", () => setActiveTab(btn.dataset.tabTrigger))
+    );
 
     // Year
     document.getElementById("year").textContent = new Date().getFullYear();
@@ -1504,35 +717,36 @@
     const canvas = document.getElementById("particles");
     const ctx = canvas.getContext("2d");
     let particles = [];
-    const particleCount = 80;
+    const count = 80;
 
-    function resizeCanvas() {
+    function resize() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
-    window.addEventListener("resize", resizeCanvas);
-    resizeCanvas();
+    window.addEventListener("resize", resize);
+    resize();
 
-    function createParticles() {
+    function initParticles() {
         particles = [];
-        for (let i = 0; i < particleCount; i++) {
+        for (let i = 0; i < count; i++) {
             particles.push({
                 x: Math.random() * canvas.width,
                 y: Math.random() * canvas.height,
                 vx: (Math.random() - 0.5) * 0.25,
                 vy: (Math.random() - 0.5) * 0.25,
                 r: Math.random() * 1.6 + 0.4,
-                alpha: Math.random() * 0.6 + 0.2
+                a: Math.random() * 0.6 + 0.2
             });
         }
     }
-    createParticles();
+    initParticles();
 
-    function drawParticles() {
+    function draw() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
-        ctx.fillStyle = "#ffffff";
+        ctx.fillStyle = "#fff";
+
         particles.forEach(p => {
-            ctx.globalAlpha = p.alpha;
+            ctx.globalAlpha = p.a;
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
             ctx.fill();
@@ -1540,6 +754,7 @@
 
         ctx.globalAlpha = 0.12;
         ctx.strokeStyle = "#ff2b4f";
+
         for (let i = 0; i < particles.length; i++) {
             for (let j = i + 1; j < particles.length; j++) {
                 const dx = particles[i].x - particles[j].x;
@@ -1554,13 +769,15 @@
                 }
             }
         }
+
         ctx.globalAlpha = 1;
     }
 
-    function updateParticles() {
+    function update() {
         particles.forEach(p => {
             p.x += p.vx;
             p.y += p.vy;
+
             if (p.x < 0) p.x = canvas.width;
             if (p.x > canvas.width) p.x = 0;
             if (p.y < 0) p.y = canvas.height;
@@ -1569,11 +786,12 @@
     }
 
     function loop() {
-        updateParticles();
-        drawParticles();
+        update();
+        draw();
         requestAnimationFrame(loop);
     }
     loop();
 </script>
+
 </body>
 </html>
