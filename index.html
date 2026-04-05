@@ -485,90 +485,91 @@
         </div>
     </section>
 
-<section class="tab-view" data-tab-view="anticheat">
-    <div class="tab-inner" style="grid-template-columns: 1fr;">
-        <div class="panel-body" style="max-width: 950px; margin: 0 auto;">
-            <div class="panel-label">Security Manual</div>
-            <div class="panel-title">Detection Vectors & Logic</div>
+<section class="tab-view" data-tab-view="anticheat" style="height: 100%; overflow: hidden;">
+        <div class="scrolling-container" style="height: 100%; overflow-y: auto; padding-right: 10px;">
+            <div class="panel-body" style="max-width: 950px; margin: 0 auto; padding-bottom: 40px;">
+                <div class="panel-label">Security Manual</div>
+                <div class="panel-title">Detection Vectors & Logic</div>
 
-            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap:20px; margin-top:15px;">
-                
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">PHYSICS & FLING HEURISTICS</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap:20px; margin-top:15px;">
+                    
+                    <div class="detection-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong style="color:var(--accent); font-size:1rem;">PHYSICS & FLING HEURISTICS</strong>
+                            <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                        </div>
+                        <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px;">
+                            <li><b style="color:var(--text);">Fling Detection:</b> Monitors <code>AssemblyAngularVelocity</code> and Y-velocity spikes exceeding 150 rad/s.</li>
+                            <li><b style="color:var(--text);">Walk-Fling Patterns:</b> Flags high planar speeds (>85) combined with angular velocity (>35) while grounded.</li>
+                            <li><b style="color:var(--text);">Fly Detection:</b> Tracks planar velocity and near-zero Y-velocity while in "Physics" or "Freefall" states.</li>
+                        </ul>
                     </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Centrifugal Force:</b> Monitors <code>AssemblyAngularVelocity</code>. Flags spikes exceeding 150 rad/s to stop "Spin-Flings".</li>
-                        <li><b style="color:var(--text);">Walk-Fling Logic:</b> Detects high planar speeds (>85) combined with angular velocity (>35) while grounded.</li>
-                        <li><b style="color:var(--text);">Hover Tracking:</b> Flags players maintaining near-zero Y-velocity while in a "Physics" or "Freefall" state for >1.2s.</li>
-                    </ul>
-                </div>
 
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">SPATIAL INTEGRITY (TP/NOCLIP)</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    <div class="detection-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong style="color:var(--accent); font-size:1rem;">SPATIAL INTEGRITY (TP/NOCLIP)</strong>
+                            <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                        </div>
+                        <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px;">
+                            <li><b style="color:var(--text);">Teleport Detection:</b> Step-TP thresholds scale dynamically with ping and <code>DeltaTime</code> to avoid false positives.</li>
+                            <li><b style="color:var(--text);">Noclip Detection:</b> Utilizes multi-raycast and <code>GetPartBoundsInBox</code> (OBB) for inside-wall identification.</li>
+                            <li><b style="color:var(--text);">Void Handling:</b> Triggers automatic <code>smoothRecover</code> to <code>lastSafeCF</code> if Y-coords drop below -60.</li>
+                        </ul>
                     </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Dynamic Thresholds:</b> TP limits scale using <code>BaseDist + (Ping * 0.06) + (DeltaTime * 180)</code> to prevent lag-back.</li>
-                        <li><b style="color:var(--text);">Raycast Interception:</b> Fires triple-height rays (0.6 to 4.2 studs) to detect passage through solid <code>CanCollide</code> geometry.</li>
-                        <li><b style="color:var(--text);">OBB Analysis:</b> Uses <code>GetPartBoundsInBox</code> to detect if a player's hitbox is deep inside a wall for >0.15s.</li>
-                    </ul>
-                </div>
 
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">WORKSPACE & ASSET INTEGRITY</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">MONITORING</span>
+                    <div class="detection-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong style="color:var(--accent); font-size:1rem;">WORKSPACE & ASSET INTEGRITY</strong>
+                            <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">MONITORING</span>
+                        </div>
+                        <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px;">
+                            <li><b style="color:var(--text);">Instance Protection:</b> Employs <code>ChildRemoved</code> listeners to detect deletion of map boundaries or kill-bricks.</li>
+                            <li><b style="color:var(--text);">Property Auditing:</b> Detects unauthorized local edits to <code>Transparency</code> (X-Ray) or <code>Size</code> (Hitbox Expander).</li>
+                            <li><b style="color:var(--text);">State Restoration:</b> Optional server-side enforcement that reverts <code>CFrame</code> or <code>Material</code> to baseline.</li>
+                        </ul>
                     </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Property Auditing:</b> Flags client-side changes to <code>Transparency</code> (X-Ray) or <code>Size</code> (Hitbox Expanders).</li>
-                        <li><b style="color:var(--text);">Ancestry Protection:</b> Uses <code>ChildRemoved</code> listeners to detect deletion of map boundaries or kill-bricks.</li>
-                        <li><b style="color:var(--text);">State Restoration:</b> Optional server-side enforcement that auto-reverts unauthorized <code>CFrame</code> or <code>Material</code> edits.</li>
-                    </ul>
-                </div>
 
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">NETWORK OBFUSCATION</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    <div class="detection-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong style="color:var(--accent); font-size:1rem;">ENVIRONMENT & SOCIAL AUDIT</strong>
+                            <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                        </div>
+                        <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px;">
+                            <li><b style="color:var(--text);">Dev Console Noise:</b> Hooks <code>LogService</code> to identify executor errors, injected prints, and malformed stack traces.</li>
+                            <li><b style="color:var(--text);">Chat Command Hook:</b> Scans for non-whitelisted patterns (e.g., <code>: ! ; fly</code>) and flags unauthorized invocations.</li>
+                            <li><b style="color:var(--text);">Air Jump Detection:</b> Prevents mid-air jump spoofing by tracking <code>Jumping</code> states while not grounded.</li>
+                        </ul>
                     </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Masked Remotes:</b> Rejects calls to human-readable names; identifiers are randomized per-session to prevent script hardcoding.</li>
-                        <li><b style="color:var(--text);">Rate Limiting:</b> Tracks <code>RemoteWin</code> count/window; flags accounts exceeding packet budgets to stop remote spam.</li>
-                        <li><b style="color:var(--text);">Argument Scrubbing:</b> Validates incoming <code>FireServer</code> data against expected type-arrays to prevent injection.</li>
-                    </ul>
-                </div>
 
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">ENVIRONMENT & SOCIAL AUDIT</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    <div class="detection-card" style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                            <strong style="color:var(--accent); font-size:1rem;">NETWORK & HARDENING</strong>
+                            <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                        </div>
+                        <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px;">
+                            <li><b style="color:var(--text);">Masked Remotes:</b> Rejects calls to human-readable remote names; identifiers are randomized per-session.</li>
+                            <li><b style="color:var(--text);">Argument Scrubbing:</b> Validates that <code>FireServer</code> invocations match expected per-remote type-arrays.</li>
+                            <li><b style="color:var(--text);">Collision Hardening:</b> Forces characters into the <code>RF_PLAYERS</code> group to prevent client-side physics clipping.</li>
+                        </ul>
                     </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Console Noise:</b> Identifies executor-generated error signatures and injected <code>print/warn</code> noise via <code>LogService</code>.</li>
-                        <li><b style="color:var(--text);">Chat Command Hook:</b> Scans for restricted prefixes (<code>: ; ! /</code>) and flags unauthorized "Fly" or "Speed" strings.</li>
-                        <li><b style="color:var(--text);">Air Jump/Inf Jump:</b> Detects <code>Jumping</code> states while not grounded for >0.35s to stop mid-air leap spoofing.</li>
-                    </ul>
-                </div>
 
-                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
-                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">HARDENING & RECOVERY</strong>
-                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
-                    </div>
-                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
-                        <li><b style="color:var(--text);">Smooth Recovery:</b> Upon violation, the server tweens the player to their <code>lastSafeCF</code> and resets physics.</li>
-                        <li><b style="color:var(--text);">Collision Hardening:</b> Forces all player parts into a specific <code>CollisionGroup</code> to prevent client-side physics exploit clipping.</li>
-                        <li><b style="color:var(--text);">Void Handling:</b> Automatically triggers a safe recovery if the player's Y-coordinate drops below -60.</li>
-                    </ul>
                 </div>
-
             </div>
         </div>
-    </div>
-</section>
+    </section>
+
+    <style>
+        .scrolling-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .scrolling-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .scrolling-container::-webkit-scrollbar-thumb {
+            background: var(--accent);
+            border-radius: 10px;
+        }
+    </style>
 
     <section class="tab-view" data-tab-view="links">
         <div class="tab-inner">
