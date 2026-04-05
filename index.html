@@ -502,56 +502,57 @@
                             Monitors the <strong>HumanoidRootPart</strong> for non-associative physics changes.
                         </p>
                         <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Centrifugal Force:</b> Detects <code>AngularVelocity</code> spikes exceeding 100 rad/s to prevent walk-flings.</li>
-                            <li><b style="color:var(--text);">Y-Axis Variance:</b> Identifies sustained hover states where <code>Gravity</code> is nullified without a flight-seat.</li>
-                            <li><b style="color:var(--text);">State Spoofing:</b> Flags "Freefall" states that last longer than the maximum possible terminal velocity height.</li>
+                            <li><b style="color:var(--text);">Centrifugal Force:</b> Detects AngularVelocity spikes exceeding 100 rad/s to prevent flings.</li>
+                            <li><b style="color:var(--text);">Y-Axis Variance:</b> Identifies sustained hover states where Gravity is nullified without a seat.</li>
+                            <li><b style="color:var(--text);">State Spoofing:</b> Flags "Freefall" states exceeding maximum possible terminal velocity height.</li>
                         </ul>
                     </div>
 
                     <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">Spatial Integrity (TP/Noclip)</strong>
-                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Validates player positioning through server-side <strong>OBB (Oriented Bounding Box)</strong> checks.
-                        </p>
-                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Magnitude Validation:</b> Compares <code>(Pos1 - Pos2).Magnitude</code> against <code>WalkSpeed * DeltaTime</code> with a +15% latency buffer.</li>
-                            <li><b style="color:var(--text);">Raycast Interception:</b> Fires server-side rays between previous and current frames to detect passage through "CanCollide" geometry.</li>
-                            <li><b style="color:var(--text);">Void Tracking:</b> Auto-resets position if a player enters un-rendered coordinates below the map floor.</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent2); font-size:1.1rem;">Workspace Integrity</strong>
-                            <span style="font-size:0.7rem; color:var(--accent2); border:1px solid var(--accent2); padding:2px 6px; border-radius:4px;">MONITORING</span>
+                            <strong style="color:var(--accent); font-size:1.1rem;">Workspace Integrity</strong>
+                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">MONITORING</span>
                         </div>
                         <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
                             Detects local environment tampering and unauthorized modification of static assets.
                         </p>
                         <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Instance Protection:</b> Flags the deletion of critical map boundaries or "Kill-Bricks" via client-side <code>ChildRemoved</code> listeners.</li>
-                            <li><b style="color:var(--text);">Property Auditing:</b> Detects locally modified <code>Transparency</code> or <code>Size</code> on walls (X-Ray/Hitbox Expander detection).</li>
-                            <li><b style="color:var(--text);">Desync Analysis:</b> Identifies when a client's <code>workspace.CurrentCamera</code> position deviates from expected physics constraints.</li>
+                            <li><b style="color:var(--text);">Instance Protection:</b> Flags deletion of boundaries or "Kill-Bricks" via ChildRemoved listeners.</li>
+                            <li><b style="color:var(--text);">Property Auditing:</b> Detects locally modified Transparency or Size on walls (X-Ray/Hitbox detection).</li>
+                            <li><b style="color:var(--text);">Desync Analysis:</b> Identifies when client camera position deviates from expected physics constraints.</li>
                         </ul>
                     </div>
 
                     <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
                         <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">Network Obfuscation</strong>
+                            <strong style="color:var(--accent); font-size:1.1rem;">Chat & Social Integrity</strong>
                             <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
                         </div>
                         <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Protects the <strong>Client-Server Bridge</strong> via dynamic identity verification.
+                            Monitors the <strong>TextChatService</strong> for automated input and command-injection attempts.
                         </p>
                         <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Dynamic Remotes:</b> RemoteEvents are renamed every session; static calls to "AdminRemote" result in an instant ban.</li>
-                            <li><b style="color:var(--text);">Argument Scrubbing:</b> Validates that every <code>FireServer</code> call matches expected Type-Arrays.</li>
-                            <li><b style="color:var(--text);">Rate Limiting:</b> Enforces a per-player "Packet Budget" to prevent Remote-Spam and server-crashing attempts.</li>
+                            <li><b style="color:var(--text);">Entropy Analysis:</b> Detects "Chat Spam" by calculating message similarity and frequency over a 5-second window.</li>
+                            <li><b style="color:var(--text);">Command Masking:</b> Scans for hidden prefix characters (e.g., ".", ";", "/") used to trigger local exploit GUIs.</li>
+                            <li><b style="color:var(--text);">Byte-Length Validation:</b> Flags messages that exceed standard character limits to prevent buffer-related lag.</li>
                         </ul>
                     </div>
+
+                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
+                        <div style="display:flex; justify-content:space-between; align-items:start;">
+                            <strong style="color:var(--accent); font-size:1.1rem;">DevConsole Auditing</strong>
+                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                        </div>
+                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
+                            Hooks into <strong>LogService</strong> to identify executor-generated errors and print noise.
+                        </p>
+                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
+                            <li><b style="color:var(--text);">Log Scanning:</b> Scans for specific error signatures produced by popular injection frameworks (e.g., "CoreGui" access errors).</li>
+                            <li><b style="color:var(--text);">Remote Feedback:</b> Prevents exploiters from using the console to "Sniff" and print dynamic remote names during session start.</li>
+                            <li><b style="color:var(--text);">Output Suppression:</b> Automatically collapses redundant or "Spoof" logs meant to hide legitimate security flags.</li>
+                        </ul>
+                    </div>
+
                 </div>
             </div>
         </div>
