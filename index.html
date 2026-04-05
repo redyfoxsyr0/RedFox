@@ -486,77 +486,89 @@
     </section>
 
 <section class="tab-view" data-tab-view="anticheat">
-        <div class="tab-inner" style="grid-template-columns: 1fr;">
-            <div class="panel-body" style="max-width: 900px; margin: 0 auto;">
-                <div class="panel-label">Security Manual</div>
-                <div class="panel-title">Detection Vectors & Logic</div>
+    <div class="tab-inner" style="grid-template-columns: 1fr;">
+        <div class="panel-body" style="max-width: 950px; margin: 0 auto;">
+            <div class="panel-label">Security Manual</div>
+            <div class="panel-title">Detection Vectors & Logic</div>
 
-                <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap:20px; margin-top:10px;">
-                    
-                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">Fling & Fly Heuristics</strong>
-                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Monitors the <strong>HumanoidRootPart</strong> for non-associative physics changes.
-                        </p>
-                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Centrifugal Force:</b> Detects AngularVelocity spikes exceeding 100 rad/s to prevent flings.</li>
-                            <li><b style="color:var(--text);">Y-Axis Variance:</b> Identifies sustained hover states where Gravity is nullified without a seat.</li>
-                            <li><b style="color:var(--text);">State Spoofing:</b> Flags "Freefall" states exceeding maximum possible terminal velocity height.</li>
-                        </ul>
+            <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); gap:20px; margin-top:15px;">
+                
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">PHYSICS & FLING HEURISTICS</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
                     </div>
-
-                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">Workspace Integrity</strong>
-                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">MONITORING</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Detects local environment tampering and unauthorized modification of static assets.
-                        </p>
-                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Instance Protection:</b> Flags deletion of boundaries or "Kill-Bricks" via ChildRemoved listeners.</li>
-                            <li><b style="color:var(--text);">Property Auditing:</b> Detects locally modified Transparency or Size on walls (X-Ray/Hitbox detection).</li>
-                            <li><b style="color:var(--text);">Desync Analysis:</b> Identifies when client camera position deviates from expected physics constraints.</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">Chat & Social Integrity</strong>
-                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Monitors the <strong>TextChatService</strong> for automated input and command-injection attempts.
-                        </p>
-                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Entropy Analysis:</b> Detects "Chat Spam" by calculating message similarity and frequency over a 5-second window.</li>
-                            <li><b style="color:var(--text);">Command Masking:</b> Scans for hidden prefix characters (e.g., ".", ";", "/") used to trigger local exploit GUIs.</li>
-                            <li><b style="color:var(--text);">Byte-Length Validation:</b> Flags messages that exceed standard character limits to prevent buffer-related lag.</li>
-                        </ul>
-                    </div>
-
-                    <div style="background:rgba(255,255,255,0.03); padding:20px; border-radius:var(--radius-md); border:1px solid var(--border);">
-                        <div style="display:flex; justify-content:space-between; align-items:start;">
-                            <strong style="color:var(--accent); font-size:1.1rem;">DevConsole Auditing</strong>
-                            <span style="font-size:0.7rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
-                        </div>
-                        <p style="font-size:0.85rem; color:var(--muted); margin-top:8px; line-height:1.5;">
-                            Hooks into <strong>LogService</strong> to identify executor-generated errors and print noise.
-                        </p>
-                        <ul style="font-size:0.75rem; color:var(--muted); margin-top:10px; padding-left:15px; display:flex; flex-direction:column; gap:5px;">
-                            <li><b style="color:var(--text);">Log Scanning:</b> Scans for specific error signatures produced by popular injection frameworks (e.g., "CoreGui" access errors).</li>
-                            <li><b style="color:var(--text);">Remote Feedback:</b> Prevents exploiters from using the console to "Sniff" and print dynamic remote names during session start.</li>
-                            <li><b style="color:var(--text);">Output Suppression:</b> Automatically collapses redundant or "Spoof" logs meant to hide legitimate security flags.</li>
-                        </ul>
-                    </div>
-
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Centrifugal Force:</b> Monitors <code>AssemblyAngularVelocity</code>. Flags spikes exceeding 150 rad/s to stop "Spin-Flings".</li>
+                        <li><b style="color:var(--text);">Walk-Fling Logic:</b> Detects high planar speeds (>85) combined with angular velocity (>35) while grounded.</li>
+                        <li><b style="color:var(--text);">Hover Tracking:</b> Flags players maintaining near-zero Y-velocity while in a "Physics" or "Freefall" state for >1.2s.</li>
+                    </ul>
                 </div>
+
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">SPATIAL INTEGRITY (TP/NOCLIP)</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    </div>
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Dynamic Thresholds:</b> TP limits scale using <code>BaseDist + (Ping * 0.06) + (DeltaTime * 180)</code> to prevent lag-back.</li>
+                        <li><b style="color:var(--text);">Raycast Interception:</b> Fires triple-height rays (0.6 to 4.2 studs) to detect passage through solid <code>CanCollide</code> geometry.</li>
+                        <li><b style="color:var(--text);">OBB Analysis:</b> Uses <code>GetPartBoundsInBox</code> to detect if a player's hitbox is deep inside a wall for >0.15s.</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">WORKSPACE & ASSET INTEGRITY</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">MONITORING</span>
+                    </div>
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Property Auditing:</b> Flags client-side changes to <code>Transparency</code> (X-Ray) or <code>Size</code> (Hitbox Expanders).</li>
+                        <li><b style="color:var(--text);">Ancestry Protection:</b> Uses <code>ChildRemoved</code> listeners to detect deletion of map boundaries or kill-bricks.</li>
+                        <li><b style="color:var(--text);">State Restoration:</b> Optional server-side enforcement that auto-reverts unauthorized <code>CFrame</code> or <code>Material</code> edits.</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">NETWORK OBFUSCATION</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    </div>
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Masked Remotes:</b> Rejects calls to human-readable names; identifiers are randomized per-session to prevent script hardcoding.</li>
+                        <li><b style="color:var(--text);">Rate Limiting:</b> Tracks <code>RemoteWin</code> count/window; flags accounts exceeding packet budgets to stop remote spam.</li>
+                        <li><b style="color:var(--text);">Argument Scrubbing:</b> Validates incoming <code>FireServer</code> data against expected type-arrays to prevent injection.</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">ENVIRONMENT & SOCIAL AUDIT</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    </div>
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Console Noise:</b> Identifies executor-generated error signatures and injected <code>print/warn</code> noise via <code>LogService</code>.</li>
+                        <li><b style="color:var(--text);">Chat Command Hook:</b> Scans for restricted prefixes (<code>: ; ! /</code>) and flags unauthorized "Fly" or "Speed" strings.</li>
+                        <li><b style="color:var(--text);">Air Jump/Inf Jump:</b> Detects <code>Jumping</code> states while not grounded for >0.35s to stop mid-air leap spoofing.</li>
+                    </ul>
+                </div>
+
+                <div style="background:rgba(255,255,255,0.02); padding:20px; border-radius:8px; border:1px solid rgba(255,255,255,0.05);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                        <strong style="color:var(--accent); font-size:1rem; letter-spacing:0.5px;">HARDENING & RECOVERY</strong>
+                        <span style="font-size:0.65rem; color:var(--accent); border:1px solid var(--accent); padding:2px 6px; border-radius:4px;">ACTIVE</span>
+                    </div>
+                    <ul style="font-size:0.8rem; color:var(--muted); padding-left:15px; display:flex; flex-direction:column; gap:8px; line-height:1.4;">
+                        <li><b style="color:var(--text);">Smooth Recovery:</b> Upon violation, the server tweens the player to their <code>lastSafeCF</code> and resets physics.</li>
+                        <li><b style="color:var(--text);">Collision Hardening:</b> Forces all player parts into a specific <code>CollisionGroup</code> to prevent client-side physics exploit clipping.</li>
+                        <li><b style="color:var(--text);">Void Handling:</b> Automatically triggers a safe recovery if the player's Y-coordinate drops below -60.</li>
+                    </ul>
+                </div>
+
             </div>
         </div>
-    </section>
+    </div>
+</section>
 
     <section class="tab-view" data-tab-view="links">
         <div class="tab-inner">
