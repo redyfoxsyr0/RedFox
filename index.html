@@ -525,30 +525,96 @@
         </span>
     </div>
 
-    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;columns:2;">
-        <li>Fly</li>
-        <li>CFrame Fly</li>
-        <li>Hover</li>
-        <li>Float</li>
-        <li>VFly</li>
-        <li>Fling</li>
-        <li>Walk Fling</li>
-        <li>ClickTP</li>
-        <li>Teleport Exploits</li>
-        <li>Noclip</li>
-        <li>Infinite Jump</li>
-        <li>Jump Power Spoofing</li>
-        <li>Fast Climbing</li>
-        <li>Physics Fly</li>
-        <li>Head Desync</li>
-        <li>Body Desync</li>
-        <li>PlatformStand Abuse</li>
-        <li>Velocity Spoofing</li>
-        <li>FireClickDetector Abuse</li>
-        <li>Workspace Tampering</li>
-        <li>X-Ray Attempts</li>
-        <li>Hitbox Expansion</li>
-        <li>Void Abuse</li>
+    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:10px;">
+        <li>
+            <b style="color:var(--text);">Fly Detection</b><br>
+            Detects players remaining airborne without valid physics support.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">CFrame Fly Detection</b><br>
+            Detects repeated client-side position updates while bypassing normal humanoid movement.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Hover / Float Detection</b><br>
+            Detects players maintaining fixed altitude or using hidden platforms beneath their character.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Velocity Fly Detection</b><br>
+            Detects abnormal movement speeds generated through velocity manipulation.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Teleport Detection</b><br>
+            Flags large position changes that exceed legitimate movement limits.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">ClickTP Detection</b><br>
+            Detects instant movement to a clicked location without traversing intermediate space.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Noclip Detection</b><br>
+            Uses collision validation and raycasts to detect movement through solid geometry.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Infinite Jump Detection</b><br>
+            Detects additional jump attempts while the character is airborne.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Fling Detection</b><br>
+            Detects excessive velocity spikes used to launch players or physics objects.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Walk Fling Detection</b><br>
+            Detects movement-based fling techniques that abuse character collisions.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Head & Body Desync Detection</b><br>
+            Detects character parts becoming separated from expected replicated positions.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">PlatformStand Abuse Detection</b><br>
+            Detects exploit-controlled movement while the humanoid is forced into PlatformStand.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Velocity Manipulation Detection</b><br>
+            Detects unrealistic acceleration and movement generated through client-side edits.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Remote Interaction Abuse</b><br>
+            Detects automated ClickDetector interactions outside legitimate range limits.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Workspace Integrity Violations</b><br>
+            Detects unauthorized modification of protected map components and game assets.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Transparency Modification Detection</b><br>
+            Detects attempts to reveal hidden areas through transparency changes.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Hitbox Modification Detection</b><br>
+            Detects abnormal resizing of protected gameplay objects.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Void Abuse Detection</b><br>
+            Detects intentional movement outside valid map boundaries.
+        </li>
     </ul>
 </div>
 
@@ -561,18 +627,49 @@
         </span>
     </div>
 
-    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:8px;">
-        <li>Strike Based Detection System</li>
-        <li>Temporary Ban System</li>
-        <li>Permanent Ban System</li>
-        <li>Ban DataStore Persistence</li>
-        <li>Automatic Fling Recovery</li>
-        <li>Automatic Void Recovery</li>
-        <li>Safe Position Restoration</li>
-        <li>Orbital Strike Ban Effect</li>
+    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:10px;">
+        <li>
+            <b style="color:var(--text);">Violation Scoring</b><br>
+            Each detection contributes toward a strike score before punishment occurs.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Temporary Bans</b><br>
+            Repeated violations can result in temporary removal from the experience.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Permanent Bans</b><br>
+            Severe exploit detections result in permanent account restrictions.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Ban Persistence</b><br>
+            Punishments are stored and enforced across future joins.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Position Recovery</b><br>
+            Attempts to safely restore players affected by exploit-generated physics.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Void Protection</b><br>
+            Returns players to their last safe location when leaving the playable world.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Safe Position Tracking</b><br>
+            Continuously records valid recovery positions during gameplay.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Orbital Strike Effect</b><br>
+            Visual punishment sequence displayed before permanent removal.
+        </li>
     </ul>
 </div>
-
+                    
 <!-- Workspace Integrity -->
 <div class="detection-card" style="background:rgba(255,255,255,0.02);padding:20px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -582,20 +679,45 @@
         </span>
     </div>
 
-    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:8px;">
-        <li>Protected Map Monitoring</li>
-        <li>Part Deletion Detection</li>
-        <li>Part Movement Detection</li>
-        <li>Name Change Detection</li>
-        <li>Parent Change Detection</li>
-        <li>Transparency Modification Detection</li>
-        <li>Size Modification Detection</li>
-        <li>Anchored State Monitoring</li>
-        <li>Collision State Monitoring</li>
-        <li>Optional Automatic Restoration</li>
+    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:10px;">
+        <li>
+            <b style="color:var(--text);">Protected Map Monitoring</b><br>
+            Tracks important game objects for unauthorized modification.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Part Deletion Detection</b><br>
+            Detects removal of protected map components.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Part Movement Detection</b><br>
+            Detects unexpected repositioning of protected objects.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Property Change Detection</b><br>
+            Detects changes to transparency, collision, size, material, and other protected properties.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Parent Change Detection</b><br>
+            Detects protected objects being moved outside their expected hierarchy.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Collision Monitoring</b><br>
+            Detects unauthorized collision state modifications.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Automatic Restoration</b><br>
+            Optionally restores modified objects to their original state.
+        </li>
     </ul>
 </div>
 
+<!-- Protection Systems -->
 <!-- Protection Systems -->
 <div class="detection-card" style="background:rgba(255,255,255,0.02);padding:20px;border-radius:8px;border:1px solid rgba(255,255,255,0.05);">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
@@ -605,16 +727,53 @@
         </span>
     </div>
 
-    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:8px;">
-        <li>No Player Collision Hardening</li>
-        <li>Safe Position Tracking</li>
-        <li>Lag Compensation</li>
-        <li>Ground Verification</li>
-        <li>Multi-Raycast Noclip Detection</li>
-        <li>Blockcast Collision Validation</li>
-        <li>Inside-Wall Detection</li>
-        <li>Automatic Recovery Grace System</li>
-        <li>Protected Workspace Monitoring</li>
+    <ul style="font-size:0.8rem;color:var(--muted);padding-left:15px;display:flex;flex-direction:column;gap:10px;">
+
+        <li>
+            <b style="color:var(--text);">Collision Hardening</b><br>
+            Uses collision groups and server validation to reduce collision-based exploit abuse and player flinging.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Safe Position Tracking</b><br>
+            Continuously records valid player locations for recovery after exploit attempts or physics failures.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Lag Compensation</b><br>
+            Adjusts detection thresholds based on latency and frame timing to reduce false positives.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Ground Verification</b><br>
+            Verifies that airborne movement is supported by a legitimate surface before allowing movement states.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Multi-Raycast Collision Analysis</b><br>
+            Uses multiple raycasts around the character to identify wall clipping and noclip attempts.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Blockcast Collision Validation</b><br>
+            Performs volume-based collision checks to detect characters occupying solid geometry.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Inside-Wall Detection</b><br>
+            Detects players positioned within map geometry or protected structures.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Recovery Grace System</b><br>
+            Applies temporary recovery periods after corrective actions to prevent punishment loops and false detections.
+        </li>
+
+        <li>
+            <b style="color:var(--text);">Protected Workspace Monitoring</b><br>
+            Monitors critical map assets and protected objects for unauthorized modification or removal.
+        </li>
+
     </ul>
 </div>
     </section>
