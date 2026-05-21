@@ -5,326 +5,661 @@
     <title>RedFox | Anti-Cheat Architect</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <style>
         :root {
             --bg: #050509;
             --accent: #ff2b4f;
             --accent2: #ff5b7f;
             --accent3: #9b5cff;
+            --green: #7CFF8A;
+            --yellow: #FFD45B;
             --text: #f5f5f7;
-            --muted: #8b8b99;
-            --card: rgba(15, 15, 30, 0.96);
+            --muted: #9a9aaa;
+            --card: rgba(15, 15, 30, 0.94);
             --border: rgba(255, 255, 255, 0.08);
             --radius-lg: 24px;
             --radius-md: 16px;
             --radius-pill: 999px;
-            --blur: 24px;
+            --blur: 22px;
         }
 
-        * { margin:0; padding:0; box-sizing:border-box; }
-        html, body {
-            height:100%;
-            background: #050509;
-            color:var(--text);
-            font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
-            overflow:hidden;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
-        /* Background Layers */
-        #particles { position:fixed; inset:0; z-index:-3; }
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            background: var(--bg);
+            color: var(--text);
+            font-family: "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            overflow: hidden;
+        }
+
+        body {
+            background:
+                radial-gradient(circle at top left, rgba(255, 43, 79, 0.16), transparent 34%),
+                radial-gradient(circle at bottom right, rgba(155, 92, 255, 0.16), transparent 34%),
+                #050509;
+        }
+
+        #particles {
+            position: fixed;
+            inset: 0;
+            z-index: -3;
+        }
+
+        .grid-bg {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(155, 92, 255, 0.04) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(155, 92, 255, 0.04) 1px, transparent 1px);
+            background-size: 64px 64px;
+            z-index: -2;
+            opacity: 0.7;
+        }
+
         .scanlines {
-            position:fixed;
-            inset:0;
+            position: fixed;
+            inset: 0;
             background: repeating-linear-gradient(
                 to bottom,
                 transparent 0px,
-                transparent 2px,
-                rgba(255,43,79,0.035) 2px,
-                rgba(255,43,79,0.035) 4px
+                transparent 3px,
+                rgba(255, 43, 79, 0.025) 3px,
+                rgba(255, 43, 79, 0.025) 4px
             );
-            pointer-events:none;
-            z-index:-1;
-            animation: scan 8s linear infinite;
-        }
-        .grid-bg {
-            position:fixed;
-            inset:0;
-            background-image: 
-                linear-gradient(rgba(155,92,255,0.04) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(155,92,255,0.04) 1px, transparent 1px);
-            background-size: 60px 60px;
-            z-index:-2;
-            opacity: 0.6;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.55;
         }
 
         .app-shell {
-            height:100vh;
-            display:flex;
-            flex-direction:column;
-            padding:20px clamp(20px, 5vw, 48px);
-            gap:20px;
-            position:relative;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px clamp(18px, 5vw, 48px);
+            gap: 18px;
         }
 
-        /* Header */
         header {
-            display:flex;
-            align-items:center;
-            justify-content:space-between;
-            gap:20px;
-            z-index:10;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            z-index: 10;
         }
+
         .brand {
-            display:flex;
-            align-items:center;
-            gap:14px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
         }
+
         .brand-logo {
-            width:52px;
-            height:52px;
-            border-radius:16px;
-            overflow:hidden;
-            box-shadow:0 0 30px rgba(255,43,79,0.6),
-                       inset 0 0 20px rgba(255,255,255,0.2);
-            transition:0.4s;
+            width: 52px;
+            height: 52px;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 0 26px rgba(255, 43, 79, 0.45);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            transition: 0.25s ease;
         }
+
         .brand:hover .brand-logo {
-            transform:rotate(8deg) scale(1.08);
+            transform: rotate(4deg) scale(1.04);
         }
+
+        .brand-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
         .brand-text {
-            display:flex;
-            flex-direction:column;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
         }
+
         .brand-name {
-            font-weight:900;
-            letter-spacing:0.12em;
-            font-size:1.1rem;
-            text-transform:uppercase;
-            background:linear-gradient(90deg, #ff2b4f, #9b5cff);
-            -webkit-background-clip:text;
-            -webkit-text-fill-color:transparent;
+            font-weight: 900;
+            letter-spacing: 0.12em;
+            font-size: 1.05rem;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--accent), var(--accent3));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .brand-tagline {
+            font-size: 0.78rem;
+            color: var(--accent2);
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
         }
 
         nav {
-            display:flex;
-            gap:6px;
-            padding:6px;
-            border-radius:var(--radius-pill);
-            background:rgba(255,255,255,0.04);
-            border:1px solid rgba(255,255,255,0.1);
-            backdrop-filter:blur(20px);
-        }
-        .nav-pill {
-            padding:10px 22px;
-            border-radius:var(--radius-pill);
-            font-size:0.82rem;
-            font-weight:600;
-            text-transform:uppercase;
-            letter-spacing:0.08em;
-            color:var(--muted);
-            transition:all 0.3s cubic-bezier(0.23,1,0.32,1);
-        }
-        .nav-pill.active,
-        .nav-pill:hover {
-            color:white;
-            background:rgba(255,43,79,0.15);
-            box-shadow:0 0 20px rgba(255,43,79,0.3);
-            transform:translateY(-2px);
+            display: flex;
+            gap: 6px;
+            padding: 6px;
+            border-radius: var(--radius-pill);
+            background: rgba(255, 255, 255, 0.045);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
         }
 
-        /* Main Content */
+        .nav-pill {
+            padding: 10px 20px;
+            border-radius: var(--radius-pill);
+            font-size: 0.78rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: all 0.22s ease;
+        }
+
+        .nav-pill.active,
+        .nav-pill:hover {
+            color: white;
+            background: rgba(255, 43, 79, 0.14);
+            box-shadow: 0 0 20px rgba(255, 43, 79, 0.22);
+            transform: translateY(-1px);
+        }
+
         .main-shell {
-            position:relative;
-            flex:1;
-            min-height:0;
-            overflow:hidden;
+            position: relative;
+            flex: 1;
+            min-height: 0;
+            overflow: hidden;
         }
 
         .tab-view {
-            position:absolute;
-            inset:0;
-            opacity:0;
-            pointer-events:none;
-            transform:scale(0.92) translateY(20px);
-            transition:all 0.5s cubic-bezier(0.23,1,0.32,1);
-        }
-        .tab-view.active {
-            opacity:1;
-            pointer-events:auto;
-            transform:scale(1) translateY(0);
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.97) translateY(14px);
+            filter: blur(3px);
+            transition: all 0.34s ease;
         }
 
-        /* Glitch */
-        .glitch {
-            position:relative;
-            display:inline-block;
+        .tab-view.active {
+            opacity: 1;
+            pointer-events: auto;
+            transform: scale(1) translateY(0);
+            filter: blur(0);
         }
+
+        .tab-scroll {
+            height: 100%;
+            overflow-y: auto;
+            padding-right: 12px;
+        }
+
+        .tab-scroll::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .tab-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+        }
+
+        .tab-scroll::-webkit-scrollbar-thumb {
+            background: linear-gradient(var(--accent), var(--accent3));
+            border-radius: 20px;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+            gap: 40px;
+            height: 100%;
+            align-items: center;
+        }
+
+        .hero {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 18px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 7vw, 5.2rem);
+            font-weight: 950;
+            line-height: 1.02;
+            letter-spacing: -0.035em;
+        }
+
+        .hero-kicker {
+            font-size: clamp(1.2rem, 2vw, 1.8rem);
+            color: rgba(255, 255, 255, 0.9);
+            margin-top: -8px;
+        }
+
+        .hero-subtitle {
+            font-size: 1.05rem;
+            max-width: 680px;
+            color: var(--muted);
+            line-height: 1.65;
+        }
+
+        .glitch {
+            position: relative;
+            display: inline-block;
+        }
+
         .glitch::before,
         .glitch::after {
-            content:attr(data-text);
-            position:absolute;
-            inset:0;
-            opacity:0.9;
+            content: attr(data-text);
+            position: absolute;
+            inset: 0;
+            opacity: 0.45;
+            pointer-events: none;
         }
+
         .glitch::before {
-            animation:glitch-anim 1.2s infinite linear alternate-reverse;
-            color:#ff2b4f;
-            left:2px;
-            text-shadow:-2px 0 #00ffff;
-            clip-path:polygon(0 0, 100% 0, 100% 33%, 0 33%);
+            color: var(--accent);
+            left: 2px;
+            text-shadow: -2px 0 #00ffff;
+            clip-path: polygon(0 0, 100% 0, 100% 36%, 0 36%);
+            animation: glitchTop 2.2s infinite linear alternate-reverse;
         }
+
         .glitch::after {
-            animation:glitch-anim2 1.4s infinite linear alternate-reverse;
-            color:#9b5cff;
-            left:-2px;
-            text-shadow:2px 0 #ff00ff;
-            clip-path:polygon(0 67%, 100% 67%, 100% 100%, 0 100%);
+            color: var(--accent3);
+            left: -2px;
+            text-shadow: 2px 0 #ff00ff;
+            clip-path: polygon(0 62%, 100% 62%, 100% 100%, 0 100%);
+            animation: glitchBottom 2.6s infinite linear alternate-reverse;
         }
 
-        @keyframes glitch-anim {
-            0% { transform:translate(0); }
-            20% { transform:translate(-3px, 3px); }
-            40% { transform:translate(3px, -3px); }
-            60% { transform:translate(-2px, 2px); }
-            100% { transform:translate(2px, -2px); }
-        }
-        @keyframes glitch-anim2 {
-            0% { transform:translate(0); }
-            30% { transform:translate(3px, -3px); }
-            50% { transform:translate(-3px, 3px); }
-            80% { transform:translate(2px, -2px); }
+        @keyframes glitchTop {
+            0%, 100% { transform: translate(0, 0); }
+            20% { transform: translate(-1px, 1px); }
+            50% { transform: translate(2px, -1px); }
+            80% { transform: translate(-2px, 0); }
         }
 
-        /* Hero */
-        .hero {
-            display:flex;
-            flex-direction:column;
-            justify-content:center;
-            gap:20px;
-            height:100%;
+        @keyframes glitchBottom {
+            0%, 100% { transform: translate(0, 0); }
+            30% { transform: translate(2px, -1px); }
+            60% { transform: translate(-1px, 2px); }
+            85% { transform: translate(1px, -2px); }
         }
-        .hero-title {
-            font-size:clamp(3rem, 7vw, 5.2rem);
-            font-weight:900;
-            line-height:1.05;
-            letter-spacing:-0.03em;
+
+        .neon-text {
+            text-shadow:
+                0 0 10px rgba(255, 43, 79, 0.42),
+                0 0 26px rgba(255, 43, 79, 0.22),
+                0 0 44px rgba(155, 92, 255, 0.18);
         }
-        .hero-subtitle {
-            font-size:1.1rem;
-            max-width:620px;
-            color:var(--muted);
-            line-height:1.5;
+
+        .btn-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px;
+            margin-top: 18px;
         }
 
         .btn {
-            display:inline-flex;
-            align-items:center;
-            gap:10px;
-            padding:14px 28px;
-            border-radius:var(--radius-pill);
-            font-weight:600;
-            font-size:0.95rem;
-            cursor:pointer;
-            transition:all 0.3s cubic-bezier(0.23,1,0.32,1);
-            position:relative;
-            overflow:hidden;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 13px 24px;
+            border-radius: var(--radius-pill);
+            border: 1px solid rgba(255, 255, 255, 0.14);
+            background: rgba(255, 255, 255, 0.045);
+            color: var(--text);
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: all 0.22s ease;
+            overflow: hidden;
         }
-        .btn::before {
-            content:'';
-            position:absolute;
-            inset:0;
-            background:linear-gradient(120deg, transparent, rgba(255,255,255,0.3), transparent);
-            transform:translateX(-150%);
-            transition:0.6s;
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 28px rgba(0, 0, 0, 0.45);
         }
-        .btn:hover::before {
-            transform:translateX(300%);
-        }
+
         .btn-primary {
-            background:linear-gradient(110deg, #ff2b4f, #ff5b7f, #9b5cff);
-            box-shadow:0 0 30px rgba(255,43,79,0.6);
-            border:none;
-        }
-        .btn-primary:hover {
-            transform:scale(1.05) translateY(-4px);
-            box-shadow:0 0 50px rgba(255,43,79,0.8);
+            border: none;
+            background: linear-gradient(110deg, var(--accent), var(--accent2), var(--accent3));
+            box-shadow: 0 0 30px rgba(255, 43, 79, 0.42);
         }
 
-        /* Cards */
         .card {
-            background:linear-gradient(145deg, rgba(18,18,38,0.98), rgba(8,8,20,0.98));
-            border:1px solid rgba(255,255,255,0.1);
-            border-radius:var(--radius-lg);
-            padding:28px;
-            box-shadow:0 20px 60px rgba(0,0,0,0.7),
-                       inset 0 0 40px rgba(255,43,79,0.08);
-            transition:all 0.4s cubic-bezier(0.23,1,0.32,1);
-            position:relative;
-            overflow:hidden;
+            background: linear-gradient(145deg, rgba(18, 18, 38, 0.96), rgba(8, 8, 20, 0.96));
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-lg);
+            padding: 26px;
+            box-shadow:
+                0 20px 60px rgba(0, 0, 0, 0.55),
+                inset 0 0 34px rgba(255, 43, 79, 0.055);
+            backdrop-filter: blur(var(--blur));
+            position: relative;
+            overflow: hidden;
+            transition: all 0.24s ease;
         }
+
         .card:hover {
-            transform:translateY(-12px) rotate(1deg);
-            box-shadow:0 30px 80px rgba(255,43,79,0.25);
-        }
-        .card::before {
-            content:'';
-            position:absolute;
-            top:-50%;
-            left:-50%;
-            width:60%;
-            height:60%;
-            background:radial-gradient(circle, rgba(255,255,255,0.15), transparent 70%);
-            opacity:0;
-            transition:0.6s;
-            pointer-events:none;
-        }
-        .card:hover::before {
-            opacity:1;
-            top:20%;
-            left:30%;
+            transform: translateY(-5px);
+            border-color: rgba(255, 43, 79, 0.35);
+            box-shadow: 0 24px 70px rgba(255, 43, 79, 0.13);
         }
 
-        /* Detection Cards */
-        .detection-card {
-            background:rgba(255,255,255,0.025);
-            border:1px solid rgba(255,43,79,0.15);
-            transition:all 0.3s ease;
-        }
-        .detection-card:hover {
-            border-color:var(--accent);
-            transform:translateY(-6px);
-            box-shadow:0 0 25px rgba(255,43,79,0.2);
+        .engine-card {
+            max-width: 430px;
+            margin-left: auto;
         }
 
-        /* Overkill Effects */
-        .neon-text {
-            text-shadow: 
-                0 0 10px var(--accent),
-                0 0 20px var(--accent),
-                0 0 40px var(--accent3);
+        .engine-header {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 20px;
         }
 
-        @keyframes float {
-            0%,100% { transform:translateY(0); }
-            50% { transform:translateY(-20px); }
+        .engine-avatar {
+            width: 78px;
+            height: 78px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 30px rgba(255, 43, 79, 0.42);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+        }
+
+        .engine-avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .status-line {
+            color: var(--green);
+            display: flex;
+            align-items: center;
+            gap: 7px;
+            font-size: 0.82rem;
+            margin-top: 4px;
         }
 
         .status-dot {
-            display:inline-block;
-            width:10px;
-            height:10px;
-            background:#7CFF8A;
-            border-radius:50%;
-            box-shadow:0 0 12px #7CFF8A;
-            animation:pulse 2s infinite;
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: var(--green);
+            border-radius: 50%;
+            box-shadow: 0 0 14px var(--green);
+            animation: pulse 2s infinite;
         }
 
         @keyframes pulse {
-            0%,100% { opacity:1; }
-            50% { opacity:0.4; }
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.45; transform: scale(0.85); }
+        }
+
+        .engine-art {
+            background: rgba(255, 43, 79, 0.07);
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            margin: 20px 0;
+            border: 1px dashed rgba(255, 43, 79, 0.2);
+        }
+
+        .engine-art img {
+            width: 140px;
+            filter: drop-shadow(0 0 20px rgba(255, 43, 79, 0.65));
+        }
+
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 12px;
+            margin-top: 18px;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+            border-radius: 14px;
+            padding: 14px;
+        }
+
+        .stat-value {
+            font-size: 1.35rem;
+            font-weight: 850;
+            color: var(--text);
+        }
+
+        .stat-label {
+            font-size: 0.78rem;
+            color: var(--muted);
+            margin-top: 2px;
+        }
+
+        .about-wrap,
+        .links-wrap,
+        .ac-wrap {
+            max-width: 1120px;
+            margin: 0 auto;
+            padding: 28px 0 42px;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 4vw, 3rem);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            color: var(--muted);
+            text-align: center;
+            max-width: 780px;
+            margin: 0 auto 28px;
+            line-height: 1.65;
+        }
+
+        .panel-label {
+            font-size: 0.76rem;
+            text-transform: uppercase;
+            letter-spacing: 0.18em;
+            color: rgba(255, 255, 255, 0.58);
+            margin-bottom: 8px;
+        }
+
+        .panel-title {
+            font-size: 1.35rem;
+            font-weight: 850;
+            margin-bottom: 12px;
+        }
+
+        .panel-text {
+            font-size: 1rem;
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .cap-grid {
+            margin-top: 28px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 16px;
+        }
+
+        .cap-card {
+            background: rgba(255, 255, 255, 0.035);
+            border: 1px solid rgba(255, 255, 255, 0.075);
+            border-radius: 16px;
+            padding: 18px;
+        }
+
+        .cap-card h3 {
+            font-size: 0.98rem;
+            margin-bottom: 8px;
+        }
+
+        .cap-card p {
+            font-size: 0.86rem;
+            color: var(--muted);
+            line-height: 1.55;
+        }
+
+        .detection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(430px, 1fr));
+            gap: 22px;
+        }
+
+        .detection-card {
+            background: rgba(255, 255, 255, 0.026);
+            border: 1px solid rgba(255, 43, 79, 0.14);
+            border-radius: 18px;
+            padding: 22px;
+            transition: all 0.23s ease;
+        }
+
+        .detection-card:hover {
+            border-color: rgba(255, 43, 79, 0.45);
+            transform: translateY(-4px);
+            box-shadow: 0 0 28px rgba(255, 43, 79, 0.14);
+        }
+
+        .card-head {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 14px;
+        }
+
+        .card-head strong {
+            color: var(--accent);
+            font-size: 1rem;
+            letter-spacing: 0.03em;
+        }
+
+        .badge {
+            font-size: 0.65rem;
+            padding: 3px 7px;
+            border-radius: 6px;
+            border: 1px solid var(--accent);
+            color: var(--accent);
+            white-space: nowrap;
+        }
+
+        .badge.green {
+            border-color: var(--green);
+            color: var(--green);
+        }
+
+        .badge.yellow {
+            border-color: var(--yellow);
+            color: var(--yellow);
+        }
+
+        .info-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 11px;
+            color: var(--muted);
+            font-size: 0.82rem;
+            line-height: 1.48;
+        }
+
+        .info-list b {
+            color: var(--text);
+        }
+
+        .info-list.compact {
+            gap: 8px;
+        }
+
+        .info-list.compact li::before {
+            content: "✓";
+            color: var(--green);
+            margin-right: 7px;
+        }
+
+        .links-card {
+            text-align: center;
+            max-width: 760px;
+            margin: 0 auto;
+        }
+
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 14px;
+            margin-top: 24px;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 0.82rem;
+            color: var(--muted);
+            padding: 8px 0 2px;
+        }
+
+        @media (max-width: 900px) {
+            body {
+                overflow: auto;
+            }
+
+            .app-shell {
+                height: auto;
+                min-height: 100vh;
+            }
+
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            nav {
+                width: 100%;
+                overflow-x: auto;
+            }
+
+            .main-shell {
+                overflow: visible;
+                min-height: 980px;
+            }
+
+            .hero-grid {
+                grid-template-columns: 1fr;
+                align-items: start;
+                padding-top: 24px;
+            }
+
+            .engine-card {
+                margin-left: 0;
+                max-width: none;
+            }
+
+            .detection-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
+
 <body>
     <canvas id="particles"></canvas>
     <div class="grid-bg"></div>
@@ -338,60 +673,79 @@
                 </div>
                 <div class="brand-text">
                     <div class="brand-name">REDFOX</div>
-                    <div style="font-size:0.8rem; color:#ff5b7f; letter-spacing:2px;">ANTI-CHEAT ARCHITECT</div>
+                    <div class="brand-tagline">Anti-Cheat Architect</div>
                 </div>
             </div>
+
             <nav>
-                <button class="nav-pill active" data-tab="home">HOME</button>
-                <button class="nav-pill" data-tab="about">PHILOSOPHY</button>
-                <button class="nav-pill" data-tab="anticheat">DETECTIONS</button>
-                <button class="nav-pill" data-tab="links">CONNECT</button>
+                <button class="nav-pill active" data-tab="home">Home</button>
+                <button class="nav-pill" data-tab="about">Philosophy</button>
+                <button class="nav-pill" data-tab="anticheat">Detections</button>
+                <button class="nav-pill" data-tab="links">Connect</button>
             </nav>
         </header>
 
-        <div class="main-shell">
+        <main class="main-shell">
             <!-- HOME -->
             <section class="tab-view active" data-tab-view="home">
-                <div style="display:grid; grid-template-columns:1.1fr 1fr; gap:40px; height:100%; align-items:center;">
+                <div class="hero-grid">
                     <div class="hero">
                         <h1 class="hero-title neon-text">
                             <span class="glitch" data-text="REDFOX">REDFOX</span>
                         </h1>
-                        <p style="font-size:1.8rem; margin-top:-10px; opacity:0.9;">Anti-Cheat Architect</p>
+                        <p class="hero-kicker">Anti-Cheat Architect</p>
                         <p class="hero-subtitle">
-                            Next-generation exploit prevention. Built with obsession.<br>
-                            <span style="color:var(--accent);">Zero tolerance. Zero mercy.</span>
+                            Creator of the <strong>RedFox Anti-Cheat</strong> — an advanced security framework designed to detect, analyze, and neutralize exploit behavior before it can impact legitimate gameplay.
+                            Built around movement analysis, physics validation, workspace integrity monitoring, exploit detection, and automated enforcement systems.
                         </p>
-                        <div style="display:flex; gap:16px; margin-top:30px;">
+
+                        <div class="btn-row">
                             <a class="btn btn-primary" href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank">
-                                <i class="fas fa-bolt"></i> DEPLOY ANTI-CHEAT
+                                <i class="fas fa-shield-halved"></i> View Anti-Cheat
                             </a>
-                            <button class="btn" onclick="switchTab('about')" style="border:1px solid rgba(255,255,255,0.2);">
-                                <i class="fas fa-eye"></i> ENTER THE CORE
+                            <button class="btn" data-tab-trigger="about">
+                                <i class="fas fa-eye"></i> Read Philosophy
                             </button>
                         </div>
                     </div>
 
-                    <div>
-                        <div class="card" style="max-width:420px; margin-left:auto;">
-                            <div style="display:flex; align-items:center; gap:18px; margin-bottom:20px;">
-                                <div style="width:78px; height:78px; border-radius:20px; overflow:hidden; box-shadow:0 0 30px rgba(255,43,79,0.5);">
-                                    <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png" style="width:100%; height:100%; object-fit:cover;">
-                                </div>
-                                <div>
-                                    <div style="font-size:1.35rem; font-weight:700;">RedFox AC v2.4</div>
-                                    <div style="color:#7CFF8A; display:flex; align-items:center; gap:6px;">
-                                        <span class="status-dot"></span> ONLINE • MONITORING 12K SESSIONS
-                                    </div>
-                                </div>
+                    <div class="card engine-card">
+                        <div class="engine-header">
+                            <div class="engine-avatar">
+                                <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png" alt="RedFox Engine">
                             </div>
-                            <div style="background:rgba(255,43,79,0.08); padding:18px; border-radius:12px; text-align:center; margin:20px 0;">
-                                <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/BCO.ec97eea1-c620-4d7e-8740-596cffce8ca2.png" 
-                                     style="width:140px; filter:drop-shadow(0 0 20px #ff2b4f);">
+                            <div>
+                                <div style="font-size:1.35rem;font-weight:800;">RedFox Security Core</div>
+                                <div style="font-size:0.86rem;color:var(--muted);">Security Engine v2.4</div>
+                                <div class="status-line"><span class="status-dot"></span> Active Development</div>
                             </div>
-                            <p style="text-align:center; font-size:0.95rem; color:var(--muted);">
-                                47 exploits neutralized in the last 24 hours.
-                            </p>
+                        </div>
+
+                        <div class="engine-art">
+                            <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/BCO.ec97eea1-c620-4d7e-8740-596cffce8ca2.png" alt="RedFox Core Icon">
+                        </div>
+
+                        <p class="panel-text" style="text-align:center;">
+                            Safeguarding integrated experiences through movement validation, physics analysis, exploit pattern recognition, workspace integrity monitoring, and automated enforcement systems.
+                        </p>
+
+                        <div class="stat-grid">
+                            <div class="stat-box">
+                                <div class="stat-value">20+</div>
+                                <div class="stat-label">Detection Systems</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">Realtime</div>
+                                <div class="stat-label">Movement Analysis</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">Active</div>
+                                <div class="stat-label">Workspace Guard</div>
+                            </div>
+                            <div class="stat-box">
+                                <div class="stat-value">Smart</div>
+                                <div class="stat-label">Strike Enforcement</div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -399,54 +753,147 @@
 
             <!-- ABOUT -->
             <section class="tab-view" data-tab-view="about">
-                <div style="max-width:860px; margin:0 auto; padding-top:40px;">
-                    <h2 style="font-size:2.8rem; text-align:center; margin-bottom:30px;">The Philosophy</h2>
-                    <div class="card">
-                        <p style="font-size:1.1rem; line-height:1.8; color:var(--muted);">
-                            Anti-cheat isn't just code — it's psychological warfare against exploiters.<br><br>
-                            I study every exploit like an enemy general studies the battlefield. Reverse-engineer, recreate, then annihilate.
+                <div class="tab-scroll">
+                    <div class="about-wrap">
+                        <h2 class="section-title">The Philosophy</h2>
+                        <p class="section-subtitle">
+                            RedFox is built around the idea that exploit prevention starts with understanding exploit behavior.
                         </p>
-                        <div style="margin-top:40px; display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:20px;">
-                            <div class="card" style="text-align:center;">
-                                <h3 style="color:var(--accent);">Movement God</h3>
-                                <p>Physics validation at 60Hz with predictive modeling</p>
+
+                        <div class="card">
+                            <div class="panel-label">Developer Profile</div>
+                            <div class="panel-title">Philosophy</div>
+
+                            <p class="panel-text">
+                                Effective anti-cheat systems are not measured by how many players they ban, but by how effectively they prevent unfair advantages from impacting legitimate gameplay. RedFox focuses on proactive detection, intelligent recovery systems, and behavioral analysis to stop exploit abuse before it becomes a problem.
+                            </p>
+
+                            <p class="panel-text" style="margin-top:18px;">
+                                I believe the key to patching exploits is understanding them first. Every detection inside RedFox is built from researching how exploit methods work, reproducing them in controlled tests, and designing protections around their behavior rather than relying on simple signatures.
+                            </p>
+
+                            <p class="panel-text" style="margin-top:18px;">
+                                By studying exploits from both the developer and attacker perspective, RedFox can identify weaknesses, build stronger protections, and adapt to new bypass techniques as they emerge.
+                            </p>
+                        </div>
+
+                        <div class="cap-grid">
+                            <div class="cap-card">
+                                <h3 style="color:var(--accent);">Movement Analysis</h3>
+                                <p>Detects fly, noclip, teleport, fling, desync, hover, CFrame abuse, and advanced movement exploits.</p>
                             </div>
-                            <div class="card" style="text-align:center;">
-                                <h3 style="color:var(--accent3);">Workspace Guardian</h3>
-                                <p>Real-time integrity monitoring + auto-restore</p>
+                            <div class="cap-card">
+                                <h3 style="color:var(--green);">Workspace Integrity</h3>
+                                <p>Monitors protected assets for deletion, modification, relocation, collision changes, and tampering attempts.</p>
+                            </div>
+                            <div class="cap-card">
+                                <h3 style="color:var(--accent3);">Intelligent Enforcement</h3>
+                                <p>Uses strike-based punishment, recovery systems, ban persistence, and visual response effects.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- ANTICHEAT -->
-            <section class="tab-view" data-tab-view="anticheat" style="overflow-y:auto; padding-right:20px;">
-                <div style="max-width:1100px; margin:0 auto; padding:30px 0;">
-                    <div style="text-align:center; margin-bottom:40px;">
-                        <span class="status-dot"></span>
-                        <span style="font-size:1.4rem; font-weight:700; letter-spacing:3px;">LIVE THREAT DETECTION MATRIX</span>
-                    </div>
+            <!-- ANTI-CHEAT -->
+            <section class="tab-view" data-tab-view="anticheat">
+                <div class="tab-scroll">
+                    <div class="ac-wrap">
+                        <h2 class="section-title">Detection Vectors</h2>
+                        <p class="section-subtitle">
+                            A readable breakdown of what RedFox detects, how each system works, and why it matters for fair gameplay.
+                        </p>
 
-                    <div style="display:grid; grid-template-columns:repeat(auto-fit, minmax(460px, 1fr)); gap:24px;">
-                        <!-- Latest Updates -->
-                        <div class="detection-card card">
-                            <h3 style="color:#7CFF8A; margin-bottom:16px; display:flex; align-items:center; gap:10px;">
-                                <i class="fas fa-rocket"></i> LATEST WEAPONRY v2.4
-                            </h3>
-                            <ul style="list-style:none; line-height:2.1; font-size:1rem;">
-                                <li>✅ CFrame Fly • Hover • Desync</li>
-                                <li>✅ ClickTP • WASD TP</li>
-                                <li>✅ FireClickDetector Abuse</li>
-                                <li>✅ Orbital Strike Punishment</li>
-                            </ul>
-                        </div>
+                        <div class="detection-grid">
+                            <!-- Latest Updates -->
+                            <div class="detection-card">
+                                <div class="card-head">
+                                    <strong><i class="fas fa-rocket"></i> Latest Updates</strong>
+                                    <span class="badge green">v2.4</span>
+                                </div>
+                                <ul class="info-list compact">
+                                    <li>Added CFrame Fly, Hover, Float, and Desync detection.</li>
+                                    <li>Added ClickTP, WASD teleport, and snap movement checks.</li>
+                                    <li>Added FireClickDetector abuse protection.</li>
+                                    <li>Added Workspace Integrity monitoring.</li>
+                                    <li>Added Orbital Strike punishment effect.</li>
+                                    <li>Improved noclip raycast and blockcast validation.</li>
+                                    <li>Improved fling recovery and void recovery systems.</li>
+                                </ul>
+                            </div>
 
-                        <!-- Detections -->
-                        <div class="detection-card card">
-                            <h3 style="color:var(--accent);">ACTIVE DETECTION VECTORS</h3>
-                            <div style="max-height:520px; overflow-y:auto; padding-right:15px; font-size:0.95rem; line-height:1.9;">
-                                <strong>Fly • CFrame • Hover • Velocity • Teleport • Noclip • Fling • Desync • Hitbox • Workspace Tampering</strong>
+                            <!-- Detected Exploits -->
+                            <div class="detection-card">
+                                <div class="card-head">
+                                    <strong><i class="fas fa-crosshairs"></i> Detected Exploits</strong>
+                                    <span class="badge">Live</span>
+                                </div>
+                                <ul class="info-list">
+                                    <li><b>Fly Detection</b><br>Detects players remaining airborne without valid physics support or a legitimate movement state.</li>
+                                    <li><b>CFrame Fly Detection</b><br>Detects repeated client-side position updates that bypass normal humanoid movement and physics.</li>
+                                    <li><b>Hover / Float Detection</b><br>Detects players maintaining fixed altitude or using hidden platforms beneath their character.</li>
+                                    <li><b>Velocity Fly Detection</b><br>Detects abnormal movement generated through velocity manipulation or physics abuse.</li>
+                                    <li><b>Teleport / ClickTP Detection</b><br>Flags large position changes that exceed legitimate movement limits or happen too quickly.</li>
+                                    <li><b>Noclip Detection</b><br>Uses raycasts, blockcasts, and collision validation to detect movement through solid geometry.</li>
+                                    <li><b>Infinite Jump Detection</b><br>Detects repeated jump behavior while the character is already airborne.</li>
+                                    <li><b>Fling / Walk Fling Detection</b><br>Detects excessive velocity spikes and angular velocity abuse used to fling players or objects.</li>
+                                    <li><b>Head & Body Desync Detection</b><br>Detects character parts becoming separated from expected replicated positions.</li>
+                                    <li><b>PlatformStand Abuse Detection</b><br>Detects exploit-controlled movement while the humanoid is forced into PlatformStand.</li>
+                                    <li><b>Remote Interaction Abuse</b><br>Detects automated ClickDetector interactions outside legitimate range limits.</li>
+                                    <li><b>Void Abuse Detection</b><br>Detects intentional movement outside valid map boundaries and triggers safe recovery.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Punishment System -->
+                            <div class="detection-card">
+                                <div class="card-head">
+                                    <strong><i class="fas fa-gavel"></i> Punishment System</strong>
+                                    <span class="badge yellow">Active</span>
+                                </div>
+                                <ul class="info-list">
+                                    <li><b>Violation Scoring</b><br>Each detection contributes toward a strike score before stronger punishment occurs.</li>
+                                    <li><b>Temporary Bans</b><br>Repeated violations can result in temporary removal from the experience.</li>
+                                    <li><b>Permanent Bans</b><br>Severe or repeated exploit detections can result in permanent account restrictions.</li>
+                                    <li><b>Ban Persistence</b><br>Punishments are stored and enforced across future joins using persistent ban data.</li>
+                                    <li><b>Position Recovery</b><br>Attempts to safely restore players affected by exploit-generated physics or desync.</li>
+                                    <li><b>Void Protection</b><br>Returns players to their last safe location when they fall outside the playable world.</li>
+                                    <li><b>Orbital Strike Effect</b><br>Visual punishment sequence displayed before removal from the server.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Workspace Integrity -->
+                            <div class="detection-card">
+                                <div class="card-head">
+                                    <strong><i class="fas fa-cubes"></i> Workspace Integrity</strong>
+                                    <span class="badge">Active</span>
+                                </div>
+                                <ul class="info-list">
+                                    <li><b>Protected Map Monitoring</b><br>Tracks important game objects for unauthorized modification.</li>
+                                    <li><b>Part Deletion Detection</b><br>Detects removal of protected map components and important gameplay objects.</li>
+                                    <li><b>Part Movement Detection</b><br>Detects unexpected repositioning of protected objects.</li>
+                                    <li><b>Property Change Detection</b><br>Detects changes to transparency, collision, size, material, and anchored state.</li>
+                                    <li><b>Parent / Name Change Detection</b><br>Detects protected objects being renamed or moved outside their expected hierarchy.</li>
+                                    <li><b>Automatic Restoration</b><br>Optionally restores modified objects to their original baseline state.</li>
+                                </ul>
+                            </div>
+
+                            <!-- Protection Systems -->
+                            <div class="detection-card">
+                                <div class="card-head">
+                                    <strong><i class="fas fa-shield-alt"></i> Protection Systems</strong>
+                                    <span class="badge">Enabled</span>
+                                </div>
+                                <ul class="info-list">
+                                    <li><b>Collision Hardening</b><br>Uses collision groups and server validation to reduce collision-based exploit abuse and player flinging.</li>
+                                    <li><b>Safe Position Tracking</b><br>Continuously records valid player locations for recovery after exploit attempts or physics failures.</li>
+                                    <li><b>Lag Compensation</b><br>Adjusts detection thresholds based on latency and frame timing to reduce false positives.</li>
+                                    <li><b>Ground Verification</b><br>Verifies that airborne movement is supported by a legitimate surface before allowing movement states.</li>
+                                    <li><b>Multi-Raycast Collision Analysis</b><br>Uses multiple raycasts around the character to identify wall clipping and noclip attempts.</li>
+                                    <li><b>Blockcast Collision Validation</b><br>Performs volume-based collision checks to detect characters occupying solid geometry.</li>
+                                    <li><b>Inside-Wall Detection</b><br>Detects players positioned within map geometry or protected structures.</li>
+                                    <li><b>Recovery Grace System</b><br>Applies temporary recovery periods after corrective actions to prevent punishment loops.</li>
+                                    <li><b>Protected Workspace Monitoring</b><br>Monitors critical map assets and protected objects for unauthorized modification or removal.</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
@@ -455,77 +902,100 @@
 
             <!-- LINKS -->
             <section class="tab-view" data-tab-view="links">
-                <div style="max-width:700px; margin:80px auto; text-align:center;">
-                    <h2 style="font-size:3rem; margin-bottom:30px;">Join the Resistance</h2>
-                    <div style="display:flex; flex-direction:column; gap:18px; align-items:center;">
-                        <a href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" class="btn btn-primary" style="font-size:1.1rem; padding:18px 40px;">
-                            <i class="fas fa-shield-alt"></i> TEST THE ANTI-CHEAT
-                        </a>
-                        <a href="https://discord.gg/BsxMZFvJTu" target="_blank" class="btn" style="background:#5865F2; color:white; padding:18px 40px;">
-                            <i class="fab fa-discord"></i> DISCORD SERVER
-                        </a>
+                <div class="tab-scroll">
+                    <div class="links-wrap">
+                        <div class="card links-card">
+                            <h2 class="section-title">Connect</h2>
+                            <p class="section-subtitle">
+                                Official RedFox resources, demo links, and community channels.
+                            </p>
+
+                            <div class="link-row">
+                                <a href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" class="btn btn-primary">
+                                    <i class="fas fa-shield-alt"></i> Anti-Cheat Demo
+                                </a>
+                                <a href="https://discord.gg/BsxMZFvJTu" target="_blank" class="btn" style="background:#5865F2;color:white;border:none;">
+                                    <i class="fab fa-discord"></i> Discord Server
+                                </a>
+                                <a href="#" target="_blank" class="btn">
+                                    <i class="fab fa-github"></i> GitHub Repository
+                                </a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-        </div>
+        </main>
 
-        <footer style="text-align:center; font-size:0.85rem; color:var(--muted); padding:10px;">
-            © 2026 RedFox • Built Different
+        <footer>
+            © <span id="year"></span> RedFox • Built for Security
         </footer>
     </div>
 
     <script>
-        // Tab System
         function switchTab(tab) {
-            document.querySelectorAll('.nav-pill').forEach(p => {
-                p.classList.toggle('active', p.dataset.tab === tab);
+            document.querySelectorAll(".nav-pill").forEach(pill => {
+                pill.classList.toggle("active", pill.dataset.tab === tab);
             });
-            document.querySelectorAll('.tab-view').forEach(view => {
-                view.classList.toggle('active', view.dataset.tabView === tab);
+
+            document.querySelectorAll(".tab-view").forEach(view => {
+                view.classList.toggle("active", view.dataset.tabView === tab);
             });
         }
 
-        document.querySelectorAll('.nav-pill').forEach(pill => {
-            pill.addEventListener('click', () => switchTab(pill.dataset.tab));
+        document.querySelectorAll(".nav-pill").forEach(pill => {
+            pill.addEventListener("click", () => switchTab(pill.dataset.tab));
         });
 
-        // Enhanced Particles
+        document.querySelectorAll("[data-tab-trigger]").forEach(button => {
+            button.addEventListener("click", () => switchTab(button.dataset.tabTrigger));
+        });
+
+        document.getElementById("year").textContent = new Date().getFullYear();
+
         const canvas = document.getElementById("particles");
         const ctx = canvas.getContext("2d");
         let particles = [];
 
-        function resize() {
+        function resizeCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
         }
-        window.addEventListener("resize", resize);
-        resize();
+
+        window.addEventListener("resize", resizeCanvas);
+        resizeCanvas();
 
         class Particle {
             constructor() {
                 this.reset();
             }
+
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.vx = (Math.random() - 0.5) * 0.8;
-                this.vy = (Math.random() - 0.5) * 0.8;
-                this.size = Math.random() * 2.2 + 0.6;
-                this.alpha = Math.random() * 0.7 + 0.3;
+                this.vx = (Math.random() - 0.5) * 0.35;
+                this.vy = (Math.random() - 0.5) * 0.35;
+                this.size = Math.random() * 1.8 + 0.5;
+                this.alpha = Math.random() * 0.45 + 0.18;
                 this.hue = Math.random() > 0.5 ? 340 : 260;
             }
+
             update() {
                 this.x += this.vx;
                 this.y += this.vy;
-                if (this.x < 0 || this.x > canvas.width) this.vx *= -1;
-                if (this.y < 0 || this.y > canvas.height) this.vy *= -1;
+
+                if (this.x < 0) this.x = canvas.width;
+                if (this.x > canvas.width) this.x = 0;
+                if (this.y < 0) this.y = canvas.height;
+                if (this.y > canvas.height) this.y = 0;
             }
+
             draw() {
                 ctx.save();
                 ctx.globalAlpha = this.alpha;
-                ctx.fillStyle = `hsl(${this.hue}, 100%, 85%)`;
-                ctx.shadowBlur = 12;
-                ctx.shadowColor = `hsl(${this.hue}, 100%, 70%)`;
+                ctx.fillStyle = `hsl(${this.hue}, 100%, 78%)`;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = `hsl(${this.hue}, 100%, 65%)`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
@@ -535,30 +1005,34 @@
 
         function initParticles() {
             particles = [];
-            for (let i = 0; i < 140; i++) {
+            const count = window.innerWidth < 800 ? 55 : 95;
+            for (let i = 0; i < count; i++) {
                 particles.push(new Particle());
             }
         }
 
-        function animate() {
-            ctx.fillStyle = "rgba(5,5,9,0.12)";
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        initParticles();
+        window.addEventListener("resize", initParticles);
 
-            particles.forEach(p => {
-                p.update();
-                p.draw();
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
             });
 
-            // Connections
-            ctx.strokeStyle = "rgba(255,43,79,0.08)";
-            ctx.lineWidth = 0.6;
-            for (let i = 0; i < particles.length; i += 3) {
-                for (let j = i + 1; j < particles.length; j += 3) {
+            ctx.strokeStyle = "rgba(255,43,79,0.07)";
+            ctx.lineWidth = 0.5;
+
+            for (let i = 0; i < particles.length; i += 2) {
+                for (let j = i + 1; j < particles.length; j += 2) {
                     const dx = particles[i].x - particles[j].x;
                     const dy = particles[i].y - particles[j].y;
-                    const dist = Math.hypot(dx, dy);
-                    if (dist < 160) {
-                        ctx.globalAlpha = (160 - dist) / 160;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 125) {
+                        ctx.globalAlpha = (125 - distance) / 125;
                         ctx.beginPath();
                         ctx.moveTo(particles[i].x, particles[i].y);
                         ctx.lineTo(particles[j].x, particles[j].y);
@@ -566,25 +1040,12 @@
                     }
                 }
             }
+
             ctx.globalAlpha = 1;
-            requestAnimationFrame(animate);
+            requestAnimationFrame(animateParticles);
         }
 
-        initParticles();
-        animate();
-
-        // Keyboard Easter Egg
-        let konami = '';
-        document.addEventListener('keydown', e => {
-            konami += e.key;
-            if (konami.length > 10) konami = konami.slice(-10);
-            if (konami.includes('ArrowUpArrowUpArrowDownArrowDownArrowLeftArrowRightArrowLeftArrowRightba')) {
-                document.body.style.transition = 'filter 0.6s';
-                document.body.style.filter = 'hue-rotate(180deg) saturate(2)';
-                setTimeout(() => document.body.style.filter = '', 1800);
-                konami = '';
-            }
-        });
+        animateParticles();
     </script>
 </body>
 </html>
