@@ -2,177 +2,245 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8" />
-<title>REDFOX | OMEGA DEFENSE CORE</title>
+<title>REDFOX | BLACKSITE DEFENSE CORE</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
 <style>
 :root{
     --bg:#010102;
-    --red:#ff1111;
-    --red2:#850000;
-    --red3:#250000;
-    --white:#f4f4f4;
-    --muted:#9b9b9b;
-    --glass:rgba(5,5,7,.78);
+    --black:#000;
+    --white:#f6f6f6;
+    --red:#ff1212;
+    --red2:#970000;
+    --red3:#3b0000;
+    --glass:rgba(7,7,9,.76);
+    --glass2:rgba(16,16,20,.82);
+    --muted:#a3a3a3;
     --border:rgba(255,20,20,.34);
+    --soft:rgba(255,0,0,.16);
 }
 
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
 
-html,body{
+html,
+body{
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#010102;
+    background:var(--bg);
     color:var(--white);
-    font-family:"Segoe UI",system-ui,sans-serif;
+    font-family:"Segoe UI",system-ui,-apple-system,BlinkMacSystemFont,sans-serif;
 }
 
 body{
     background:
-        radial-gradient(circle at 14% 44%,rgba(255,0,0,.35),transparent 25%),
-        radial-gradient(circle at 84% 58%,rgba(255,0,0,.14),transparent 35%),
+        radial-gradient(circle at 12% 38%,rgba(255,0,0,.36),transparent 24%),
+        radial-gradient(circle at 84% 62%,rgba(255,0,0,.18),transparent 34%),
+        radial-gradient(circle at 50% 110%,rgba(255,255,255,.06),transparent 30%),
         linear-gradient(120deg,#050505,#000 48%,#090000);
 }
 
-/* BACKGROUND EFFECTS */
-#particles{position:fixed;inset:0;z-index:-30}
+/* =========================
+   GLOBAL BACKGROUND SYSTEM
+========================= */
 
-.noise{
+#particles{
     position:fixed;
-    inset:-50px;
-    z-index:-29;
+    inset:0;
+    z-index:-50;
+}
+
+.bg-noise{
+    position:fixed;
+    inset:-60px;
+    z-index:-49;
     pointer-events:none;
     opacity:.18;
     background-image:
-        repeating-radial-gradient(circle at 20% 35%,rgba(255,255,255,.95) 0 1px,transparent 1px 5px),
-        repeating-radial-gradient(circle at 80% 65%,rgba(255,0,0,.8) 0 1px,transparent 1px 8px);
+        repeating-radial-gradient(circle at 20% 35%,rgba(255,255,255,.9) 0 1px,transparent 1px 5px),
+        repeating-radial-gradient(circle at 80% 65%,rgba(255,0,0,.8) 0 1px,transparent 1px 8px),
+        repeating-radial-gradient(circle at 50% 50%,rgba(0,0,0,.9) 0 1px,transparent 1px 4px);
     animation:noiseMove .12s infinite steps(2);
 }
 
 @keyframes noiseMove{
     0%{transform:translate(0,0)}
-    25%{transform:translate(-22px,12px)}
-    50%{transform:translate(16px,-18px)}
-    75%{transform:translate(24px,20px)}
+    25%{transform:translate(-24px,12px)}
+    50%{transform:translate(18px,-20px)}
+    75%{transform:translate(26px,22px)}
     100%{transform:translate(0,0)}
 }
 
-.grid{
+.bg-grid{
     position:fixed;
     inset:0;
-    z-index:-28;
-    opacity:.45;
+    z-index:-48;
+    opacity:.5;
     background-image:
         linear-gradient(rgba(255,0,0,.08) 1px,transparent 1px),
         linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);
-    background-size:54px 54px;
+    background-size:56px 56px;
     animation:gridMove 12s linear infinite;
 }
 
-@keyframes gridMove{to{background-position:54px 54px}}
-
-.scanlines{
-    position:fixed;
-    inset:0;
-    z-index:-27;
-    pointer-events:none;
-    background:repeating-linear-gradient(to bottom,rgba(255,255,255,.04) 0,rgba(255,255,255,.04) 1px,transparent 2px,transparent 5px);
-    animation:scan 2s linear infinite;
+@keyframes gridMove{
+    to{background-position:56px 56px}
 }
 
-@keyframes scan{to{transform:translateY(22px)}}
-
-.red-fog{
+.bg-scanlines{
     position:fixed;
     inset:0;
-    z-index:-26;
+    z-index:-47;
+    pointer-events:none;
+    background:repeating-linear-gradient(
+        to bottom,
+        rgba(255,255,255,.04) 0,
+        rgba(255,255,255,.04) 1px,
+        transparent 2px,
+        transparent 5px
+    );
+    animation:scanRoll 2s linear infinite;
+}
+
+@keyframes scanRoll{
+    to{transform:translateY(22px)}
+}
+
+.bg-red-fog{
+    position:fixed;
+    inset:0;
+    z-index:-46;
     pointer-events:none;
     background:
-        radial-gradient(circle at 8% 52%,rgba(255,0,0,.52),transparent 24%),
-        radial-gradient(circle at 88% 38%,rgba(255,0,0,.24),transparent 24%),
-        radial-gradient(circle at 45% 90%,rgba(255,0,0,.18),transparent 30%);
-    filter:blur(25px);
+        radial-gradient(circle at 8% 52%,rgba(255,0,0,.58),transparent 24%),
+        radial-gradient(circle at 88% 38%,rgba(255,0,0,.26),transparent 24%),
+        radial-gradient(circle at 45% 90%,rgba(255,0,0,.2),transparent 30%);
+    filter:blur(28px);
     animation:fogPulse 4s infinite ease-in-out;
 }
 
 @keyframes fogPulse{
     0%,100%{opacity:.45;transform:scale(1)}
-    50%{opacity:.95;transform:scale(1.06)}
+    50%{opacity:1;transform:scale(1.07)}
 }
 
-.signal-tears{
+.bg-signal-tears{
     position:fixed;
     inset:0;
-    z-index:-25;
+    z-index:-45;
     pointer-events:none;
     mix-blend-mode:screen;
     background:
-        repeating-linear-gradient(to bottom,transparent 0 62px,rgba(255,0,0,.22) 63px,transparent 68px),
-        linear-gradient(90deg,transparent,rgba(255,0,0,.18),transparent);
-    animation:tear .68s infinite steps(3);
+        repeating-linear-gradient(to bottom,transparent 0 62px,rgba(255,0,0,.24) 63px,transparent 68px),
+        linear-gradient(90deg,transparent,rgba(255,0,0,.2),transparent);
+    animation:tear .7s infinite steps(3);
 }
 
 @keyframes tear{
     0%,100%{clip-path:inset(0 0 0 0);transform:translateX(0)}
-    20%{clip-path:inset(8% 0 78% 0);transform:translateX(-30px)}
-    45%{clip-path:inset(46% 0 40% 0);transform:translateX(35px)}
-    70%{clip-path:inset(72% 0 14% 0);transform:translateX(-18px)}
+    20%{clip-path:inset(8% 0 78% 0);transform:translateX(-34px)}
+    45%{clip-path:inset(46% 0 40% 0);transform:translateX(38px)}
+    70%{clip-path:inset(72% 0 14% 0);transform:translateX(-20px)}
 }
 
-.hud-orbit{
+.bg-hud-orbit{
     position:fixed;
-    right:5%;
+    right:2%;
     top:50%;
-    width:880px;
-    height:880px;
+    width:960px;
+    height:960px;
     translate:0 -50%;
     border-radius:50%;
     border:1px solid rgba(255,0,0,.16);
-    box-shadow:0 0 90px rgba(255,0,0,.12),inset 0 0 80px rgba(255,0,0,.08);
-    z-index:-24;
-    animation:spin 22s linear infinite;
+    box-shadow:
+        0 0 110px rgba(255,0,0,.14),
+        inset 0 0 90px rgba(255,0,0,.08);
+    z-index:-44;
+    animation:spin 24s linear infinite;
 }
 
-.hud-orbit::before,.hud-orbit::after{
+.bg-hud-orbit::before,
+.bg-hud-orbit::after{
     content:"";
     position:absolute;
     border-radius:50%;
-    border:1px dashed rgba(255,255,255,.15);
+    border:1px dashed rgba(255,255,255,.14);
 }
 
-.hud-orbit::before{inset:95px;animation:spin 11s linear infinite reverse}
-.hud-orbit::after{inset:210px;border-color:rgba(255,0,0,.35);animation:spin 7s linear infinite}
+.bg-hud-orbit::before{
+    inset:105px;
+    animation:spin 12s linear infinite reverse;
+}
 
-@keyframes spin{to{transform:rotate(360deg)}}
+.bg-hud-orbit::after{
+    inset:235px;
+    border-color:rgba(255,0,0,.36);
+    animation:spin 7s linear infinite;
+}
 
-.scanner-beam{
+@keyframes spin{
+    to{transform:rotate(360deg)}
+}
+
+.bg-scanner{
     position:fixed;
     inset:0;
-    z-index:-23;
+    z-index:-43;
     pointer-events:none;
-    background:linear-gradient(100deg,transparent 0%,transparent 42%,rgba(255,0,0,.13) 48%,rgba(255,255,255,.06) 50%,rgba(255,0,0,.13) 52%,transparent 58%,transparent 100%);
-    animation:scanner 5s infinite ease-in-out;
+    background:linear-gradient(
+        100deg,
+        transparent 0%,
+        transparent 42%,
+        rgba(255,0,0,.14) 48%,
+        rgba(255,255,255,.07) 50%,
+        rgba(255,0,0,.14) 52%,
+        transparent 58%,
+        transparent 100%
+    );
+    animation:scannerSweep 5s infinite ease-in-out;
 }
 
-@keyframes scanner{
-    0%{transform:translateX(-70%)}
-    55%,100%{transform:translateX(70%)}
+@keyframes scannerSweep{
+    0%{transform:translateX(-75%)}
+    55%,100%{transform:translateX(75%)}
 }
 
-.vignette{
+.bg-vignette{
     position:fixed;
     inset:0;
-    z-index:-22;
+    z-index:-42;
     pointer-events:none;
-    background:radial-gradient(circle at center,transparent 22%,rgba(0,0,0,.97) 88%);
+    background:radial-gradient(circle at center,transparent 20%,rgba(0,0,0,.98) 88%);
 }
 
-/* APP */
+.bg-warning-strips{
+    position:fixed;
+    inset:0;
+    z-index:-41;
+    pointer-events:none;
+    opacity:.14;
+    background:
+        repeating-linear-gradient(
+            135deg,
+            transparent 0 30px,
+            rgba(255,0,0,.45) 31px 34px,
+            transparent 35px 64px
+        );
+    mask-image:linear-gradient(to bottom,transparent,black 18%,black 82%,transparent);
+}
+
+/* =========================
+   APP SHELL
+========================= */
+
 .app{
     height:100vh;
-    padding:20px clamp(18px,5vw,52px);
+    padding:20px clamp(18px,5vw,54px);
     display:flex;
     flex-direction:column;
     gap:20px;
@@ -182,34 +250,63 @@ header{
     display:flex;
     justify-content:space-between;
     align-items:center;
+    gap:22px;
     z-index:20;
 }
 
-.brand{display:flex;align-items:center;gap:14px}
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
 
 .logo{
-    width:62px;
-    height:62px;
-    border-radius:19px;
+    width:64px;
+    height:64px;
+    border-radius:20px;
     overflow:hidden;
     background:#111;
     position:relative;
-    box-shadow:0 0 38px rgba(255,0,0,.75);
+    box-shadow:
+        0 0 38px rgba(255,0,0,.8),
+        inset 0 0 18px rgba(255,255,255,.08);
 }
 
-.logo img{width:100%;height:100%;object-fit:cover}
+.logo::before{
+    content:"";
+    position:absolute;
+    inset:-2px;
+    border-radius:20px;
+    border:2px solid transparent;
+    background:linear-gradient(135deg,#fff,red,#000,red,#fff) border-box;
+    -webkit-mask:linear-gradient(#fff 0 0) padding-box,linear-gradient(#fff 0 0);
+    -webkit-mask-composite:xor;
+    mask-composite:exclude;
+    animation:borderFlash 2s infinite steps(2);
+    z-index:2;
+}
+
+@keyframes borderFlash{
+    50%{filter:brightness(2.4)}
+}
+
+.logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
 
 .brand-title{
-    font-weight:950;
+    font-weight:1000;
     letter-spacing:.16em;
     font-size:1.1rem;
-    text-shadow:2px 0 red,-2px 0 #000,0 0 20px red;
+    text-shadow:2px 0 red,-2px 0 #000,0 0 22px red;
 }
 
 .brand-sub{
     font-size:.72rem;
     color:#ff3a3a;
-    letter-spacing:.18em;
+    letter-spacing:.2em;
     text-transform:uppercase;
 }
 
@@ -218,9 +315,11 @@ nav{
     gap:6px;
     padding:7px;
     border-radius:999px;
-    background:rgba(0,0,0,.62);
-    border:1px solid rgba(255,0,0,.38);
-    box-shadow:0 0 45px rgba(255,0,0,.18);
+    background:rgba(0,0,0,.64);
+    border:1px solid rgba(255,0,0,.4);
+    box-shadow:
+        0 0 45px rgba(255,0,0,.2),
+        inset 0 0 18px rgba(255,255,255,.04);
     backdrop-filter:blur(18px);
 }
 
@@ -232,16 +331,18 @@ nav{
     border-radius:999px;
     text-transform:uppercase;
     font-size:.75rem;
-    font-weight:900;
+    font-weight:950;
     letter-spacing:.12em;
     cursor:pointer;
     transition:.22s;
 }
 
-.nav-pill.active,.nav-pill:hover{
+.nav-pill.active,
+.nav-pill:hover{
     background:linear-gradient(90deg,#6d0000,#ff1717);
     color:white;
-    box-shadow:0 0 30px rgba(255,0,0,.75);
+    box-shadow:0 0 32px rgba(255,0,0,.78);
+    transform:translateY(-1px);
 }
 
 main{
@@ -256,7 +357,7 @@ main{
     inset:0;
     opacity:0;
     pointer-events:none;
-    transform:scale(.97) translateY(18px);
+    transform:scale(.97) translateY(20px);
     filter:blur(5px);
     transition:.35s ease;
 }
@@ -274,27 +375,41 @@ main{
     padding-right:12px;
 }
 
-.scroll::-webkit-scrollbar{width:6px}
-.scroll::-webkit-scrollbar-thumb{background:red;border-radius:20px}
+.scroll::-webkit-scrollbar{
+    width:6px;
+}
+
+.scroll::-webkit-scrollbar-thumb{
+    background:red;
+    border-radius:20px;
+}
 
 .wrap{
-    max-width:1240px;
+    max-width:1260px;
     margin:0 auto;
     padding:36px 0 70px;
 }
 
-.wrap.wide{max-width:1440px}
+.wrap.wide{
+    max-width:1480px;
+}
+/* =========================
+   GLITCH TEXT SYSTEM
+========================= */
 
-/* GLITCH */
 .glitch{
     position:relative;
     display:inline-block;
     color:white;
-    text-shadow:3px 0 red,-3px 0 black,0 0 30px rgba(255,0,0,.75);
+    text-shadow:
+        3px 0 red,
+        -3px 0 black,
+        0 0 30px rgba(255,0,0,.75);
     animation:glitchMain 2.8s infinite steps(2);
 }
 
-.glitch::before,.glitch::after{
+.glitch::before,
+.glitch::after{
     content:attr(data-text);
     position:absolute;
     inset:0;
@@ -308,19 +423,38 @@ main{
 }
 
 .glitch::after{
-    color:#000;
+    color:black;
     text-shadow:2px 0 white;
     clip-path:polygon(0 56%,100% 56%,100% 92%,0 92%);
     animation:glitchBlack .22s infinite steps(2);
 }
 
 @keyframes glitchMain{
-    0%,100%{transform:none;filter:none}
-    8%{transform:skew(6deg);filter:contrast(1.7)}
-    9%{transform:translateX(-8px)}
-    10%{transform:none}
-    58%{filter:brightness(1.8)}
-    59%{filter:none}
+    0%,100%{
+        transform:none;
+        filter:none;
+    }
+
+    8%{
+        transform:skew(6deg);
+        filter:contrast(1.7);
+    }
+
+    9%{
+        transform:translateX(-8px);
+    }
+
+    10%{
+        transform:none;
+    }
+
+    58%{
+        filter:brightness(1.8);
+    }
+
+    59%{
+        filter:none;
+    }
 }
 
 @keyframes glitchRed{
@@ -339,218 +473,13 @@ main{
     100%{transform:translate(0,0)}
 }
 
-/* HOME */
-.hero-grid{
-    height:100%;
-    display:grid;
-    grid-template-columns:minmax(0,1.08fr) minmax(440px,.92fr);
-    gap:42px;
-    align-items:center;
-}
+/* =========================
+   SHARED PANELS
+========================= */
 
-.hero-title{
-    font-size:clamp(4.4rem,9.6vw,9.4rem);
-    font-weight:1000;
-    letter-spacing:-.08em;
-    line-height:.78;
-}
-
-.hero-kicker{
-    margin-top:24px;
-    color:#ff3434;
-    font-size:clamp(1.2rem,2vw,2rem);
-    letter-spacing:.24em;
-    text-transform:uppercase;
-    text-shadow:0 0 24px red;
-}
-
-.hero-text{
-    margin-top:18px;
-    color:#aaa;
-    max-width:780px;
-    line-height:1.85;
-    font-size:1.03rem;
-}
-
-.threat-row{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px}
-
-.threat-chip{
-    padding:9px 14px;
-    border-radius:999px;
-    background:rgba(255,0,0,.1);
-    border:1px solid rgba(255,0,0,.35);
-    color:#eee;
-    font-size:.75rem;
-    font-weight:900;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    box-shadow:0 0 20px rgba(255,0,0,.12);
-    animation:chipFloat 3s infinite ease-in-out;
-}
-
-.threat-chip:nth-child(2){animation-delay:.2s}
-.threat-chip:nth-child(3){animation-delay:.4s}
-.threat-chip:nth-child(4){animation-delay:.6s}
-.threat-chip:nth-child(5){animation-delay:.8s}
-
-@keyframes chipFloat{50%{transform:translateY(-5px)}}
-
-.command-strip{
-    margin-top:28px;
-    display:grid;
-    grid-template-columns:repeat(3,minmax(0,1fr));
-    gap:12px;
-    max-width:850px;
-}
-
-.command,.cardish{
-    border:1px solid rgba(255,0,0,.3);
-    background:rgba(0,0,0,.55);
-    border-radius:18px;
-    padding:17px;
-    position:relative;
-    overflow:hidden;
-    box-shadow:inset 0 0 30px rgba(255,0,0,.06);
-}
-
-.command::before,.cardish::before{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(90deg,transparent,rgba(255,0,0,.24),transparent);
-    transform:translateX(-120%);
-    animation:panelSweep 3s infinite;
-}
-
-@keyframes panelSweep{70%,100%{transform:translateX(120%)}}
-
-.command b{display:block;color:white;margin-bottom:6px;font-size:.85rem;text-transform:uppercase;letter-spacing:.12em}
-.command span{color:#8f8f8f;font-size:.78rem}
-
-.btn-row{margin-top:30px;display:flex;flex-wrap:wrap;gap:14px}
-
-.btn{
-    position:relative;
-    overflow:hidden;
-    border-radius:999px;
-    padding:14px 26px;
-    border:1px solid rgba(255,255,255,.18);
-    background:rgba(0,0,0,.58);
-    color:white;
-    text-decoration:none;
-    font-weight:900;
-    font-size:.86rem;
-    letter-spacing:.04em;
-    cursor:pointer;
-    transition:.25s;
-}
-
-.btn-primary{
-    background:linear-gradient(90deg,#8c0000,#ff1515,#fff);
-    color:#050505;
-    border:none;
-    box-shadow:0 0 40px rgba(255,0,0,.82);
-}
-
-.btn:hover{transform:translateY(-4px) scale(1.03);box-shadow:0 0 38px rgba(255,0,0,.55)}
-
-.core-card{
-    min-height:620px;
-    border-radius:36px;
-    position:relative;
-    padding:28px;
-    background:
-        linear-gradient(145deg,rgba(22,22,24,.86),rgba(0,0,0,.94)),
-        repeating-linear-gradient(to bottom,transparent 0 4px,rgba(255,255,255,.03) 5px);
-    border:1px solid rgba(255,0,0,.38);
-    box-shadow:0 30px 120px rgba(0,0,0,.8),0 0 90px rgba(255,0,0,.22),inset 0 0 75px rgba(255,0,0,.08);
-    overflow:hidden;
-}
-
-.corner{position:absolute;width:68px;height:68px;border-color:red;opacity:.95;z-index:2}
-.c1{top:18px;left:18px;border-top:2px solid;border-left:2px solid}
-.c2{top:18px;right:18px;border-top:2px solid;border-right:2px solid}
-.c3{bottom:18px;left:18px;border-bottom:2px solid;border-left:2px solid}
-.c4{bottom:18px;right:18px;border-bottom:2px solid;border-right:2px solid}
-
-.core-header{display:flex;align-items:center;justify-content:space-between;gap:18px;position:relative;z-index:3}
-.core-id{display:flex;align-items:center;gap:16px}
-.core-logo{width:76px;height:76px;border-radius:23px;overflow:hidden;box-shadow:0 0 32px red}
-.core-logo img{width:100%;height:100%;object-fit:cover}
-.core-title{font-size:1.38rem;font-weight:950}
-.core-status{color:#ff3333;font-size:.8rem;margin-top:4px}
-
-.alert-pill{
-    border:1px solid red;
-    border-radius:999px;
-    padding:8px 14px;
-    font-size:.72rem;
-    font-weight:900;
-    color:white;
-    background:rgba(255,0,0,.18);
-    box-shadow:0 0 22px rgba(255,0,0,.45);
-}
-
-.holo{position:relative;height:290px;margin:34px 0 24px;display:grid;place-items:center}
-
-.holo-ring{
-    position:absolute;
-    border-radius:50%;
-    border:1px solid rgba(255,0,0,.38);
-    box-shadow:0 0 32px rgba(255,0,0,.22),inset 0 0 32px rgba(255,0,0,.12);
-    animation:spin 9s linear infinite;
-}
-
-.r1{width:280px;height:280px}
-.r2{width:215px;height:215px;animation-direction:reverse;animation-duration:5s;border-style:dashed}
-.r3{width:136px;height:136px;animation-duration:3s}
-
-.shield{
-    font-size:5rem;
-    color:white;
-    text-shadow:0 0 34px red,4px 0 red,-4px 0 black;
-    animation:shieldPulse 2s infinite ease-in-out;
-}
-
-@keyframes shieldPulse{
-    0%,100%{transform:scale(1);filter:brightness(1)}
-    50%{transform:scale(1.14);filter:brightness(1.9)}
-}
-
-.stat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px;position:relative;z-index:3}
-
-.stat{
-    padding:16px;
-    border-radius:18px;
-    background:rgba(255,255,255,.045);
-    border:1px solid rgba(255,255,255,.1);
-    position:relative;
-    overflow:hidden;
-}
-
-.stat b{display:block;font-size:1.35rem}
-.stat span{color:#8f8f8f;font-size:.75rem}
-
-.terminal{
-    margin-top:18px;
-    padding:16px;
-    border-radius:16px;
-    background:#050505;
-    border:1px solid rgba(255,0,0,.26);
-    color:#ff4646;
-    font-family:Consolas,monospace;
-    font-size:.8rem;
-    height:126px;
-    overflow:hidden;
-    box-shadow:inset 0 0 35px rgba(255,0,0,.1);
-    position:relative;
-    z-index:3;
-}
-
-/* SECTION SHARED */
 .section-title{
     text-align:center;
-    font-size:clamp(2.5rem,5.2vw,4.8rem);
+    font-size:clamp(2.8rem,5vw,5rem);
     font-weight:1000;
     margin-bottom:14px;
 }
@@ -559,52 +488,663 @@ main{
     text-align:center;
     color:#aaa;
     line-height:1.7;
-    max-width:780px;
-    margin:0 auto 32px;
+    max-width:800px;
+    margin:0 auto 34px;
 }
 
-/* PHILOSOPHY — NOW NOT BORING */
-.philo-hero{
+.panel{
+    position:relative;
+    overflow:hidden;
+    border-radius:28px;
+    background:
+        linear-gradient(
+            145deg,
+            rgba(22,22,24,.88),
+            rgba(0,0,0,.95)
+        );
+    border:1px solid rgba(255,0,0,.34);
+
+    box-shadow:
+        0 0 90px rgba(255,0,0,.12),
+        inset 0 0 60px rgba(255,0,0,.08);
+}
+
+.panel::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:20px;
+    border:1px solid rgba(255,255,255,.06);
+    pointer-events:none;
+}
+
+.panel::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.18),
+            transparent
+        );
+    transform:translateX(-120%);
+    animation:panelSweep 5s infinite;
+}
+
+@keyframes panelSweep{
+    75%,100%{
+        transform:translateX(130%);
+    }
+}
+
+/* =========================
+   HOME TAB
+========================= */
+
+.hero-grid{
+    height:100%;
     display:grid;
-    grid-template-columns:1.1fr .9fr;
+    grid-template-columns:
+        minmax(0,1.05fr)
+        minmax(470px,.95fr);
+    gap:42px;
+    align-items:center;
+}
+
+.hero-title{
+    font-size:clamp(5rem,10vw,10rem);
+    font-weight:1000;
+    line-height:.78;
+    letter-spacing:-.08em;
+}
+
+.hero-kicker{
+    margin-top:22px;
+    color:#ff3b3b;
+    font-size:clamp(1.2rem,2vw,2rem);
+    text-transform:uppercase;
+    letter-spacing:.25em;
+    text-shadow:0 0 20px red;
+}
+
+.hero-text{
+    margin-top:20px;
+    color:#aaa;
+    max-width:760px;
+    line-height:1.9;
+    font-size:1rem;
+}
+
+.threat-row{
+    margin-top:26px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+}
+
+.threat-chip{
+    padding:9px 14px;
+    border-radius:999px;
+    background:rgba(255,0,0,.1);
+    border:1px solid rgba(255,0,0,.34);
+    color:#eee;
+    font-size:.72rem;
+    font-weight:900;
+    letter-spacing:.1em;
+    text-transform:uppercase;
+    animation:chipFloat 3s infinite ease-in-out;
+}
+
+.threat-chip:nth-child(2){
+    animation-delay:.2s;
+}
+
+.threat-chip:nth-child(3){
+    animation-delay:.4s;
+}
+
+.threat-chip:nth-child(4){
+    animation-delay:.6s;
+}
+
+.threat-chip:nth-child(5){
+    animation-delay:.8s;
+}
+
+@keyframes chipFloat{
+    50%{
+        transform:translateY(-6px);
+    }
+}
+
+.command-strip{
+    margin-top:28px;
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+}
+
+.command{
+    position:relative;
+    overflow:hidden;
+
+    padding:18px;
+    border-radius:20px;
+
+    background:rgba(0,0,0,.55);
+
+    border:1px solid rgba(255,0,0,.28);
+
+    box-shadow:
+        inset 0 0 25px rgba(255,0,0,.06);
+}
+
+.command::before{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.16),
+            transparent
+        );
+
+    transform:translateX(-120%);
+    animation:panelSweep 4s infinite;
+}
+
+.command b{
+    display:block;
+    color:white;
+    margin-bottom:7px;
+
+    font-size:.82rem;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+}
+
+.command span{
+    color:#8e8e8e;
+    font-size:.78rem;
+}
+
+.btn-row{
+    margin-top:28px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:14px;
+}
+
+.btn{
+    position:relative;
+    overflow:hidden;
+
+    padding:14px 26px;
+
+    border-radius:999px;
+
+    border:1px solid rgba(255,255,255,.16);
+
+    background:rgba(0,0,0,.58);
+
+    color:white;
+    text-decoration:none;
+
+    font-size:.85rem;
+    font-weight:900;
+
+    transition:.25s;
+}
+
+.btn:hover{
+    transform:translateY(-4px) scale(1.03);
+
+    box-shadow:
+        0 0 40px rgba(255,0,0,.5);
+}
+
+.btn-primary{
+    border:none;
+
+    color:black;
+
+    background:
+        linear-gradient(
+            90deg,
+            #770000,
+            #ff1212,
+            white
+        );
+
+    box-shadow:
+        0 0 45px rgba(255,0,0,.8);
+}
+
+/* =========================
+   SECURITY CORE PANEL
+========================= */
+
+.core-card{
+    position:relative;
+
+    min-height:680px;
+
+    border-radius:38px;
+
+    overflow:hidden;
+
+    padding:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(20,20,22,.88),
+            rgba(0,0,0,.96)
+        );
+
+    border:1px solid rgba(255,0,0,.36);
+
+    box-shadow:
+        0 30px 130px rgba(0,0,0,.85),
+        0 0 90px rgba(255,0,0,.18),
+        inset 0 0 80px rgba(255,0,0,.08);
+}
+
+.core-card::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.corner{
+    position:absolute;
+    width:70px;
+    height:70px;
+    z-index:3;
+}
+
+.c1{
+    left:18px;
+    top:18px;
+    border-left:2px solid red;
+    border-top:2px solid red;
+}
+
+.c2{
+    right:18px;
+    top:18px;
+    border-right:2px solid red;
+    border-top:2px solid red;
+}
+
+.c3{
+    left:18px;
+    bottom:18px;
+    border-left:2px solid red;
+    border-bottom:2px solid red;
+}
+
+.c4{
+    right:18px;
+    bottom:18px;
+    border-right:2px solid red;
+    border-bottom:2px solid red;
+}
+
+.core-header{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:20px;
+}
+
+.core-id{
+    display:flex;
+    align-items:center;
+    gap:16px;
+}
+
+.core-logo{
+    width:76px;
+    height:76px;
+    border-radius:22px;
+    overflow:hidden;
+
+    box-shadow:
+        0 0 30px red;
+}
+
+.core-logo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+.core-title{
+    font-size:1.4rem;
+    font-weight:950;
+}
+
+.core-status{
+    margin-top:4px;
+    color:#ff3333;
+    font-size:.8rem;
+}
+
+.alert-pill{
+    padding:8px 14px;
+
+    border-radius:999px;
+
+    border:1px solid red;
+
+    background:rgba(255,0,0,.16);
+
+    box-shadow:
+        0 0 25px rgba(255,0,0,.45);
+
+    font-size:.72rem;
+    font-weight:900;
+}
+
+/* =========================
+   CORE HOLOGRAM
+========================= */
+
+.holo{
+    position:relative;
+    height:330px;
+    margin:38px 0 26px;
+    display:grid;
+    place-items:center;
+}
+
+.holo-ring{
+    position:absolute;
+    border-radius:50%;
+
+    border:1px solid rgba(255,0,0,.42);
+
+    box-shadow:
+        0 0 38px rgba(255,0,0,.22),
+        inset 0 0 38px rgba(255,0,0,.12);
+
+    animation:spin 9s linear infinite;
+}
+
+.r1{
+    width:310px;
+    height:310px;
+}
+
+.r2{
+    width:238px;
+    height:238px;
+    border-style:dashed;
+    animation-duration:5s;
+    animation-direction:reverse;
+}
+
+.r3{
+    width:148px;
+    height:148px;
+    animation-duration:3s;
+}
+
+.shield{
+    font-size:5.3rem;
+    color:white;
+
+    text-shadow:
+        0 0 38px red,
+        4px 0 red,
+        -4px 0 black;
+
+    animation:shieldPulse 2s infinite ease-in-out;
+}
+
+@keyframes shieldPulse{
+    0%,100%{
+        transform:scale(1);
+        filter:brightness(1);
+    }
+
+    50%{
+        transform:scale(1.15);
+        filter:brightness(1.9);
+    }
+}
+
+.core-labels{
+    position:absolute;
+    inset:0;
+    pointer-events:none;
+}
+
+.hud-label{
+    position:absolute;
+
+    padding:6px 10px;
+
+    border-radius:999px;
+
+    border:1px solid rgba(255,0,0,.36);
+
+    background:rgba(0,0,0,.66);
+
+    color:#ff4545;
+
+    font-size:.68rem;
+    font-weight:900;
+    letter-spacing:.15em;
+
+    box-shadow:
+        0 0 20px rgba(255,0,0,.22);
+}
+
+.l1{top:34px;left:28px}
+.l2{top:92px;right:22px}
+.l3{bottom:58px;left:34px}
+.l4{bottom:34px;right:34px}
+
+.stat-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.stat{
+    position:relative;
+    overflow:hidden;
+
+    padding:16px;
+
+    border-radius:18px;
+
+    background:rgba(255,255,255,.045);
+
+    border:1px solid rgba(255,255,255,.1);
+}
+
+.stat::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.18),
+            transparent
+        );
+
+    transform:translateX(-120%);
+    animation:panelSweep 4s infinite;
+}
+
+.stat b{
+    display:block;
+    font-size:1.35rem;
+}
+
+.stat span{
+    color:#8f8f8f;
+    font-size:.75rem;
+}
+
+.terminal{
+    margin-top:18px;
+    height:132px;
+
+    overflow:hidden;
+
+    padding:16px;
+
+    border-radius:16px;
+
+    background:#050505;
+
+    border:1px solid rgba(255,0,0,.26);
+
+    color:#ff4646;
+
+    font-family:Consolas,monospace;
+    font-size:.8rem;
+
+    box-shadow:
+        inset 0 0 35px rgba(255,0,0,.1);
+}
+
+.terminal div{
+    margin-bottom:5px;
+}
+
+/* =========================
+   PHILOSOPHY TAB
+========================= */
+
+.philo-stage{
+    display:grid;
+    grid-template-columns:1.05fr .95fr;
     gap:24px;
-    margin-top:24px;
+    margin-top:28px;
 }
 
 .doctrine-main{
-    min-height:420px;
-    border-radius:34px;
-    padding:34px;
+    min-height:500px;
+
+    padding:38px;
+
+    border-radius:36px;
+
     position:relative;
     overflow:hidden;
+
     background:
-        radial-gradient(circle at top right,rgba(255,0,0,.25),transparent 34%),
-        linear-gradient(145deg,rgba(20,20,24,.85),rgba(0,0,0,.95));
+        radial-gradient(circle at top right,rgba(255,0,0,.28),transparent 34%),
+        radial-gradient(circle at bottom left,rgba(255,255,255,.06),transparent 28%),
+        linear-gradient(145deg,rgba(18,18,22,.88),rgba(0,0,0,.96));
+
     border:1px solid rgba(255,0,0,.36);
-    box-shadow:0 0 90px rgba(255,0,0,.16),inset 0 0 70px rgba(255,0,0,.08);
+
+    box-shadow:
+        0 0 95px rgba(255,0,0,.16),
+        inset 0 0 75px rgba(255,0,0,.08);
+}
+
+.doctrine-main::before{
+    content:"";
+    position:absolute;
+    inset:14px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.07);
+}
+
+.doctrine-main::after{
+    content:"";
+    position:absolute;
+    right:-140px;
+    bottom:-140px;
+
+    width:360px;
+    height:360px;
+
+    border-radius:50%;
+
+    border:1px dashed rgba(255,0,0,.28);
+
+    box-shadow:
+        0 0 60px rgba(255,0,0,.16),
+        inset 0 0 60px rgba(255,0,0,.1);
+
+    animation:spin 14s linear infinite;
+}
+
+.panel-label{
+    position:relative;
+    z-index:2;
+
+    color:#ff3b3b;
+
+    text-transform:uppercase;
+    letter-spacing:.22em;
+
+    font-size:.74rem;
+    font-weight:900;
+
+    margin-bottom:14px;
 }
 
 .doctrine-main h3{
-    font-size:clamp(2rem,4vw,4rem);
-    line-height:.95;
-    max-width:720px;
-    margin:18px 0;
+    position:relative;
+    z-index:2;
+
+    font-size:clamp(2.4rem,4.3vw,4.7rem);
+
+    line-height:.9;
+
+    max-width:800px;
+
+    margin-bottom:22px;
 }
 
 .doctrine-main p{
+    position:relative;
+    z-index:2;
+
     color:#aaa;
-    line-height:1.85;
+
+    line-height:1.9;
+
     max-width:760px;
 }
 
 .doctrine-symbol{
     position:absolute;
-    right:40px;
-    bottom:28px;
-    font-size:8rem;
+    right:42px;
+    bottom:30px;
+
+    font-size:9rem;
+
     opacity:.18;
+
     color:red;
-    text-shadow:0 0 60px red;
+
+    text-shadow:
+        0 0 70px red;
+
     animation:shieldPulse 3s infinite ease-in-out;
 }
 
@@ -614,145 +1154,303 @@ main{
 }
 
 .principle{
-    min-height:126px;
-    padding:22px;
-    border-radius:26px;
-    background:rgba(0,0,0,.62);
-    border:1px solid rgba(255,0,0,.3);
+    min-height:154px;
+
     position:relative;
     overflow:hidden;
+
+    padding:24px;
+
+    border-radius:28px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18,18,20,.86),
+            rgba(0,0,0,.94)
+        );
+
+    border:1px solid rgba(255,0,0,.3);
+
     transition:.25s;
+}
+
+.principle::before{
+    content:"";
+    position:absolute;
+    inset:10px;
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    pointer-events:none;
+}
+
+.principle::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.18),
+            transparent
+        );
+
+    transform:translateX(-120%);
+    animation:panelSweep 4s infinite;
 }
 
 .principle:hover{
     transform:translateX(-8px) scale(1.02);
+
     border-color:red;
-    box-shadow:0 0 55px rgba(255,0,0,.22);
+
+    box-shadow:
+        0 0 60px rgba(255,0,0,.24);
 }
 
 .principle i{
+    position:relative;
+    z-index:2;
+
     color:red;
-    font-size:1.8rem;
-    margin-bottom:12px;
-    text-shadow:0 0 24px red;
+
+    font-size:2rem;
+
+    margin-bottom:14px;
+
+    text-shadow:
+        0 0 25px red;
 }
 
-.principle h4{font-size:1.1rem;margin-bottom:6px}
-.principle p{color:#aaa;font-size:.88rem;line-height:1.55}
+.principle h4{
+    position:relative;
+    z-index:2;
+
+    font-size:1.1rem;
+
+    margin-bottom:8px;
+}
+
+.principle p{
+    position:relative;
+    z-index:2;
+
+    color:#aaa;
+
+    font-size:.88rem;
+    line-height:1.6;
+}
 
 .kill-chain{
     margin-top:26px;
+
     display:grid;
     grid-template-columns:repeat(5,1fr);
+
     gap:14px;
 }
 
 .chain-node{
-    min-height:190px;
-    border-radius:24px;
-    padding:22px;
-    background:
-        linear-gradient(145deg,rgba(18,18,20,.82),rgba(0,0,0,.92));
-    border:1px solid rgba(255,0,0,.28);
+    min-height:220px;
+
     position:relative;
     overflow:hidden;
+
+    padding:24px;
+
+    border-radius:26px;
+
+    background:
+        linear-gradient(
+            145deg,
+            rgba(18,18,20,.84),
+            rgba(0,0,0,.95)
+        );
+
+    border:1px solid rgba(255,0,0,.28);
+
+    transition:.25s;
+}
+
+.chain-node:hover{
+    transform:translateY(-8px);
+
+    border-color:red;
+
+    box-shadow:
+        0 0 60px rgba(255,0,0,.22);
 }
 
 .chain-node::before{
     content:"";
     position:absolute;
-    left:22px;
+    left:24px;
     top:0;
+
     width:2px;
     height:100%;
-    background:linear-gradient(red,transparent);
-    box-shadow:0 0 18px red;
+
+    background:
+        linear-gradient(
+            red,
+            transparent
+        );
+
+    box-shadow:
+        0 0 18px red;
 }
 
 .chain-node b{
     display:block;
+
+    margin-left:20px;
+
     color:red;
-    font-size:2.3rem;
-    margin-left:18px;
+
+    font-size:2.4rem;
 }
 
 .chain-node h4{
-    margin:8px 0 8px 18px;
+    margin:8px 0 8px 20px;
+
     text-transform:uppercase;
     letter-spacing:.12em;
 }
 
 .chain-node p{
-    margin-left:18px;
+    margin-left:20px;
+
     color:#aaa;
+
     line-height:1.55;
+
     font-size:.86rem;
 }
 
-/* DETECTIONS — BIG RADAR PAGE */
+/* =========================
+   DETECTION MATRIX TAB
+========================= */
+
 .matrix-layout{
     display:grid;
-    grid-template-columns:420px 1fr;
+    grid-template-columns:430px 1fr;
     gap:24px;
 }
 
 .radar-panel{
     position:sticky;
     top:20px;
-    min-height:780px;
-    padding:28px;
-    border-radius:34px;
-    background:
-        radial-gradient(circle at center,rgba(255,0,0,.18),transparent 45%),
-        rgba(0,0,0,.76);
-    border:1px solid rgba(255,0,0,.36);
-    box-shadow:0 0 90px rgba(255,0,0,.16),inset 0 0 70px rgba(255,0,0,.08);
+
+    min-height:820px;
+
+    padding:30px;
+
+    border-radius:36px;
+
     overflow:hidden;
+
+    background:
+        radial-gradient(circle at center,rgba(255,0,0,.2),transparent 48%),
+        linear-gradient(145deg,rgba(18,18,20,.86),rgba(0,0,0,.96));
+
+    border:1px solid rgba(255,0,0,.36);
+
+    box-shadow:
+        0 0 95px rgba(255,0,0,.16),
+        inset 0 0 75px rgba(255,0,0,.08);
+}
+
+.radar-panel::before{
+    content:"";
+    position:absolute;
+    inset:14px;
+
+    border-radius:28px;
+
+    border:1px solid rgba(255,255,255,.07);
+
+    pointer-events:none;
 }
 
 .radar{
     position:relative;
-    width:330px;
-    height:330px;
+
+    width:340px;
+    height:340px;
+
     margin:38px auto 30px;
+
     border-radius:50%;
-    background:
-        radial-gradient(circle,rgba(255,0,0,.24),transparent 58%),
-        repeating-radial-gradient(circle,transparent 0 34px,rgba(255,0,0,.23) 35px,transparent 36px);
-    border:1px solid rgba(255,0,0,.4);
-    box-shadow:0 0 60px rgba(255,0,0,.28),inset 0 0 60px rgba(255,0,0,.12);
+
     overflow:hidden;
+
+    background:
+        radial-gradient(circle,rgba(255,0,0,.26),transparent 58%),
+        repeating-radial-gradient(circle,transparent 0 34px,rgba(255,0,0,.24) 35px,transparent 36px);
+
+    border:1px solid rgba(255,0,0,.44);
+
+    box-shadow:
+        0 0 65px rgba(255,0,0,.3),
+        inset 0 0 65px rgba(255,0,0,.13);
 }
 
-.radar::before,.radar::after{
+.radar::before,
+.radar::after{
     content:"";
     position:absolute;
     inset:50%;
+
     width:100%;
     height:1px;
-    background:rgba(255,0,0,.35);
+
+    background:rgba(255,0,0,.38);
+
     transform-origin:left;
 }
 
-.radar::after{transform:rotate(90deg)}
+.radar::after{
+    transform:rotate(90deg);
+}
 
 .radar-sweep{
     position:absolute;
     inset:0;
+
     border-radius:50%;
-    background:conic-gradient(from 0deg,rgba(255,0,0,.5),transparent 38%);
+
+    background:
+        conic-gradient(
+            from 0deg,
+            rgba(255,0,0,.55),
+            transparent 38%
+        );
+
     animation:radarSpin 2.2s linear infinite;
 }
 
-@keyframes radarSpin{to{transform:rotate(360deg)}}
+@keyframes radarSpin{
+    to{transform:rotate(360deg)}
+}
 
 .radar-dot{
     position:absolute;
+
     width:9px;
     height:9px;
+
     border-radius:50%;
+
     background:red;
-    box-shadow:0 0 18px red;
+
+    box-shadow:
+        0 0 18px red;
+
     animation:dotPulse 1s infinite alternate;
 }
 
@@ -760,65 +1458,127 @@ main{
 .d2{top:62%;left:68%;animation-delay:.3s}
 .d3{top:48%;left:82%;animation-delay:.6s}
 .d4{top:72%;left:35%;animation-delay:.9s}
+.d5{top:22%;left:62%;animation-delay:1.1s}
 
-@keyframes dotPulse{to{transform:scale(1.8);opacity:.45}}
+@keyframes dotPulse{
+    to{
+        transform:scale(1.9);
+        opacity:.45;
+    }
+}
 
 .radar-center{
     position:absolute;
     inset:50%;
+
     translate:-50% -50%;
-    width:78px;
-    height:78px;
+
+    width:82px;
+    height:82px;
+
     display:grid;
     place-items:center;
+
     border-radius:50%;
+
     background:black;
+
     color:white;
-    font-size:2rem;
-    box-shadow:0 0 38px red;
+
+    font-size:2.1rem;
+
+    box-shadow:
+        0 0 42px red;
 }
 
-.radar-panel h3{text-align:center;font-size:1.35rem;margin-bottom:12px}
-.radar-panel p{text-align:center;color:#aaa;line-height:1.7}
+.radar-panel h3{
+    position:relative;
+    z-index:2;
+
+    text-align:center;
+
+    font-size:1.35rem;
+
+    margin-bottom:12px;
+}
+
+.radar-panel p{
+    position:relative;
+    z-index:2;
+
+    text-align:center;
+
+    color:#aaa;
+
+    line-height:1.7;
+}
 
 .radar-metrics{
+    position:relative;
+    z-index:2;
+
     margin-top:28px;
+
     display:grid;
     gap:12px;
 }
 
 .metric{
     padding:14px;
+
     border-radius:16px;
+
     background:rgba(255,255,255,.045);
-    border:1px solid rgba(255,0,0,.22);
+
+    border:1px solid rgba(255,0,0,.24);
 }
 
 .metric span{
     display:flex;
     justify-content:space-between;
+
     color:#eee;
+
     font-size:.8rem;
     font-weight:900;
+
     margin-bottom:8px;
 }
 
 .bar{
     height:7px;
+
     border-radius:999px;
+
     background:rgba(255,255,255,.08);
+
     overflow:hidden;
 }
 
 .bar i{
     display:block;
+
     height:100%;
-    background:linear-gradient(90deg,#650000,red,#fff);
-    box-shadow:0 0 18px red;
+
+    background:
+        linear-gradient(
+            90deg,
+            #650000,
+            red,
+            white
+        );
+
+    box-shadow:
+        0 0 18px red;
+
     animation:barPulse 2s infinite ease-in-out;
 }
 
-@keyframes barPulse{50%{filter:brightness(1.7)}}
+@keyframes barPulse{
+    50%{
+        filter:brightness(1.7);
+    }
+}
 
 .detect-grid{
     display:grid;
@@ -827,73 +1587,168 @@ main{
 }
 
 .detect{
-    min-height:220px;
-    padding:24px;
-    border-radius:26px;
-    background:
-        radial-gradient(circle at top right,rgba(255,0,0,.18),transparent 36%),
-        linear-gradient(145deg,rgba(18,18,20,.84),rgba(0,0,0,.94));
-    border:1px solid rgba(255,0,0,.28);
+    min-height:235px;
+
     position:relative;
     overflow:hidden;
+
+    padding:26px;
+
+    border-radius:28px;
+
+    background:
+        radial-gradient(circle at top right,rgba(255,0,0,.2),transparent 36%),
+        linear-gradient(145deg,rgba(18,18,20,.86),rgba(0,0,0,.96));
+
+    border:1px solid rgba(255,0,0,.3);
+
     transition:.25s;
+}
+
+.detect::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+
+    border-radius:20px;
+
+    border:1px solid rgba(255,255,255,.06);
+
+    pointer-events:none;
+}
+
+.detect::after{
+    content:"";
+    position:absolute;
+    inset:0;
+
+    background:
+        linear-gradient(
+            90deg,
+            transparent,
+            rgba(255,0,0,.16),
+            transparent
+        );
+
+    transform:translateX(-120%);
+    animation:panelSweep 5s infinite;
 }
 
 .detect:hover{
     transform:translateY(-8px) scale(1.015);
+
     border-color:red;
-    box-shadow:0 0 60px rgba(255,0,0,.22);
+
+    box-shadow:
+        0 0 65px rgba(255,0,0,.24);
 }
 
 .detect strong{
+    position:relative;
+    z-index:2;
+
     display:inline-flex;
-    width:48px;
-    height:48px;
+
+    width:50px;
+    height:50px;
+
     align-items:center;
     justify-content:center;
-    border-radius:14px;
+
+    border-radius:15px;
+
     background:rgba(255,0,0,.14);
-    border:1px solid rgba(255,0,0,.35);
+
+    border:1px solid rgba(255,0,0,.38);
+
     color:white;
-    box-shadow:0 0 22px rgba(255,0,0,.25);
+
+    box-shadow:
+        0 0 24px rgba(255,0,0,.28);
+
     margin-bottom:16px;
 }
 
-.detect h3{font-size:1.25rem;margin-bottom:10px}
-.detect p{color:#aaa;line-height:1.65;font-size:.9rem}
+.detect h3{
+    position:relative;
+    z-index:2;
 
-.detect-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+    font-size:1.25rem;
+
+    margin-bottom:10px;
+}
+
+.detect p{
+    position:relative;
+    z-index:2;
+
+    color:#aaa;
+
+    line-height:1.65;
+
+    font-size:.9rem;
+}
+
+.detect-tags{
+    position:relative;
+    z-index:2;
+
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+
+    margin-top:16px;
+}
 
 .detect-tags span{
     font-size:.68rem;
+
     padding:6px 9px;
+
     border-radius:999px;
+
     border:1px solid rgba(255,0,0,.3);
+
     color:#ddd;
+
     background:rgba(255,0,0,.08);
 }
 
-/* CONNECT — PORTAL */
+/* =========================
+   CONNECT TAB
+========================= */
+
 .connect-stage{
     display:grid;
-    grid-template-columns:1fr 1fr 1fr;
+    grid-template-columns:repeat(3,1fr);
     gap:24px;
+
     margin-top:38px;
 }
 
 .connect-card{
-    min-height:430px;
-    padding:32px;
-    border-radius:34px;
+    min-height:450px;
+
+    padding:34px;
+
+    border-radius:36px;
+
     text-decoration:none;
     color:white;
+
     position:relative;
     overflow:hidden;
+
     background:
-        radial-gradient(circle at top,rgba(255,0,0,.24),transparent 42%),
+        radial-gradient(circle at top,rgba(255,0,0,.26),transparent 42%),
         linear-gradient(145deg,rgba(20,20,22,.9),rgba(0,0,0,.96));
+
     border:1px solid rgba(255,0,0,.34);
-    box-shadow:0 0 80px rgba(255,0,0,.14),inset 0 0 70px rgba(255,0,0,.08);
+
+    box-shadow:
+        0 0 85px rgba(255,0,0,.14),
+        inset 0 0 70px rgba(255,0,0,.08);
+
     transition:.25s;
 }
 
@@ -901,46 +1756,81 @@ main{
     content:"";
     position:absolute;
     inset:14px;
-    border-radius:26px;
+
+    border-radius:28px;
+
     border:1px solid rgba(255,255,255,.07);
+
     pointer-events:none;
 }
 
 .connect-card::after{
     content:"";
     position:absolute;
-    inset:-90px;
-    background:conic-gradient(from 0deg,transparent,rgba(255,0,0,.38),transparent,rgba(255,255,255,.16),transparent);
+    inset:-100px;
+
+    background:
+        conic-gradient(
+            from 0deg,
+            transparent,
+            rgba(255,0,0,.4),
+            transparent,
+            rgba(255,255,255,.16),
+            transparent
+        );
+
     animation:spin 6s linear infinite;
-    opacity:.36;
+
+    opacity:.34;
 }
 
-.connect-card > *{position:relative;z-index:2}
+.connect-card > *{
+    position:relative;
+    z-index:2;
+}
 
 .connect-card i{
-    font-size:3.4rem;
+    font-size:3.5rem;
+
     color:red;
-    text-shadow:0 0 30px red;
+
+    text-shadow:
+        0 0 32px red;
+
     margin-bottom:26px;
 }
 
-.connect-card h3{font-size:1.55rem;margin-bottom:14px}
-.connect-card p{color:#aaa;line-height:1.7;margin-bottom:60px}
+.connect-card h3{
+    font-size:1.6rem;
+    margin-bottom:14px;
+}
+
+.connect-card p{
+    color:#aaa;
+    line-height:1.7;
+    margin-bottom:60px;
+}
 
 .connect-card .open{
     position:absolute;
-    left:32px;
-    bottom:32px;
+    left:34px;
+    bottom:34px;
+
     font-weight:950;
-    letter-spacing:.14em;
+    letter-spacing:.15em;
+
     color:white;
+
     font-size:.78rem;
 }
 
 .connect-card:hover{
     transform:translateY(-12px) scale(1.025);
+
     border-color:red;
-    box-shadow:0 0 105px rgba(255,0,0,.28);
+
+    box-shadow:
+        0 0 110px rgba(255,0,0,.3);
 }
 
 .connect-card.primary{
@@ -950,63 +1840,122 @@ main{
 }
 
 .network-terminal{
-    margin-top:28px;
-    min-height:220px;
-    border-radius:28px;
+    margin-top:30px;
+
+    min-height:230px;
+
+    border-radius:30px;
+
     padding:24px;
+
     background:#030303;
-    border:1px solid rgba(255,0,0,.3);
-    box-shadow:inset 0 0 45px rgba(255,0,0,.12),0 0 65px rgba(255,0,0,.1);
+
+    border:1px solid rgba(255,0,0,.32);
+
+    box-shadow:
+        inset 0 0 45px rgba(255,0,0,.12),
+        0 0 70px rgba(255,0,0,.12);
+
     font-family:Consolas,monospace;
+
     color:#ff4040;
+
     overflow:hidden;
 }
 
-.network-terminal div{margin-bottom:9px}
+.network-terminal div{
+    margin-bottom:9px;
+}
 
-/* FOOTER */
+/* =========================
+   FOOTER / RESPONSIVE
+========================= */
+
 footer{
     text-align:center;
+
     color:#777;
+
     font-size:.78rem;
+
     letter-spacing:.12em;
+
     text-transform:uppercase;
 }
 
-/* RESPONSIVE */
 @media(max-width:1050px){
-    body{overflow:auto}
-    .app{height:auto;min-height:100vh}
-    header{flex-direction:column;align-items:flex-start}
-    nav{width:100%;overflow-x:auto}
-    main{min-height:1600px;overflow:visible}
-    .hero-grid,.philo-hero,.matrix-layout,.connect-stage{grid-template-columns:1fr}
-    .command-strip,.kill-chain,.detect-grid{grid-template-columns:1fr}
-    .radar-panel{position:relative;min-height:auto}
+    body{
+        overflow:auto;
+    }
+
+    .app{
+        height:auto;
+        min-height:100vh;
+    }
+
+    header{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    nav{
+        width:100%;
+        overflow-x:auto;
+    }
+
+    main{
+        min-height:1750px;
+        overflow:visible;
+    }
+
+    .hero-grid,
+    .philo-stage,
+    .matrix-layout,
+    .connect-stage{
+        grid-template-columns:1fr;
+    }
+
+    .command-strip,
+    .kill-chain,
+    .detect-grid,
+    .stat-grid{
+        grid-template-columns:1fr;
+    }
+
+    .radar-panel{
+        position:relative;
+        min-height:auto;
+    }
+
+    .core-card{
+        min-height:auto;
+    }
 }
 </style>
 </head>
 
-<body>
+    <body>
 <canvas id="particles"></canvas>
-<div class="noise"></div>
-<div class="grid"></div>
-<div class="scanlines"></div>
-<div class="red-fog"></div>
-<div class="signal-tears"></div>
-<div class="hud-orbit"></div>
-<div class="scanner-beam"></div>
-<div class="vignette"></div>
+
+<div class="bg-noise"></div>
+<div class="bg-grid"></div>
+<div class="bg-scanlines"></div>
+<div class="bg-red-fog"></div>
+<div class="bg-signal-tears"></div>
+<div class="bg-hud-orbit"></div>
+<div class="bg-scanner"></div>
+<div class="bg-warning-strips"></div>
+<div class="bg-vignette"></div>
 
 <div class="app">
 <header>
     <div class="brand">
         <div class="logo">
-            <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png">
+            <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png" alt="RedFox Logo">
         </div>
         <div>
             <div class="brand-title glitch" data-text="REDFOX">REDFOX</div>
-            <div class="brand-sub">Omega Defense Core</div>
+            <div class="brand-sub">Blacksite Defense Core</div>
         </div>
     </div>
 
@@ -1022,8 +1971,12 @@ footer{
 <section class="tab active" data-view="home">
     <div class="hero-grid">
         <div>
-            <h1 class="hero-title"><span class="glitch" data-text="REDFOX">REDFOX</span></h1>
+            <h1 class="hero-title">
+                <span class="glitch" data-text="REDFOX">REDFOX</span>
+            </h1>
+
             <div class="hero-kicker">Server-Side Threat Suppression Core</div>
+
             <p class="hero-text">
                 RedFox is a high-pressure anti-cheat defense system built around movement forensics,
                 exploit pattern recognition, workspace lockdown, recovery logic, strike escalation,
@@ -1039,9 +1992,18 @@ footer{
             </div>
 
             <div class="command-strip">
-                <div class="command"><b>Movement Forensics</b><span>Velocity, CFrame, hover, desync, snap movement.</span></div>
-                <div class="command"><b>World Integrity</b><span>Protected assets, tamper checks, restoration logic.</span></div>
-                <div class="command"><b>Threat Verdict</b><span>Evidence scoring, recovery, bans, orbital punishment.</span></div>
+                <div class="command">
+                    <b>Movement Forensics</b>
+                    <span>Velocity, CFrame, hover, desync, snap movement.</span>
+                </div>
+                <div class="command">
+                    <b>World Integrity</b>
+                    <span>Protected assets, tamper checks, restoration logic.</span>
+                </div>
+                <div class="command">
+                    <b>Threat Verdict</b>
+                    <span>Evidence scoring, recovery, bans, orbital punishment.</span>
+                </div>
             </div>
 
             <div class="btn-row">
@@ -1055,11 +2017,16 @@ footer{
         </div>
 
         <div class="core-card">
-            <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+            <div class="corner c1"></div>
+            <div class="corner c2"></div>
+            <div class="corner c3"></div>
+            <div class="corner c4"></div>
 
             <div class="core-header">
                 <div class="core-id">
-                    <div class="core-logo"><img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png"></div>
+                    <div class="core-logo">
+                        <img src="https://raw.githubusercontent.com/redyfoxsyr0/RedFox/main/Copilot_20260405_070339.png" alt="Core Logo">
+                    </div>
                     <div>
                         <div class="core-title">RedFox Security Core</div>
                         <div class="core-status">● ACTIVE DEFENSE MODE</div>
@@ -1072,14 +2039,36 @@ footer{
                 <div class="holo-ring r1"></div>
                 <div class="holo-ring r2"></div>
                 <div class="holo-ring r3"></div>
-                <div class="shield"><i class="fas fa-shield-virus"></i></div>
+
+                <div class="core-labels">
+                    <div class="hud-label l1">TRACE</div>
+                    <div class="hud-label l2">SCAN</div>
+                    <div class="hud-label l3">LOCK</div>
+                    <div class="hud-label l4">BAN</div>
+                </div>
+
+                <div class="shield">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
             </div>
 
             <div class="stat-grid">
-                <div class="stat"><b>20+</b><span>Detection Systems</span></div>
-                <div class="stat"><b>Realtime</b><span>Movement Analysis</span></div>
-                <div class="stat"><b>Active</b><span>Workspace Guard</span></div>
-                <div class="stat"><b>Armed</b><span>Strike Enforcement</span></div>
+                <div class="stat">
+                    <b>20+</b>
+                    <span>Detection Systems</span>
+                </div>
+                <div class="stat">
+                    <b>Realtime</b>
+                    <span>Movement Analysis</span>
+                </div>
+                <div class="stat">
+                    <b>Active</b>
+                    <span>Workspace Guard</span>
+                </div>
+                <div class="stat">
+                    <b>Armed</b>
+                    <span>Strike Enforcement</span>
+                </div>
             </div>
 
             <div class="terminal">
@@ -1087,6 +2076,7 @@ footer{
                 <div>[SCAN] Movement validators online.</div>
                 <div>[WATCH] Workspace integrity monitor attached.</div>
                 <div>[TRACE] Exploit behavior signatures loaded.</div>
+                <div>[LOCK] Server-side verdict engine armed.</div>
                 <div>[READY] Threat suppression status: ACTIVE.</div>
             </div>
         </div>
@@ -1097,45 +2087,88 @@ footer{
 <div class="scroll">
 <div class="wrap wide">
     <h2 class="section-title glitch" data-text="PHILOSOPHY">PHILOSOPHY</h2>
-    <p class="section-sub">Not a paragraph page anymore. This is the RedFox doctrine system.</p>
+    <p class="section-sub">
+        RedFox is not a random punishment machine. It is a defense doctrine built on observation,
+        validation, recovery, scoring, and enforcement.
+    </p>
 
-    <div class="philo-hero">
+    <div class="philo-stage">
         <div class="doctrine-main">
-            <div class="panel-label">CORE DOCTRINE</div>
+            <div class="panel-label">Core Doctrine</div>
+
             <h3>Understand the exploit before destroying it.</h3>
+
             <p>
                 RedFox treats anti-cheat like an investigation engine. It observes behavior, validates impossible movement,
                 corrects unstable states, scores repeated evidence, and only then escalates enforcement.
                 The goal is not random punishment. The goal is undeniable proof.
             </p>
-            <div class="doctrine-symbol"><i class="fas fa-user-secret"></i></div>
+
+            <div class="doctrine-symbol">
+                <i class="fas fa-user-secret"></i>
+            </div>
         </div>
 
         <div class="principle-stack">
             <div class="principle">
                 <i class="fas fa-brain"></i>
                 <h4>Behavior Intelligence</h4>
-                <p>RedFox does not chase one-frame ghosts. It watches patterns, repetition, timing, and physics impossibilities.</p>
+                <p>
+                    RedFox does not chase one-frame ghosts. It watches patterns, repetition, timing,
+                    physics impossibilities, and abnormal replication.
+                </p>
             </div>
+
             <div class="principle">
                 <i class="fas fa-heart-pulse"></i>
                 <h4>Recovery Before Punishment</h4>
-                <p>Invalid states are corrected first when possible, reducing false positives and keeping real players safe.</p>
+                <p>
+                    Invalid states are corrected first when possible, reducing false positives and keeping
+                    legitimate players safe.
+                </p>
             </div>
+
             <div class="principle">
                 <i class="fas fa-gavel"></i>
                 <h4>Verdict Engine</h4>
-                <p>Strike-based logic turns signals into evidence, evidence into confidence, and confidence into action.</p>
+                <p>
+                    Strike-based logic turns signals into evidence, evidence into confidence,
+                    and confidence into enforcement.
+                </p>
             </div>
         </div>
     </div>
 
     <div class="kill-chain">
-        <div class="chain-node"><b>01</b><h4>Observe</h4><p>Track position, velocity, humanoid state, grounding, and replication behavior.</p></div>
-        <div class="chain-node"><b>02</b><h4>Validate</h4><p>Compare movement against server-side physics, raycasts, and safe-position history.</p></div>
-        <div class="chain-node"><b>03</b><h4>Recover</h4><p>Restore players from invalid physics states, void drops, fling events, and desync.</p></div>
-        <div class="chain-node"><b>04</b><h4>Score</h4><p>Accumulate strike evidence instead of trusting one weak signal.</p></div>
-        <div class="chain-node"><b>05</b><h4>Enforce</h4><p>Escalate through warnings, kicks, bans, and visual punishment effects.</p></div>
+        <div class="chain-node">
+            <b>01</b>
+            <h4>Observe</h4>
+            <p>Track position, velocity, humanoid state, grounding, and replication behavior.</p>
+        </div>
+
+        <div class="chain-node">
+            <b>02</b>
+            <h4>Validate</h4>
+            <p>Compare movement against server physics, raycasts, collision checks, and safe-position history.</p>
+        </div>
+
+        <div class="chain-node">
+            <b>03</b>
+            <h4>Recover</h4>
+            <p>Restore players from invalid physics states, void drops, fling events, and desync.</p>
+        </div>
+
+        <div class="chain-node">
+            <b>04</b>
+            <h4>Score</h4>
+            <p>Accumulate strike evidence instead of trusting one weak signal.</p>
+        </div>
+
+        <div class="chain-node">
+            <b>05</b>
+            <h4>Enforce</h4>
+            <p>Escalate through warnings, corrections, kicks, bans, and visible punishment effects.</p>
+        </div>
     </div>
 </div>
 </div>
@@ -1145,39 +2178,143 @@ footer{
 <div class="scroll">
 <div class="wrap wide">
     <h2 class="section-title glitch" data-text="DETECTION MATRIX">DETECTION MATRIX</h2>
-    <p class="section-sub">A full threat grid, not boring cards. Every detection feeds the verdict core.</p>
+    <p class="section-sub">
+        Every detection module feeds the verdict core. Every abnormal movement pattern becomes evidence.
+    </p>
 
     <div class="matrix-layout">
         <div class="radar-panel">
             <div class="radar">
                 <div class="radar-sweep"></div>
+
                 <div class="radar-dot d1"></div>
                 <div class="radar-dot d2"></div>
                 <div class="radar-dot d3"></div>
                 <div class="radar-dot d4"></div>
-                <div class="radar-center"><i class="fas fa-shield-virus"></i></div>
+                <div class="radar-dot d5"></div>
+
+                <div class="radar-center">
+                    <i class="fas fa-shield-virus"></i>
+                </div>
             </div>
 
             <h3>LIVE THREAT RADAR</h3>
-            <p>Scanning movement anomalies, invalid physics states, remote abuse, and workspace tamper events.</p>
+            <p>
+                Scanning movement anomalies, invalid physics states, remote abuse,
+                and workspace tamper events.
+            </p>
 
             <div class="radar-metrics">
-                <div class="metric"><span>Movement Forensics <b>97%</b></span><div class="bar"><i style="width:97%"></i></div></div>
-                <div class="metric"><span>Workspace Guard <b>89%</b></span><div class="bar"><i style="width:89%"></i></div></div>
-                <div class="metric"><span>Remote Abuse Trace <b>76%</b></span><div class="bar"><i style="width:76%"></i></div></div>
-                <div class="metric"><span>Verdict Confidence <b>94%</b></span><div class="bar"><i style="width:94%"></i></div></div>
+                <div class="metric">
+                    <span>Movement Forensics <b>97%</b></span>
+                    <div class="bar"><i style="width:97%"></i></div>
+                </div>
+
+                <div class="metric">
+                    <span>Workspace Guard <b>89%</b></span>
+                    <div class="bar"><i style="width:89%"></i></div>
+                </div>
+
+                <div class="metric">
+                    <span>Remote Abuse Trace <b>76%</b></span>
+                    <div class="bar"><i style="width:76%"></i></div>
+                </div>
+
+                <div class="metric">
+                    <span>Verdict Confidence <b>94%</b></span>
+                    <div class="bar"><i style="width:94%"></i></div>
+                </div>
             </div>
         </div>
 
         <div class="detect-grid">
-            <div class="detect"><strong>01</strong><h3>Fly Suppression</h3><p>Detects unsupported airborne movement, hover abuse, velocity lift, and fake physics.</p><div class="detect-tags"><span>Airborne</span><span>Hover</span><span>Velocity</span></div></div>
-            <div class="detect"><strong>02</strong><h3>CFrame Trace</h3><p>Finds repeated position mutation outside normal humanoid replication.</p><div class="detect-tags"><span>CFrame</span><span>Desync</span><span>Snap</span></div></div>
-            <div class="detect"><strong>03</strong><h3>Noclip Grid</h3><p>Uses raycasts, blockcasts, and solid-geometry occupation checks.</p><div class="detect-tags"><span>Raycast</span><span>Blockcast</span><span>Collision</span></div></div>
-            <div class="detect"><strong>04</strong><h3>Teleport Verdict</h3><p>Flags sudden position jumps, ClickTP, WASD teleport, and abnormal displacement.</p><div class="detect-tags"><span>ClickTP</span><span>Distance</span><span>Timing</span></div></div>
-            <div class="detect"><strong>05</strong><h3>Fling Control</h3><p>Detects angular velocity spikes, physics abuse, and body mover chaos.</p><div class="detect-tags"><span>Angular</span><span>Velocity</span><span>Physics</span></div></div>
-            <div class="detect"><strong>06</strong><h3>Workspace Guard</h3><p>Monitors protected parts for deletion, movement, size edits, collision edits, and transparency changes.</p><div class="detect-tags"><span>Parts</span><span>Restore</span><span>Tamper</span></div></div>
-            <div class="detect"><strong>07</strong><h3>Remote Abuse</h3><p>Detects suspicious interaction spam and invalid ClickDetector usage.</p><div class="detect-tags"><span>Remote</span><span>Spam</span><span>Range</span></div></div>
-            <div class="detect"><strong>08</strong><h3>Strike System</h3><p>Scores evidence before escalating to warnings, corrections, kicks, temporary bans, or permanent bans.</p><div class="detect-tags"><span>Evidence</span><span>Strike</span><span>Ban</span></div></div>
+            <div class="detect">
+                <strong>01</strong>
+                <h3>Fly Suppression</h3>
+                <p>Detects unsupported airborne movement, hover abuse, velocity lift, and fake physics.</p>
+                <div class="detect-tags">
+                    <span>Airborne</span>
+                    <span>Hover</span>
+                    <span>Velocity</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>02</strong>
+                <h3>CFrame Trace</h3>
+                <p>Finds repeated position mutation outside normal humanoid replication.</p>
+                <div class="detect-tags">
+                    <span>CFrame</span>
+                    <span>Desync</span>
+                    <span>Snap</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>03</strong>
+                <h3>Noclip Grid</h3>
+                <p>Uses raycasts, blockcasts, and solid-geometry occupation checks.</p>
+                <div class="detect-tags">
+                    <span>Raycast</span>
+                    <span>Blockcast</span>
+                    <span>Collision</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>04</strong>
+                <h3>Teleport Verdict</h3>
+                <p>Flags sudden position jumps, ClickTP, WASD teleport, and abnormal displacement.</p>
+                <div class="detect-tags">
+                    <span>ClickTP</span>
+                    <span>Distance</span>
+                    <span>Timing</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>05</strong>
+                <h3>Fling Control</h3>
+                <p>Detects angular velocity spikes, physics abuse, and body mover chaos.</p>
+                <div class="detect-tags">
+                    <span>Angular</span>
+                    <span>Velocity</span>
+                    <span>Physics</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>06</strong>
+                <h3>Workspace Guard</h3>
+                <p>Monitors protected parts for deletion, movement, size edits, collision edits, and transparency changes.</p>
+                <div class="detect-tags">
+                    <span>Parts</span>
+                    <span>Restore</span>
+                    <span>Tamper</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>07</strong>
+                <h3>Remote Abuse</h3>
+                <p>Detects suspicious interaction spam, invalid ClickDetector usage, and impossible interaction range.</p>
+                <div class="detect-tags">
+                    <span>Remote</span>
+                    <span>Spam</span>
+                    <span>Range</span>
+                </div>
+            </div>
+
+            <div class="detect">
+                <strong>08</strong>
+                <h3>Strike System</h3>
+                <p>Scores evidence before escalating to warnings, corrections, kicks, temporary bans, or permanent bans.</p>
+                <div class="detect-tags">
+                    <span>Evidence</span>
+                    <span>Strike</span>
+                    <span>Ban</span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -1188,27 +2325,35 @@ footer{
 <div class="scroll">
 <div class="wrap wide">
     <h2 class="section-title glitch" data-text="CONNECT">CONNECT</h2>
-    <p class="section-sub">This is now a network portal instead of plain links.</p>
+    <p class="section-sub">
+        Enter the RedFox network. Demo access, community relay, and repository node.
+    </p>
 
     <div class="connect-stage">
         <a href="https://www.roblox.com/games/88518127505129/RedFox-Anti-Cheat" target="_blank" class="connect-card primary">
             <i class="fas fa-shield-halved"></i>
             <h3>Anti-Cheat Demo</h3>
-            <p>Enter the live RedFox experience and see the defense system in action.</p>
+            <p>
+                Enter the live RedFox experience and see the defense system in action.
+            </p>
             <span class="open">OPEN DEMO</span>
         </a>
 
         <a href="https://discord.gg/BsxMZFvJTu" target="_blank" class="connect-card">
             <i class="fab fa-discord"></i>
             <h3>Discord Server</h3>
-            <p>Join the RedFox community hub for updates, testing, and support.</p>
+            <p>
+                Join the RedFox community hub for updates, testing, and support.
+            </p>
             <span class="open">JOIN NETWORK</span>
         </a>
 
         <a href="#" class="connect-card">
             <i class="fab fa-github"></i>
             <h3>GitHub Repository</h3>
-            <p>Source, documentation, releases, and future security notes.</p>
+            <p>
+                Source, documentation, releases, and future security notes.
+            </p>
             <span class="open">COMING SOON</span>
         </a>
     </div>
@@ -1219,27 +2364,35 @@ footer{
         <div>[COMMUNITY] Discord relay active.</div>
         <div>[REPOSITORY] GitHub node reserved.</div>
         <div>[STATUS] Public defense network online.</div>
+        <div>[SIGNAL] Connection stabilized through blacksite defense layer.</div>
     </div>
 </div>
 </div>
 </section>
 </main>
 
-<footer>© <span id="year"></span> REDFOX • OMEGA DEFENSE CORE ARMED</footer>
+<footer>
+    © <span id="year"></span> REDFOX • BLACKSITE DEFENSE CORE ARMED
+</footer>
 </div>
 
 <script>
 function switchTab(tab){
-    document.querySelectorAll(".nav-pill").forEach(x=>x.classList.toggle("active",x.dataset.tab===tab));
-    document.querySelectorAll(".tab").forEach(x=>x.classList.toggle("active",x.dataset.view===tab));
+    document.querySelectorAll(".nav-pill").forEach(button=>{
+        button.classList.toggle("active",button.dataset.tab===tab);
+    });
+
+    document.querySelectorAll(".tab").forEach(view=>{
+        view.classList.toggle("active",view.dataset.view===tab);
+    });
 }
 
-document.querySelectorAll(".nav-pill").forEach(btn=>{
-    btn.addEventListener("click",()=>switchTab(btn.dataset.tab));
+document.querySelectorAll(".nav-pill").forEach(button=>{
+    button.addEventListener("click",()=>switchTab(button.dataset.tab));
 });
 
-document.querySelectorAll("[data-tab-trigger]").forEach(btn=>{
-    btn.addEventListener("click",()=>switchTab(btn.dataset.tabTrigger));
+document.querySelectorAll("[data-tab-trigger]").forEach(button=>{
+    button.addEventListener("click",()=>switchTab(button.dataset.tabTrigger));
 });
 
 document.getElementById("year").textContent=new Date().getFullYear();
@@ -1252,11 +2405,15 @@ function resize(){
     canvas.width=innerWidth;
     canvas.height=innerHeight;
 }
+
 addEventListener("resize",resize);
 resize();
 
 class Particle{
-    constructor(){this.reset()}
+    constructor(){
+        this.reset();
+    }
+
     reset(){
         this.x=Math.random()*canvas.width;
         this.y=Math.random()*canvas.height;
@@ -1267,20 +2424,23 @@ class Particle{
         this.alpha=Math.random()*.55+.15;
         this.red=Math.random()>.42;
     }
+
     update(){
         this.x+=this.vx;
         this.y+=this.vy;
+
         if(this.x<0)this.x=canvas.width;
         if(this.x>canvas.width)this.x=0;
         if(this.y<0)this.y=canvas.height;
         if(this.y>canvas.height)this.y=0;
     }
+
     draw(){
         ctx.save();
         ctx.globalAlpha=this.alpha;
-        ctx.fillStyle=this.red?"#ff1010":"#ffffff";
-        ctx.shadowBlur=this.red?18:9;
-        ctx.shadowColor=this.red?"#ff1010":"#ffffff";
+        ctx.fillStyle=this.red ? "#ff1010" : "#ffffff";
+        ctx.shadowBlur=this.red ? 18 : 9;
+        ctx.shadowColor=this.red ? "#ff1010" : "#ffffff";
         ctx.fillRect(this.x,this.y,this.w,this.h);
         ctx.restore();
     }
@@ -1288,9 +2448,13 @@ class Particle{
 
 function init(){
     particles=[];
-    let count=innerWidth<800?140:300;
-    for(let i=0;i<count;i++)particles.push(new Particle());
+    const count=innerWidth<800 ? 140 : 300;
+
+    for(let i=0;i<count;i++){
+        particles.push(new Particle());
+    }
 }
+
 init();
 addEventListener("resize",init);
 
@@ -1309,10 +2473,10 @@ function animate(){
         for(let j=i+1;j<particles.length;j+=10){
             const dx=particles[i].x-particles[j].x;
             const dy=particles[i].y-particles[j].y;
-            const d=Math.sqrt(dx*dx+dy*dy);
+            const distance=Math.sqrt(dx*dx+dy*dy);
 
-            if(d<150){
-                ctx.globalAlpha=(150-d)/150;
+            if(distance<150){
+                ctx.globalAlpha=(150-distance)/150;
                 ctx.beginPath();
                 ctx.moveTo(particles[i].x,particles[i].y);
                 ctx.lineTo(particles[j].x,particles[j].y);
@@ -1335,6 +2499,7 @@ function animate(){
 
     requestAnimationFrame(animate);
 }
+
 animate();
 </script>
 </body>
