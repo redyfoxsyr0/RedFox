@@ -255,13 +255,12 @@
             line-height: 1.65;
         }
 
-        .glitch {
+         .glitch {
             position: relative;
             display: inline-block;
-            color: #f2f2f2;
-            text-shadow:
-                2px 0 #111,
-                -1px 0 #ff1a1a;
+            color: #ffffff;
+            letter-spacing: -0.02em;
+            animation: staticFlicker 4s infinite;
         }
         
         .glitch::before,
@@ -270,37 +269,59 @@
             position: absolute;
             inset: 0;
             pointer-events: none;
-            opacity: 0.65;
         }
         
         .glitch::before {
-            color: #ffffff;
-            left: 2px;
-            text-shadow: -2px 0 #ff1a1a;
-            clip-path: polygon(0 8%, 100% 8%, 100% 32%, 0 32%);
-            animation: glitchTop 1.7s infinite steps(2, end);
+            color: #ff0000;
+            transform: translateX(2px);
+            mix-blend-mode: screen;
+            animation: redShift 0.15s infinite alternate;
         }
         
         .glitch::after {
-            color: #111111;
-            left: -2px;
-            text-shadow: 2px 0 #ffffff;
-            clip-path: polygon(0 58%, 100% 58%, 100% 82%, 0 82%);
-            animation: glitchBottom 2.1s infinite steps(2, end);
+            color: #000000;
+            transform: translateX(-2px);
+            opacity: 0.8;
+            animation: blackShift 0.12s infinite alternate;
+        }
+
+        .glitch-scanlines {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            background:
+                repeating-linear-gradient(
+                    to bottom,
+                    transparent 0px,
+                    transparent 2px,
+                    rgba(255,255,255,.05) 2px,
+                    rgba(255,255,255,.05) 3px
+                );
+            mix-blend-mode: overlay;
         }
         
-        @keyframes glitchTop {
-            0%, 88%, 100% { transform: translate(0, 0); opacity: 0; }
-            90% { transform: translate(3px, -1px); opacity: 0.7; }
-            92% { transform: translate(-2px, 1px); opacity: 0.45; }
-            94% { transform: translate(1px, 0); opacity: 0.6; }
+        @keyframes redShift {
+            0%   { transform: translateX(0px); }
+            25%  { transform: translateX(2px); }
+            50%  { transform: translateX(-1px); }
+            75%  { transform: translateX(3px); }
+            100% { transform: translateX(0px); }
         }
         
-        @keyframes glitchBottom {
-            0%, 84%, 100% { transform: translate(0, 0); opacity: 0; }
-            86% { transform: translate(-3px, 1px); opacity: 0.7; }
-            89% { transform: translate(2px, -1px); opacity: 0.45; }
-            92% { transform: translate(-1px, 0); opacity: 0.6; }
+        @keyframes blackShift {
+            0%   { transform: translateX(0px); }
+            25%  { transform: translateX(-2px); }
+            50%  { transform: translateX(1px); }
+            75%  { transform: translateX(-3px); }
+            100% { transform: translateX(0px); }
+        }
+        
+        @keyframes staticFlicker {
+            0%,100% { opacity: 1; }
+            2% { opacity: .8; }
+            3% { opacity: 1; }
+            50% { opacity: .92; }
+            51% { opacity: 1; }
         }
 
         .neon-text {
