@@ -1784,6 +1784,120 @@ main{
     opacity:.34;
 }
 
+.command-center {
+    margin-top: 34px;
+    display: grid;
+    grid-template-columns: 1.15fr .85fr;
+    gap: 24px;
+}
+
+.live-feed, .orbital-panel, .roadmap-panel {
+    padding: 26px;
+    border-radius: 32px;
+    background: linear-gradient(145deg, rgba(18,18,22,.9), rgba(0,0,0,.96));
+    border: 1px solid rgba(255,0,0,.34);
+    box-shadow: 0 0 80px rgba(255,0,0,.14), inset 0 0 60px rgba(255,0,0,.08);
+    position: relative;
+    overflow: hidden;
+}
+
+.live-feed h3, .orbital-panel h3, .roadmap-panel h3 {
+    font-size: 1.35rem;
+    margin-bottom: 18px;
+}
+
+.feed-line {
+    font-family: Consolas, monospace;
+    color: #ff4444;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255,0,0,.16);
+    animation: feedFlash 2s infinite steps(2);
+}
+
+@keyframes feedFlash {
+    50% { opacity: .65; }
+}
+
+.counter-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 14px;
+    margin-top: 26px;
+}
+
+.counter {
+    padding: 20px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,0,0,.28);
+    text-align: center;
+}
+
+.counter b {
+    display: block;
+    font-size: 2.2rem;
+    color: white;
+    text-shadow: 0 0 22px red;
+}
+
+.counter span {
+    color: #999;
+    font-size: .75rem;
+    text-transform: uppercase;
+    letter-spacing: .12em;
+}
+
+.orbital-core {
+    height: 260px;
+    display: grid;
+    place-items: center;
+    position: relative;
+}
+
+.orbital-core::before,
+.orbital-core::after {
+    content: "";
+    position: absolute;
+    border-radius: 50%;
+    border: 1px dashed rgba(255,0,0,.4);
+    animation: spin 7s linear infinite;
+}
+
+.orbital-core::before {
+    width: 230px;
+    height: 230px;
+}
+
+.orbital-core::after {
+    width: 150px;
+    height: 150px;
+    animation-direction: reverse;
+}
+
+.orbital-core i {
+    font-size: 4rem;
+    color: white;
+    text-shadow: 0 0 35px red;
+    z-index: 2;
+}
+
+.roadmap {
+    display: grid;
+    gap: 12px;
+}
+
+.roadmap div {
+    padding: 14px;
+    border-radius: 18px;
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,0,0,.24);
+    color: #aaa;
+}
+
+.roadmap b {
+    color: white;
+}
+    
 .connect-card > *{
     position:relative;
     z-index:2;
@@ -1911,14 +2025,16 @@ footer{
     .hero-grid,
     .philo-stage,
     .matrix-layout,
-    .connect-stage{
+    .connect-stage,
+    .command-center{
         grid-template-columns:1fr;
     }
 
     .command-strip,
     .kill-chain,
     .detect-grid,
-    .stat-grid{
+    .stat-grid,
+    .counter-grid{
         grid-template-columns:1fr;
     }
 
@@ -1931,6 +2047,78 @@ footer{
         min-height:auto;
     }
 }
+
+/* ===== REDFOX EXTRA COMMAND CENTER POLISH ===== */
+.live-feed::before,
+.orbital-panel::before,
+.roadmap-panel::before{
+    content:"";
+    position:absolute;
+    inset:12px;
+    border-radius:24px;
+    border:1px solid rgba(255,255,255,.06);
+    pointer-events:none;
+}
+
+.live-feed::after,
+.orbital-panel::after,
+.roadmap-panel::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:linear-gradient(100deg,transparent,rgba(255,0,0,.16),transparent);
+    transform:translateX(-120%);
+    animation:panelSweep 5s infinite;
+    pointer-events:none;
+}
+
+.live-feed > *,
+.orbital-panel > *,
+.roadmap-panel > *{
+    position:relative;
+    z-index:2;
+}
+
+.feed-line::before{
+    content:"> ";
+    color:white;
+}
+
+.counter{
+    position:relative;
+    overflow:hidden;
+}
+
+.counter::after{
+    content:"";
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:2px;
+    background:linear-gradient(90deg,transparent,red,white,red,transparent);
+    animation:scannerLine 2s infinite ease-in-out;
+}
+
+@keyframes scannerLine{
+    0%,100%{opacity:.25;transform:translateX(-30%)}
+    50%{opacity:1;transform:translateX(30%)}
+}
+
+.network-terminal,
+.terminal{
+    background:
+        repeating-linear-gradient(to bottom,rgba(255,255,255,.025) 0 1px,transparent 1px 5px),
+        #030303;
+}
+
+@media(max-width:1050px){
+    .command-center,
+    .counter-grid{
+        grid-template-columns:1fr;
+    }
+}
+
 </style>
 </head>
 
@@ -2315,6 +2503,73 @@ footer{
                     <span>Ban</span>
                 </div>
             </div>
+
+        </div>
+    </div>
+
+    <div class="command-center">
+        <div class="live-feed">
+            <h3><i class="fas fa-satellite-dish"></i> Live Threat Feed</h3>
+            <div class="feed-line">[TRACE] Movement anomaly scanner online.</div>
+            <div class="feed-line">[LOCK] Workspace integrity monitor active.</div>
+            <div class="feed-line">[SCAN] Noclip raycast grid armed.</div>
+            <div class="feed-line">[WATCH] ClickDetector abuse filter active.</div>
+            <div class="feed-line">[VERDICT] Strike engine waiting for evidence.</div>
+
+            <div class="counter-grid">
+                <div class="counter"><b>20+</b><span>Modules</span></div>
+                <div class="counter"><b>5</b><span>Core Stages</span></div>
+                <div class="counter"><b>24/7</b><span>Server Watch</span></div>
+                <div class="counter"><b>0</b><span>Client Trust</span></div>
+            </div>
+        </div>
+
+        <div class="orbital-panel">
+            <h3><i class="fas fa-crosshairs"></i> Orbital Enforcement</h3>
+            <div class="orbital-core">
+                <i class="fas fa-burst"></i>
+            </div>
+            <p style="color:#aaa;line-height:1.7;">
+                Severe confirmed violations can trigger visible enforcement before removal.
+                RedFox is designed to make the verdict obvious instead of quietly hiding confirmed exploit punishment.
+            </p>
+        </div>
+    </div>
+
+    <div class="roadmap-panel" style="margin-top:24px;">
+        <h3><i class="fas fa-microchip"></i> How RedFox Works</h3>
+        <div class="roadmap">
+            <div><b>Server-Side Sampling:</b> RedFox checks player position, velocity, humanoid state, grounding, angular velocity, and replication timing.</div>
+            <div><b>Grace Handling:</b> Lag spikes, respawns, recoveries, falling, and desync windows are given temporary grace to reduce false positives.</div>
+            <div><b>Evidence Accumulation:</b> Suspicious behavior is usually accumulated with timers and sample counts before punishment.</div>
+            <div><b>Safe Recovery:</b> When possible, RedFox restores the player to a last-known safe CFrame instead of instantly punishing.</div>
+            <div><b>Strike Escalation:</b> Repeated or serious signals become strikes, then temporary bans, permanent bans, and visible enforcement.</div>
+        </div>
+    </div>
+
+    <div class="roadmap-panel" style="margin-top:24px;">
+        <h3><i class="fas fa-list-check"></i> Full Detection Coverage</h3>
+        <div class="roadmap">
+            <div><b>Movement:</b> Fly, hover, float, speed spoofing, teleport, ClickTP, WASD snap movement, CFrame fly, physics-state fly, fast climb, infinite jump, and jump power spoofing.</div>
+            <div><b>Physics Abuse:</b> Fling, walk fling, velocity spikes, angular velocity abuse, body mover fly, VFly while sitting, and player spoofing behavior.</div>
+            <div><b>Desync:</b> Head desync, body/root desync, anchored character part abuse, PlatformStand abuse, and suspicious replication states.</div>
+            <div><b>Noclip:</b> Multi-height raycasts, blockcasts, inside-wall checks, floor-ignore logic, and persistence thresholds to catch wall phasing.</div>
+            <div><b>Workspace Integrity:</b> Protected part deletion, movement, size changes, transparency edits, CanCollide changes, Anchored changes, name changes, and descendant removal.</div>
+            <div><b>Remote / Interaction Abuse:</b> FireClickDetector abuse, impossible ClickDetector distance, suspicious remote actions, and interaction spam patterns.</div>
+            <div><b>Recovery / Ban Layer:</b> Void abuse recovery, freefall recovery, safe position sampling, strike decay, temp bans, permanent bans, and DataStore ban persistence.</div>
+        </div>
+    </div>
+
+    <div class="roadmap-panel" style="margin-top:24px;">
+        <h3><i class="fas fa-code-branch"></i> Future Development Roadmap</h3>
+        <div class="roadmap">
+            <div><b>Vehicle Handling:</b> Better support for seats, cars, boats, moving platforms, and scripted launch pads.</div>
+            <div><b>Zone Whitelists:</b> Safe areas where special movement is allowed without false flags.</div>
+            <div><b>Webhook Logs:</b> Discord-ready evidence logs for bans, recoveries, strike counts, and suspicious behavior.</div>
+            <div><b>Replay Evidence:</b> Store short movement snapshots before punishment for review.</div>
+            <div><b>Admin Dashboard:</b> Live strike counts, player risk level, manual review tools, and server-wide threat stats.</div>
+            <div><b>Smarter Confidence:</b> Combine multiple weak signals before punishment instead of relying on one detection path.</div>
+            <div><b>Module Toggles:</b> Per-game configuration for obbies, combat games, simulators, vehicles, and physics-heavy maps.</div>
         </div>
     </div>
 </div>
