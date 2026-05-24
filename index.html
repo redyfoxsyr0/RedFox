@@ -2503,95 +2503,6 @@ footer{
                     <span>Ban</span>
                 </div>
             </div>
-<div class="detect">
-    <strong>09</strong>
-    <h3>How Fly Detection Works</h3>
-    <p>
-        RedFox checks if a player stays airborne without valid ground, climbing, swimming,
-        or falling behavior. It watches vertical velocity, planar speed, humanoid state,
-        BodyMovers, PlatformStand, and how long the player remains unsupported.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: BodyVelocity fly</span>
-        <span>Stops: hover scripts</span>
-        <span>Stops: fake physics</span>
-    </div>
-</div>
-
-<div class="detect">
-    <strong>10</strong>
-    <h3>How Noclip Detection Works</h3>
-    <p>
-        RedFox compares the player’s last position to their new position using raycasts,
-        blockcasts, and inside-wall overlap checks. If the player phases through solid
-        geometry or remains inside a wall, RedFox builds noclip evidence.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: wall phasing</span>
-        <span>Stops: inside-wall hiding</span>
-        <span>Stops: collision bypass</span>
-    </div>
-</div>
-
-<div class="detect">
-    <strong>11</strong>
-    <h3>How Teleport / ClickTP Detection Works</h3>
-    <p>
-        RedFox measures distance traveled per server tick. If a player moves too far
-        too quickly without valid speed, physics, ping, or grounded conditions, the
-        movement is treated as teleport evidence.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: ClickTP</span>
-        <span>Stops: snap movement</span>
-        <span>Stops: WASD teleport</span>
-    </div>
-</div>
-
-<div class="detect">
-    <strong>12</strong>
-    <h3>How Fling Detection Works</h3>
-    <p>
-        RedFox watches abnormal linear velocity, angular velocity, walk fling patterns,
-        and sudden velocity spikes. When physics abuse is detected, RedFox can recover
-        the player to their last safe position instead of letting the fling continue.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: walk fling</span>
-        <span>Stops: velocity abuse</span>
-        <span>Stops: physics chaos</span>
-    </div>
-</div>
-
-<div class="detect">
-    <strong>13</strong>
-    <h3>How Workspace Protection Works</h3>
-    <p>
-        RedFox records protected map objects and watches for deletion, movement, size
-        changes, transparency changes, collision edits, anchoring edits, and parent/name
-        changes. Optional restoration can put protected objects back to their baseline.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: map deletion</span>
-        <span>Stops: collision edits</span>
-        <span>Stops: hidden parts</span>
-    </div>
-</div>
-
-<div class="detect">
-    <strong>14</strong>
-    <h3>How FireClickDetector Protection Works</h3>
-    <p>
-        RedFox validates ClickDetector interactions by checking the player’s distance
-        from the clicked part. If the player triggers a detector from impossible range,
-        RedFox flags remote interaction abuse.
-    </p>
-    <div class="detect-tags">
-        <span>Stops: fireclickdetector()</span>
-        <span>Stops: remote click spam</span>
-        <span>Stops: impossible range</span>
-    </div>
-</div>
         </div>
     </div>
 
@@ -2624,16 +2535,103 @@ footer{
         </div>
     </div>
 
-    <div class="roadmap-panel" style="margin-top:24px;">
-        <h3><i class="fas fa-microchip"></i> How RedFox Works</h3>
-        <div class="roadmap">
-            <div><b>Server-Side Sampling:</b> RedFox checks player position, velocity, humanoid state, grounding, angular velocity, and replication timing.</div>
-            <div><b>Grace Handling:</b> Lag spikes, respawns, recoveries, falling, and desync windows are given temporary grace to reduce false positives.</div>
-            <div><b>Evidence Accumulation:</b> Suspicious behavior is usually accumulated with timers and sample counts before punishment.</div>
-            <div><b>Safe Recovery:</b> When possible, RedFox restores the player to a last-known safe CFrame instead of instantly punishing.</div>
-            <div><b>Strike Escalation:</b> Repeated or serious signals become strikes, then temporary bans, permanent bans, and visible enforcement.</div>
+<div class="roadmap-panel" style="margin-top:24px;">
+    <h3><i class="fas fa-microchip"></i> How RedFox Works</h3>
+
+    <div class="roadmap">
+
+        <div>
+            <b>Server-Side Sampling</b><br>
+            RedFox continuously monitors player position, velocity, acceleration,
+            humanoid state, grounding, angular velocity, seat state, and movement timing.
+            Every movement decision is verified from the server rather than trusting
+            information provided by the client.
         </div>
+
+        <div>
+            <b>Fly & Hover Detection</b><br>
+            RedFox tracks how long a player remains airborne and compares it against
+            valid Roblox movement states such as jumping, climbing, swimming, falling,
+            or vehicle usage. Unsupported hovering, artificial lift, and abnormal
+            vertical movement can generate evidence for fly exploitation.
+        </div>
+
+        <div>
+            <b>Noclip Detection</b><br>
+            Multiple raycasts, collision checks, and movement validation tests are used
+            to determine whether a player passed through solid geometry. RedFox compares
+            previous positions against current positions and checks whether walls or
+            protected objects were crossed in impossible ways.
+        </div>
+
+        <div>
+            <b>Teleport & ClickTP Detection</b><br>
+            Distance travelled between server updates is analyzed. Large position jumps
+            without valid physics, vehicles, launch mechanics, or approved movement
+            systems can be identified as teleport behaviour. Movement history is used
+            to determine whether the transition was physically possible.
+        </div>
+
+        <div>
+            <b>Velocity & Fling Protection</b><br>
+            RedFox watches for abnormal linear velocity, angular velocity, and sudden
+            physics spikes. When impossible movement occurs, the system can restore the
+            player to a previously verified safe position rather than allowing the fling
+            to continue affecting gameplay.
+        </div>
+
+        <div>
+            <b>Workspace Integrity Protection</b><br>
+            Protected objects can be monitored for deletion, movement, scaling,
+            transparency changes, collision edits, anchoring edits, or other forms of
+            tampering. Optional restoration systems can return protected objects to
+            their original state when modifications are detected.
+        </div>
+
+        <div>
+            <b>Interaction Validation</b><br>
+            Interactive objects such as ClickDetectors can be validated against player
+            distance and legitimate interaction rules. Impossible interaction attempts
+            can be flagged and investigated as suspicious behaviour.
+        </div>
+
+        <div>
+            <b>Grace Handling & False Positive Reduction</b><br>
+            Lag spikes, respawns, server ownership changes, recoveries, and temporary
+            replication irregularities are given grace periods. This helps separate
+            legitimate Roblox behaviour from actual exploit activity.
+        </div>
+
+        <div>
+            <b>Evidence Accumulation</b><br>
+            RedFox rarely relies on a single sample. Multiple suspicious events can be
+            accumulated over time to build confidence before enforcement actions occur.
+            This reduces accidental punishment from isolated anomalies.
+        </div>
+
+        <div>
+            <b>Safe Recovery System</b><br>
+            When possible, players are restored to previously verified safe locations.
+            Recovery logic helps protect legitimate players from physics bugs, map
+            issues, accidental launches, or temporary replication failures.
+        </div>
+
+        <div>
+            <b>Strike Escalation System</b><br>
+            Suspicious activity increases a player's risk profile. Repeated violations
+            can escalate through warnings, corrective actions, temporary restrictions,
+            temporary bans, and permanent bans depending on severity and confidence.
+        </div>
+
+        <div>
+            <b>Continuous Improvement</b><br>
+            Every detection can be refined over time. Thresholds, validation methods,
+            recovery logic, and confidence scoring are designed to evolve as new exploit
+            techniques and edge cases are discovered.
+        </div>
+
     </div>
+</div>
 
     <div class="roadmap-panel" style="margin-top:24px;">
         <h3><i class="fas fa-list-check"></i> Full Detection Coverage</h3>
