@@ -2503,7 +2503,95 @@ footer{
                     <span>Ban</span>
                 </div>
             </div>
+<div class="detect">
+    <strong>09</strong>
+    <h3>How Fly Detection Works</h3>
+    <p>
+        RedFox checks if a player stays airborne without valid ground, climbing, swimming,
+        or falling behavior. It watches vertical velocity, planar speed, humanoid state,
+        BodyMovers, PlatformStand, and how long the player remains unsupported.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: BodyVelocity fly</span>
+        <span>Stops: hover scripts</span>
+        <span>Stops: fake physics</span>
+    </div>
+</div>
 
+<div class="detect">
+    <strong>10</strong>
+    <h3>How Noclip Detection Works</h3>
+    <p>
+        RedFox compares the player’s last position to their new position using raycasts,
+        blockcasts, and inside-wall overlap checks. If the player phases through solid
+        geometry or remains inside a wall, RedFox builds noclip evidence.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: wall phasing</span>
+        <span>Stops: inside-wall hiding</span>
+        <span>Stops: collision bypass</span>
+    </div>
+</div>
+
+<div class="detect">
+    <strong>11</strong>
+    <h3>How Teleport / ClickTP Detection Works</h3>
+    <p>
+        RedFox measures distance traveled per server tick. If a player moves too far
+        too quickly without valid speed, physics, ping, or grounded conditions, the
+        movement is treated as teleport evidence.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: ClickTP</span>
+        <span>Stops: snap movement</span>
+        <span>Stops: WASD teleport</span>
+    </div>
+</div>
+
+<div class="detect">
+    <strong>12</strong>
+    <h3>How Fling Detection Works</h3>
+    <p>
+        RedFox watches abnormal linear velocity, angular velocity, walk fling patterns,
+        and sudden velocity spikes. When physics abuse is detected, RedFox can recover
+        the player to their last safe position instead of letting the fling continue.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: walk fling</span>
+        <span>Stops: velocity abuse</span>
+        <span>Stops: physics chaos</span>
+    </div>
+</div>
+
+<div class="detect">
+    <strong>13</strong>
+    <h3>How Workspace Protection Works</h3>
+    <p>
+        RedFox records protected map objects and watches for deletion, movement, size
+        changes, transparency changes, collision edits, anchoring edits, and parent/name
+        changes. Optional restoration can put protected objects back to their baseline.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: map deletion</span>
+        <span>Stops: collision edits</span>
+        <span>Stops: hidden parts</span>
+    </div>
+</div>
+
+<div class="detect">
+    <strong>14</strong>
+    <h3>How FireClickDetector Protection Works</h3>
+    <p>
+        RedFox validates ClickDetector interactions by checking the player’s distance
+        from the clicked part. If the player triggers a detector from impossible range,
+        RedFox flags remote interaction abuse.
+    </p>
+    <div class="detect-tags">
+        <span>Stops: fireclickdetector()</span>
+        <span>Stops: remote click spam</span>
+        <span>Stops: impossible range</span>
+    </div>
+</div>
         </div>
     </div>
 
